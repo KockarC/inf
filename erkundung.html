@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Was steckt in unseren Informatiksystemen?</title>
+<style>
+:root{--bg:#edf0f5;--card:#fff;--line:#cfd7e6;--text:#16233f;--sub:#495a7b;--accent:#676fe8;--accent2:#4b58d4;--soft:#f5f7fc;--ok:#2f9d68;--shadow:0 10px 28px rgba(22,35,63,.08)}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}button{font:inherit}
+.wrap{max-width:1240px;margin:22px auto 36px;padding:0 18px}h1{margin:0 0 6px;font-size:clamp(2.5rem,6vw,4.4rem);line-height:1;letter-spacing:-.04em;font-weight:900;color:#1a2542}.subtitle{font-size:1.14rem;color:#3848b8;font-weight:850;margin-bottom:18px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}.panel-top{padding:18px 22px 14px;border-bottom:1px solid var(--line)}.toprow{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:1rem;font-weight:850;color:#566483;margin-bottom:8px}.progress{height:14px;background:#e7ecf5;border-radius:999px;overflow:hidden}.progress>div{height:100%;width:50%;background:linear-gradient(90deg,var(--accent2),#8a78ff);border-radius:999px;transition:.3s}.content{padding:28px 26px 24px}.hidden{display:none!important}
+.stephead{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start;margin-bottom:10px}.stepnum{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:#ececfb;color:#4a54d2;font-weight:900;font-size:1.45rem}.steptitle{font-size:clamp(1.7rem,4vw,2.2rem);line-height:1.06;font-weight:900;margin:6px 0 6px;letter-spacing:-.03em}.steplead{color:#495a7b;font-size:1.02rem;font-weight:700;margin:0;max-width:940px}.taskbar{margin:0 0 16px;padding:12px 16px;border:1px solid #d6def0;background:#f7f9fd;border-radius:18px;font-weight:850;color:#3f4c6d}.taskbar strong{color:#3346c5}
+.device-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.device-tab{border:2px solid var(--line);background:#fff;border-radius:20px;padding:15px 12px;cursor:pointer;font-weight:900;color:#334066;display:flex;align-items:center;justify-content:center;gap:9px;min-height:62px;transition:.15s}.device-tab:hover{transform:translateY(-1px);border-color:#a9b4c9}.device-tab.active{border-color:#757dec;background:#f0f1ff;color:#3f49c5;box-shadow:0 5px 16px rgba(103,111,232,.12)}.device-tab .ico{font-size:1.65rem}
+.explorer{display:block}.device-stage{border:1px solid var(--line);background:linear-gradient(180deg,#f7f9fd,#eef2f8);border-radius:24px;min-height:760px;padding:22px;position:relative;overflow:hidden}.stage-head{display:flex;justify-content:flex-start;gap:14px;align-items:center;margin-bottom:8px}.stage-title{font-size:1.35rem;font-weight:900}.stage-hint{display:none}.device-canvas{height:660px;position:relative;display:grid;place-items:center}.device-shell{position:relative;transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;filter:drop-shadow(0 16px 18px rgba(22,35,63,.14));z-index:1}.open .device-shell{opacity:.22;transform:translateX(-1%) scale(1.12);pointer-events:none}.open .device-shell.desktop{opacity:1;transform:scale(1.16) translateY(10px)}.open .device-shell.desktop .desktop-tower{opacity:.16;transition:opacity .35s ease}.open .device-shell.desktop .desktop-monitor-wrap,.open .device-shell.desktop .desktop-keyboard,.open .device-shell.desktop .desktop-mouse{opacity:.32}.open .device-shell.laptop{opacity:1;transform:scale(1.22) translateY(12px)}.open .device-shell.laptop .laptop-screen,.open .device-shell.laptop .laptop-base,.open .device-shell.laptop .laptop-camera,.open .device-shell.laptop .laptop-speaker-left,.open .device-shell.laptop .laptop-speaker-right{opacity:.22;transition:opacity .35s ease}.open .device-shell.phone{opacity:1;transform:scale(1.22) translateY(10px)}.open .device-shell.phone:before,.open .device-shell.phone:after{opacity:.22}.open .device-shell.console{opacity:1;transform:scale(1.16) translateY(12px)}.open .device-shell.console .console-box{opacity:.16;transition:opacity .35s ease}.open .device-shell.console .console-tv-wrap,.open .device-shell.console .console-controller,.open .device-shell.console .console-headset{opacity:1}.internals{position:absolute;inset:18px 3% 10px;opacity:0;pointer-events:none;transform:scale(.98) translateY(8px);transition:opacity .34s ease .14s,transform .42s cubic-bezier(.2,.8,.2,1) .1s;z-index:12}.open .internals{opacity:1;pointer-events:auto;transform:scale(1) translateY(0)}
+.hotspot{position:absolute;border:2px solid rgba(255,255,255,.95);box-shadow:0 5px 14px rgba(22,35,63,.18);border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.76rem;line-height:1.1;font-weight:900;color:#15203b;padding:4px;text-align:center;transition:.15s;min-width:46px;min-height:36px;z-index:20}.hotspot:hover,.hotspot.active{transform:scale(1.05);outline:4px solid rgba(103,111,232,.18);z-index:30}.hotspot.board{background:#c7edda;z-index:1;color:#1b4b3c;justify-content:flex-start;align-items:flex-end;padding:0 0 10px 12px;font-size:.74rem}.hotspot.board:hover,.hotspot.board.active{transform:none;outline:3px solid rgba(103,111,232,.15);z-index:1}.cpu{background:#ffd98c}.ram{background:#b8f3c8}.graphicscard,.graphics{background:#d7c8ff}.storage{background:#b9dafc}.battery{background:#f6b5c4}.power{background:#ffd0a8}.cooling{background:#d9e1eb}
+.canvas-note{display:none}.stage-periphery{position:absolute;inset:0;pointer-events:none;z-index:18}.peri-btn{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;border:2px solid #cad4e6;background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850;color:#34415f;box-shadow:0 6px 16px rgba(22,35,63,.08);white-space:nowrap;transition:.15s}.peri-btn:hover,.peri-btn.active{border-color:#777fe8;background:#eef0ff;color:#3e48c2;transform:translate(-50%,-50%) scale(1.03)}.desktop-label-monitor{background:rgba(255,255,255,.92);border-color:rgba(255,255,255,.85);box-shadow:0 4px 12px rgba(22,35,63,.10);padding:6px 12px}.desktop-label-camera{font-size:.72rem;padding:5px 9px}.desktop-label-speaker{font-size:.76rem;padding:6px 10px}.desktop-label-keyboard{font-size:.76rem;padding:5px 10px}.desktop-label-mouse{font-size:.72rem;padding:5px 9px}.desktop-label-printer{font-size:.75rem;padding:5px 10px}.phone-label-touch{font-size:.78rem;padding:7px 12px}.phone-label-camera,.phone-label-microphone,.phone-label-speaker{font-size:.72rem;padding:6px 10px}.signal-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:16;overflow:visible}.signal-path{fill:none;stroke:#5663d8;stroke-width:.58;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2 1.8;opacity:.88;animation:dash 1.25s linear infinite}.memory-link{fill:none;stroke:#6e7b98;stroke-width:.36;stroke-linecap:round;stroke-dasharray:1.2 1.3;opacity:.9;animation:memoryPulse 1.5s ease-in-out infinite}.signal-node{fill:#fff;stroke:#5663d8;stroke-width:.48}.signal-node.core{fill:#fff8df}.signal-node.memory{fill:#eafbef;stroke:#4d9a68}.signal-node.graphics{fill:#f2edff;stroke:#725cc7}.signal-end{fill:#5663d8;opacity:.9}
+.trace-main{fill:none;stroke:#5b66d6;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:9 8;opacity:.82;animation:traceDash 1.1s linear infinite}
+.trace-memory{fill:none;stroke:#4e9a68;stroke-width:2;stroke-linecap:round;stroke-dasharray:4 5;opacity:.8}
+.trace-dot{fill:#5b66d6;filter:drop-shadow(0 0 4px rgba(91,102,214,.55))}
+.hotspot.trace-node{outline:4px solid rgba(91,102,214,.18);box-shadow:0 0 0 3px rgba(91,102,214,.10),0 5px 14px rgba(22,35,63,.18)}
+.hotspot.ram.trace-node{outline-color:rgba(78,154,104,.22)}
+.trace-legend{position:absolute;left:18px;bottom:16px;z-index:22;width:min(360px,42%);background:rgba(255,255,255,.96);border:1px solid #cfd7e6;border-radius:18px;padding:12px 14px;box-shadow:0 8px 18px rgba(22,35,63,.10)}
+.trace-legend h4{margin:0 0 6px;font-size:1rem;color:#25345a}
+.trace-legend p{margin:0 0 10px;font-size:.92rem;line-height:1.4;color:#425172;font-weight:700}
+.trace-legend .legend-row{display:flex;align-items:center;gap:10px;font-size:.88rem;color:#425172;font-weight:700;margin-top:6px}
+.trace-legend .legend-line{width:38px;height:0;border-top:3px dashed #5b66d6;border-radius:999px;flex:0 0 auto}
+.trace-legend .legend-box{width:22px;height:14px;border-radius:6px;background:rgba(91,102,214,.14);outline:3px solid rgba(91,102,214,.18);flex:0 0 auto}
+.trace-legend .legend-dot{width:12px;height:12px;border-radius:50%;background:#5b66d6;box-shadow:0 0 0 3px rgba(91,102,214,.12);flex:0 0 auto}
+@keyframes traceDash{to{stroke-dashoffset:-34}}.signal-caption{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:17;background:rgba(255,255,255,.94);border:1px solid #cfd7e6;border-radius:14px;padding:8px 12px;font-weight:850;color:#334066;box-shadow:0 5px 14px rgba(22,35,63,.08);max-width:min(92%,520px);text-align:center}.signal-caption strong{color:#3f49c5}@keyframes dash{to{stroke-dashoffset:-18}}@keyframes memoryPulse{0%,100%{opacity:.45}50%{opacity:1}}
+.open-btn{position:absolute;bottom:16px;right:18px;left:auto;transform:none;z-index:40;border:none;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--accent));color:#fff;font-weight:900;padding:13px 24px;cursor:pointer;box-shadow:0 6px 18px rgba(103,111,232,.28)}
+/* Geräte */
+.desktop{width:820px;height:390px;position:relative}.desktop-monitor-wrap{position:absolute;left:34px;top:34px;width:340px;height:218px}.desktop-monitor{position:absolute;inset:0;border-radius:18px;background:#111827;border:8px solid #182132;box-shadow:0 14px 18px rgba(22,35,63,.16)}.desktop-monitor:before{content:"";position:absolute;inset:13px;background:linear-gradient(180deg,#7d8ef7,#4467d7 46%,#1d2b5f);border-radius:10px}.desktop-webcam{position:absolute;left:50%;top:7px;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:#44516a;border:2px solid #8fa1b6}.desktop-stand{position:absolute;left:148px;bottom:-30px;width:44px;height:36px;background:linear-gradient(180deg,#9aa8bc,#6b7688);border-radius:0 0 6px 6px}.desktop-base{position:absolute;left:114px;bottom:-42px;width:112px;height:13px;border-radius:999px;background:#6b7688}.desktop-speaker-left,.desktop-speaker-right{position:absolute;top:58px;width:24px;height:126px;border-radius:10px;background:linear-gradient(180deg,#cfd7e2,#96a3b6);border:2px solid #738096;box-shadow:0 8px 12px rgba(22,35,63,.10)}.desktop-speaker-left{left:-34px}.desktop-speaker-right{right:-34px}.desktop-speaker-left:before,.desktop-speaker-right:before{content:"";position:absolute;left:5px;right:5px;top:10px;bottom:10px;border-radius:8px;background:repeating-linear-gradient(180deg,#607086 0 6px,#cfd7e2 6px 12px)}.desktop-tower{position:absolute;right:52px;top:-2px;width:300px;height:352px;border-radius:20px;background:linear-gradient(180deg,#2f3b50,#172131);border:4px solid #101827;box-shadow:inset 0 0 0 2px rgba(255,255,255,.04),0 18px 24px rgba(22,35,63,.17)}.tower-window{position:absolute;left:24px;top:28px;width:130px;height:184px;border-radius:16px;border:4px solid rgba(148,163,184,.22);background:rgba(148,163,184,.07)}.tower-vent{position:absolute;right:22px;top:38px;width:38px;height:108px;border-radius:9px;background:#0d1524}.tower-vent:before{content:"";position:absolute;inset:7px 6px;background:repeating-linear-gradient(180deg,#6f7f96 0 3px,#172131 3px 8px);border-radius:4px}.tower-drive{position:absolute;right:20px;top:170px;width:46px;height:8px;border-radius:6px;background:#050912}.tower-power{position:absolute;right:30px;bottom:28px;width:18px;height:18px;border-radius:50%;background:#8396ff;box-shadow:0 0 0 4px #263247,0 0 9px rgba(131,150,255,.42)}.desktop-keyboard{position:absolute;left:94px;bottom:24px;width:272px;height:48px;border-radius:10px;background:linear-gradient(180deg,#d8dee7,#a3afbe);border:2px solid #778397;box-shadow:0 7px 12px rgba(22,35,63,.12)}.desktop-keyboard:before{content:"";position:absolute;left:10px;right:10px;top:6px;bottom:6px;border-radius:6px;border:1px solid #7e8a9d;background:linear-gradient(180deg,#edf2f8,#d7dee8),repeating-linear-gradient(90deg,#465369 0 10px,transparent 10px 14px),repeating-linear-gradient(90deg,#465369 0 10px,transparent 10px 14px),repeating-linear-gradient(90deg,#465369 0 10px,transparent 10px 14px);background-size:100% 100%,calc(100% - 20px) 9px,calc(100% - 12px) 9px,calc(100% - 24px) 9px;background-position:0 0,10px 7px,6px 19px,12px 31px;background-repeat:no-repeat;box-shadow:inset 0 1px 0 rgba(255,255,255,.75), inset 0 -1px 0 rgba(80,92,112,.18)}.desktop-mouse{position:absolute;left:375px;bottom:20px;width:31px;height:40px;border-radius:15px;background:linear-gradient(180deg,#d8dee7,#a3afbe);border:2px solid #778397;box-shadow:0 7px 12px rgba(22,35,63,.12)}.desktop-mouse:before{content:"";position:absolute;left:12px;top:6px;width:2px;height:10px;background:#66758c;border-radius:2px}
+.laptop{width:760px;height:430px;position:relative}.laptop-screen{position:absolute;left:92px;top:16px;width:576px;height:286px;border-radius:22px 22px 10px 10px;background:#111827;border:10px solid #182132;box-shadow:0 12px 18px rgba(22,35,63,.14)}.laptop-screen:before{content:"";position:absolute;inset:14px;background:linear-gradient(180deg,#7487ee,#2d478c);border-radius:10px}.laptop-camera{position:absolute;left:374px;top:22px;width:12px;height:12px;border-radius:50%;background:#44516a;border:2px solid #8fa1b6}.laptop-base{position:absolute;left:22px;right:22px;bottom:26px;height:110px;border-radius:12px 12px 30px 30px;background:linear-gradient(180deg,#cbd5e1,#8995a7);border:3px solid #6b7688;transform:perspective(600px) rotateX(22deg);box-shadow:0 12px 18px rgba(22,35,63,.12)}.laptop-base:before{content:"";position:absolute;left:64px;right:64px;top:10px;height:60px;border-radius:10px;border:2px solid #7b879a;background:linear-gradient(180deg,#eef2f7,#d9e0ea),repeating-linear-gradient(90deg,#435066 0 12px,transparent 12px 16px),repeating-linear-gradient(90deg,#435066 0 12px,transparent 12px 16px),repeating-linear-gradient(90deg,#435066 0 12px,transparent 12px 16px),repeating-linear-gradient(90deg,#435066 0 12px,transparent 12px 16px);background-size:100% 100%,calc(100% - 34px) 9px,calc(100% - 22px) 9px,calc(100% - 28px) 9px,calc(100% - 40px) 9px;background-position:0 0,18px 8px,12px 21px,14px 34px,20px 47px;background-repeat:no-repeat;box-shadow:inset 0 1px 0 rgba(255,255,255,.82), inset 0 -1px 0 rgba(80,92,112,.18)}.laptop-base:after{content:"";position:absolute;left:292px;right:292px;bottom:10px;height:26px;border-radius:7px;border:2px solid #758195;background:rgba(255,255,255,.12)}.laptop-speaker-left,.laptop-speaker-right{position:absolute;bottom:62px;width:54px;height:30px;border-radius:10px;background:linear-gradient(180deg,#d6dce5,#a1adbd);border:2px solid #7c899d;box-shadow:0 6px 10px rgba(22,35,63,.10)}.laptop-speaker-left{left:74px}.laptop-speaker-right{right:74px}.laptop-speaker-left:before,.laptop-speaker-right:before{content:"";position:absolute;inset:6px;border-radius:6px;background:repeating-linear-gradient(90deg,#647388 0 4px,#d6dce5 4px 8px)}
+.phone{width:286px;height:548px;border-radius:46px;background:#111827;border:8px solid #0a0f1a;box-shadow:inset 0 0 0 2px #4b5563}.phone:before{content:"";position:absolute;inset:22px 14px;background:linear-gradient(180deg,#7d8ef7,#4467d7 46%,#1d2b5f);border-radius:35px}.phone:after{content:"";position:absolute;width:82px;height:20px;border-radius:0 0 14px 14px;background:#0b1020;top:8px;left:50%;transform:translateX(-50%)}
+.console{width:820px;height:410px;position:relative}.console-tv-wrap{position:absolute;left:34px;top:26px;width:390px;height:242px}.console-tv{position:absolute;inset:0;border-radius:20px;background:#111827;border:8px solid #182132;box-shadow:0 14px 18px rgba(22,35,63,.16)}.console-tv:before{content:"";position:absolute;inset:14px;background:linear-gradient(180deg,#7588ee,#314a91);border-radius:12px}.console-tv-stand{position:absolute;left:168px;bottom:-36px;width:50px;height:41px;background:linear-gradient(180deg,#9aa8bc,#6b7688);border-radius:0 0 6px 6px}.console-tv-base{position:absolute;left:122px;bottom:-49px;width:144px;height:15px;border-radius:999px;background:#6b7688}.console-box{position:absolute;right:28px;top:46px;width:360px;height:300px;border-radius:30px;background:linear-gradient(155deg,#303b4f,#111827);border:5px solid #101827;box-shadow:inset -18px -12px 26px rgba(0,0,0,.23),0 16px 22px rgba(22,35,63,.14)}.console-slot{position:absolute;left:30px;top:76px;width:118px;height:8px;border-radius:8px;background:#070c14}.console-vents{position:absolute;right:22px;top:34px;width:96px;height:62px;border-radius:10px;background:repeating-linear-gradient(90deg,#56647b 0 3px,#1a2435 3px 8px)}.console-power{position:absolute;left:31px;bottom:30px;width:16px;height:16px;border-radius:50%;background:#8fa0ff}.console-controller{position:absolute;left:510px;bottom:0px;width:184px;height:88px;border-radius:42px;background:linear-gradient(180deg,#f8fafc,#cbd5e1);border:4px solid #64748b;box-shadow:0 13px 18px rgba(22,35,63,.18)}.console-controller:before{content:"+";position:absolute;left:34px;top:16px;font-size:34px;font-weight:900}.console-controller:after{content:"••";position:absolute;right:24px;top:14px;color:#4652c9;font-size:28px;letter-spacing:5px;font-weight:900}.console-headset{display:none}
+/* Innenpositionen */
+.desktop-int .board{left:61.5%;top:12%;width:23%;height:43%;border-radius:20px}.desktop-int .cpu{left:66%;top:24%;width:10%;height:11%}.desktop-int .ram{left:77%;top:19%;width:6.5%;height:23%}.desktop-int .graphicscard{left:63.5%;top:43%;width:20%;height:8%;min-height:30px}.desktop-int .storage{left:76%;top:59%;width:14%;height:16%}.desktop-int .power{left:59%;top:61%;width:14%;height:18%}.desktop-int .cooling{left:80%;top:8%;width:9%;height:16%}
+.laptop-int{left:16%;right:16%;top:55%;bottom:9%}.laptop-int .board{left:8%;top:8%;width:72%;height:48%}.laptop-int .cpu{left:25%;top:18%;width:16%;height:22%}.laptop-int .ram{left:47%;top:14%;width:10%;height:31%}.laptop-int .graphics{left:61%;top:20%;width:15%;height:20%}.laptop-int .storage{left:7%;top:64%;width:22%;height:22%}.laptop-int .battery{right:9%;top:61%;width:37%;height:24%}
+.phone-int{left:22%;right:22%;top:24px;bottom:24px}.phone-int .board{left:18%;top:8%;width:64%;height:30%}.phone-int .cpu{left:22%;top:17%;width:22%;height:10%}.phone-int .graphics{right:22%;top:17%;width:22%;height:10%}.phone-int .ram{left:16%;top:45%;width:22%;height:10%}.phone-int .storage{right:16%;top:45%;width:23%;height:10%}.phone-int .battery{left:18%;right:18%;bottom:5%;height:18%;align-items:flex-end;padding-bottom:12px}
+.console-int .board{left:56%;top:18%;width:30%;height:44%;border-radius:20px}.console-int .cpu{left:61%;top:27%;width:12%;height:11%}.console-int .ram{left:77%;top:23%;width:8%;height:23%}.console-int .graphics{left:71%;top:46%;width:15%;height:12%}.console-int .storage{left:79%;top:66%;width:15%;height:14%}.console-int .cooling{left:56%;top:9%;width:15%;height:14%}.console-int .power{left:53%;top:65%;width:15%;height:14%}
+.info-card{margin-top:14px;border-top:1px solid var(--line);padding:18px 4px 2px;min-height:0;background:transparent}.info-card:empty{display:none}.info-kicker{font-size:.82rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:#6875d7;margin-bottom:6px}.info-title{font-size:1.65rem;font-weight:950;margin:0 0 6px}.info-short{font-size:1.03rem;font-weight:800;color:#364564;margin:0 0 12px;line-height:1.45;max-width:900px}.factlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.fact{border-radius:14px;background:var(--soft);padding:11px 13px}.fact strong{display:block;margin-bottom:3px}.device-found{margin-top:12px;font-size:.92rem;color:#5c6987;font-weight:750}
+.mascot{display:grid;grid-template-columns:78px 1fr;gap:14px;align-items:center;margin-top:18px}.face{width:78px;height:78px;border-radius:50%;background:#fff4bf;border:3px solid #efc84a;display:grid;place-items:center;font-size:2.2rem}.speech{border:1px solid var(--line);border-radius:18px;background:#fff;padding:14px 16px;font-size:.98rem;font-weight:800;color:#123e67}
+.actions{margin-top:18px;display:flex;justify-content:space-between;gap:12px;align-items:center}.btn{border:none;cursor:pointer;border-radius:999px;padding:14px 26px;font-size:1rem;font-weight:900}.btn.secondary{background:#eef1f7;color:#6f7a90}.btn.primary{background:linear-gradient(90deg,var(--accent2),var(--accent));color:#fff;box-shadow:0 6px 18px rgba(103,111,232,.28)}.btn:disabled{opacity:.45;cursor:not-allowed}
+.compare-row span:first-child{font-size:1.2rem}.discovery{margin-top:18px;border:2px dashed #c8d1e2;border-radius:22px;padding:16px;background:#fbfcff}.discovery h3{margin:0 0 8px}
+.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:18px 0}.scenario{border:2px solid var(--line);background:#fff;border-radius:20px;padding:16px;cursor:pointer;text-align:left}.scenario.active{border-color:#757dec;background:#f0f1ff}.scenario strong{display:block;font-size:1.05rem;margin-bottom:4px}.scenario small{font-weight:750;color:#61708d}.flow-stage{border:1px solid var(--line);border-radius:24px;background:var(--soft);padding:20px;min-height:270px}.flow-title{font-weight:900;font-size:1.2rem;margin-bottom:15px}.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:stretch}.flow-box{border:2px solid #cfd7e6;border-radius:20px;background:#fff;padding:18px;min-height:150px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-weight:850;transition:.25s}.flow-box .icon{font-size:2.5rem;margin-bottom:8px}.flow-arrow{display:grid;place-items:center;font-size:2rem;color:#6670dc;font-weight:900}.flow-box.pulse{outline:5px solid rgba(103,111,232,.18);transform:scale(1.03)}.observe-prompts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.prompt{border-radius:16px;background:#fff;border:1px solid var(--line);padding:12px;font-weight:850;color:#4d5b78}.play-row{display:flex;justify-content:center;margin-top:16px}.play{border:none;border-radius:999px;background:#202d55;color:#fff;padding:12px 20px;font-weight:900;cursor:pointer}
+.eva-reveal{border:1px solid var(--line);border-radius:24px;background:#fff;padding:18px;margin-top:18px}.eva-line{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:center}.eva-box{border:2px solid #737ce8;border-radius:20px;background:#f3f4ff;padding:18px;text-align:center;min-height:130px}.eva-box h3{margin:0 0 7px;font-size:1.35rem}.eva-box p{margin:0;font-weight:750;color:#56617d}.reflection{margin-top:16px;border-radius:20px;background:#fff7dc;border:1px solid #ead78e;padding:16px}.reflection strong{display:block;margin-bottom:5px}.smallnote{font-size:.92rem;color:#66738d;font-weight:750;margin-top:9px}
+@media(max-width:980px){.device-tabs,.scenario-grid,.compare-grid{grid-template-columns:1fr 1fr}.flow,.eva-line{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg)}.observe-prompts{grid-template-columns:1fr}.device-stage{min-height:610px}.device-canvas{height:465px}}
+@media(max-width:620px){.content{padding:22px 16px}.device-tabs,.scenario-grid,.compare-grid{grid-template-columns:1fr}.stephead{grid-template-columns:1fr}.device-stage{min-height:520px}.device-canvas{height:335px}.desktop{transform:scale(.78)}.laptop{transform:scale(.78)}.console{transform:scale(.72)}.phone{transform:scale(.84)}.stage-head{flex-direction:column;align-items:flex-start}.stage-hint{text-align:left}.actions{flex-direction:column;align-items:stretch}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>Was steckt in unseren Informatiksystemen?</h1>
+<div class="subtitle">Computer als Informatiksystem · Erkunden und verstehen</div>
+<section class="panel">
+<div class="panel-top"><div class="toprow"><span id="stepLabel">Schritt 1 von 2</span><span id="progressText">Informatiksysteme erkunden</span></div><div class="progress"><div id="progressBar"></div></div></div>
+<div class="content">
+<section id="step1">
+<div class="stephead"><div class="stepnum">1</div><div><div class="steptitle">Erkundet Informatiksysteme</div><p class="steplead">Untersucht Informatiksysteme und ihre Bestandteile.</p></div></div>
+<div class="taskbar"><strong>Arbeitsauftrag:</strong> Wählt ein Gerät aus. Öffnet es und untersucht äußere sowie innere Bestandteile am Modell.</div>
+<div class="device-tabs" id="deviceTabs"></div>
+<div class="explorer">
+<div class="device-stage" id="deviceStage">
+<div class="stage-head"><div class="stage-title" id="stageTitle"></div><div class="stage-hint" id="stageHint"></div></div>
+<div class="device-canvas" id="deviceCanvas"></div>
+<div class="canvas-note" id="canvasNote">Öffne das Gerät. Dann kannst du äußere und innere Bestandteile direkt am Modell anklicken und genauer erkunden.</div>
+<button class="open-btn" id="openBtn">🔧 Gerät öffnen</button>
+</div>
+<div class="info-card" id="infoCard"></div>
+</div>
+
+</section>
+
+<section id="step2" class="hidden" aria-hidden="true"></section>
+
+
+</div>
+</section>
+</div>
+<script>
+const commonInfo={
+ board:{name:'Hauptplatine',kicker:'Bauteil im Inneren',short:'Die Hauptplatine ist die große Trägerplatte im Gerät. Auf ihr sitzen viele wichtige Bauteile, die dort befestigt und elektrisch miteinander verbunden sind.',facts:[['Aufgabe','Sie verbindet unter anderem Prozessor, Arbeitsspeicher, Grafikchip und Datenspeicher.'],['Was heißt das?','Es gibt dafür keine gängige englische Abkürzung. Technisch spricht man oft auch von einer Leiterplatte oder einem Mainboard.'],['Beispiel','Wenn ein Gerät arbeitet, tauschen viele Bauteile über die Hauptplatine Informationen und elektrische Signale aus.'],['Wichtig','Die Hauptplatine rechnet nicht allein. Sie ist vor allem die gemeinsame Grundlage, auf der andere Bauteile zusammenarbeiten.']]},
+ cpu:{name:'Prozessor',kicker:'Bauteil im Inneren',short:'Der Prozessor ist eine zentrale Recheneinheit. Er führt Befehle von Programmen aus und verarbeitet dabei Informationen.',facts:[['Aufgabe','Er rechnet, vergleicht, entscheidet nach Vorgaben und steuert viele Abläufe im Gerät.'],['Was heißt das?','CPU ist die englische Abkürzung für „Central Processing Unit“. Das bedeutet sinngemäß: zentrale Verarbeitungseinheit.'],['Beispiel','Wenn du eine Taste drückst oder eine App öffnest, verarbeitet der Prozessor die zugehörigen Befehle.'],['Wichtig','Der Prozessor arbeitet nicht wie ein Mensch „von selbst“, sondern führt nur die vorgegebenen Befehle von Programmen aus.']]},
+ ram:{name:'Arbeitsspeicher',kicker:'Bauteil im Inneren',short:'Der Arbeitsspeicher hält Daten und Programme bereit, die das Gerät gerade schnell braucht. Dadurch kann darauf besonders zügig zugegriffen werden.',facts:[['Aufgabe','Er speichert Inhalte für kurze Zeit, solange das Gerät gerade mit ihnen arbeitet.'],['Was heißt das?','RAM ist die englische Abkürzung für „Random Access Memory“. Gemeint ist ein Speicher, auf den schnell zugegriffen werden kann.'],['Beispiel','Geöffnete Apps, ein laufendes Spiel oder ein gerade bearbeitetes Dokument benötigen Arbeitsspeicher.'],['Wichtig','Der Arbeitsspeicher ist nicht dasselbe wie der Datenspeicher: Beim Ausschalten gehen seine Inhalte normalerweise verloren.']]},
+ graphicscard:{name:'Grafikkarte',kicker:'Bauteil im Inneren',short:'Die Grafikkarte erzeugt und berechnet Bildinformationen, die anschließend auf einem Bildschirm dargestellt werden können.',facts:[['Aufgabe','Sie übernimmt grafische Berechnungen und bereitet Bilddaten für die Ausgabe vor.'],['Was heißt das?','Auf einer Grafikkarte sitzt meist eine GPU. GPU ist die englische Abkürzung für „Graphics Processing Unit“, also Grafikeinheit.'],['Beispiel','Bei einem Desktop-Computer wird der Bildschirm oft an die Anschlüsse der Grafikkarte angeschlossen.'],['Wichtig','Nicht jeder Computer besitzt eine eigene Grafikkarte. Manche Geräte haben stattdessen nur einen eingebauten Grafikchip.']]},
+ graphics:{name:'Grafikchip',kicker:'Bauteil im Inneren',short:'Der Grafikchip berechnet Bilder, Oberflächen und andere grafische Darstellungen für den Bildschirm.',facts:[['Aufgabe','Er unterstützt die Verarbeitung von Bilddaten und sorgt dafür, dass Darstellungen sichtbar werden können.'],['Was heißt das?','Auch hier wird oft die Abkürzung GPU verwendet. GPU bedeutet „Graphics Processing Unit“.'],['Beispiel','Spiele, Videos oder bewegte Menüs nutzen den Grafikchip besonders stark.'],['Wichtig','Bei Laptop, Smartphone und Spielekonsole ist der Grafikchip oft direkt im Gerät eingebaut und nicht als eigene Karte sichtbar.']]},
+ storage:{name:'Datenspeicher',kicker:'Bauteil im Inneren',short:'Der Datenspeicher bewahrt Programme und Dateien auch dann auf, wenn das Gerät ausgeschaltet wird.',facts:[['Aufgabe','Er speichert Daten langfristig, zum Beispiel Programme, Fotos, Spiele oder Dokumente.'],['Was heißt das?','Häufig steht dort SSD. SSD ist die englische Abkürzung für „Solid State Drive“, also ein schneller Speicher ohne drehende Scheiben.'],['Beispiel','Auf dem Datenspeicher liegen zum Beispiel das Betriebssystem, gespeicherte Fotos oder installierte Spiele.'],['Wichtig','Der Datenspeicher bleibt erhalten, wenn das Gerät ausgeschaltet wird. Damit unterscheidet er sich vom Arbeitsspeicher.']]},
+ battery:{name:'Akku',kicker:'Bauteil im Inneren',short:'Der Akku ist ein wiederaufladbarer Energiespeicher. Er versorgt mobile Geräte mit elektrischer Energie.',facts:[['Aufgabe','Er ermöglicht, dass ein Smartphone oder Laptop auch ohne Steckdose benutzt werden kann.'],['Was heißt das?','Akku ist die Kurzform von Akkumulator. Gemeint ist ein wiederaufladbarer elektrischer Speicher.'],['Beispiel','Wenn du dein Smartphone unterwegs benutzt, stammt die Energie aus dem Akku.'],['Wichtig','Der Akku verarbeitet selbst keine Informationen. Er liefert Energie, damit andere Bauteile arbeiten können.']]},
+ power:{name:'Netzteil',kicker:'Bauteil im Inneren',short:'Das Netzteil versorgt die Bauteile eines Geräts mit passender elektrischer Energie.',facts:[['Aufgabe','Es wandelt und verteilt elektrische Energie so, dass die einzelnen Bauteile damit betrieben werden können.'],['Was heißt das?','Es gibt dafür keine typische englische Abkürzung im Alltag. Der Name beschreibt seine Aufgabe direkt.'],['Beispiel','Ein Desktop-Computer benötigt ein Netzteil, damit Prozessor, Datenspeicher und andere Bauteile überhaupt laufen können.'],['Wichtig','Das Netzteil gehört zum Gerät, ist aber keine eigene Stufe der Informationsverarbeitung. Es liefert vor allem Energie.']]},
+ cooling:{name:'Lüfter und Kühlkörper',kicker:'Bauteile im Inneren',short:'Lüfter und Kühlkörper helfen dabei, entstehende Wärme aus dem Gerät abzuführen.',facts:[['Aufgabe','Sie kühlen wichtige Bauteile, damit das Gerät zuverlässig arbeiten kann.'],['Was heißt das?','Es gibt keine feste Abkürzung, die hier immer benutzt wird. Ein Kühlkörper nimmt Wärme auf, ein Lüfter bewegt Luft.'],['Beispiel','Wenn ein Gerät länger arbeitet oder ein Spiel läuft, können Prozessor und Grafikchip warm werden.'],['Wichtig','Die Kühlung verarbeitet keine Informationen. Sie schützt das Gerät davor, zu heiß zu werden.']]}
+};
+const outerInfo={
+ keyboard:{name:'Tastatur',kicker:'Bauteil außen am Gerät',short:'Mit der Tastatur können Zeichen, Zahlen und Befehle in ein Informatiksystem eingegeben werden.',facts:[['Aufgabe','Sie dient zur Eingabe von Texten und Befehlen.'],['Was heißt das?','Es gibt keine gängige Abkürzung. Der Name beschreibt direkt, dass man über Tasten eingibt.'],['Beispiel','Du drückst einen Buchstaben und dieser kann auf dem Bildschirm erscheinen.'],['Wichtig','Beim Laptop ist die Tastatur meist eingebaut, beim Desktop-Computer oft ein eigenes angeschlossenes Gerät.']]},
+ mouse:{name:'Maus',kicker:'Bauteil außen am Gerät',short:'Mit der Maus können Bewegungen und Klicks an ein Informatiksystem übermittelt werden.',facts:[['Aufgabe','Sie hilft dabei, Zeiger zu bewegen und Befehle durch Klicken auszuwählen.'],['Was heißt das?','Es gibt keine besondere Abkürzung. Die Bezeichnung „Maus“ stammt aus dem Alltag und beschreibt das Eingabegerät.'],['Beispiel','Du bewegst die Maus und der Mauszeiger bewegt sich auf dem Bildschirm mit.'],['Wichtig','Eine Maus ist typisch für Desktop-Computer; bei Laptops übernimmt oft das Touchpad eine ähnliche Aufgabe.']]},
+ monitor:{name:'Bildschirm / Fernseher',kicker:'Bauteil außen am Gerät',short:'Auf einem Bildschirm oder Fernseher werden Texte, Bilder, Menüs und andere Ergebnisse sichtbar.',facts:[['Aufgabe','Er dient vor allem der Ausgabe von Informationen.'],['Was heißt das?','Monitor ist ein englisches Wort für Bildschirm. Ein Fernseher kann in diesem Aufbau ebenfalls als Ausgabegerät dienen.'],['Beispiel','Wenn du tippst, klickst oder spielst, siehst du die Ergebnisse auf dem Bildschirm oder Fernseher.'],['Wichtig','Ein Smart-TV kann selbst wieder ein eigenes Informatiksystem sein. In diesem Modell betrachten wir ihn hier aber vor allem als Ausgabegerät.']]},
+ camera:{name:'Kamera',kicker:'Bauteil außen am Gerät',short:'Eine Kamera erfasst Bilder aus der Umgebung und übermittelt sie an das Gerät.',facts:[['Aufgabe','Sie nimmt Bilder oder Videos auf und dient damit der Eingabe von Bildinformationen.'],['Was heißt das?','Es gibt keine feste Abkürzung. Bei Desktop-Geräten heißt eine angeschlossene Kamera oft auch Webcam.'],['Beispiel','Bei Videotelefonie nimmt die Kamera dein Bild auf.'],['Wichtig','Bei Laptop und Smartphone ist die Kamera meist eingebaut; beim Desktop-Computer kann sie zusätzlich angeschlossen sein.']]},
+ microphone:{name:'Mikrofon',kicker:'Bauteil außen am Gerät',short:'Ein Mikrofon erfasst Schall, zum Beispiel Sprache oder Musik, und überträgt ihn an das Gerät.',facts:[['Aufgabe','Es dient der Eingabe von Toninformationen.'],['Was heißt das?','Es gibt keine gängige Abkürzung. Das Wort beschreibt das Bauteil, mit dem Töne aufgenommen werden.'],['Beispiel','Wenn du eine Sprachnachricht aufnimmst, nutzt das Gerät das Mikrofon.'],['Wichtig','Bei Smartphone und Laptop ist das Mikrofon meist eingebaut; bei anderen Geräten kann es als Zubehör vorhanden sein.']]},
+ speaker:{name:'Lautsprecher',kicker:'Bauteil außen am Gerät',short:'Über Lautsprecher werden Töne, Sprache oder Musik hörbar gemacht.',facts:[['Aufgabe','Sie dienen der Ausgabe von Ton.'],['Was heißt das?','Es gibt keine feste Abkürzung. Lautsprecher machen akustische Ergebnisse eines Geräts hörbar.'],['Beispiel','Beim Anschauen eines Videos hörst du Stimmen oder Musik über die Lautsprecher.'],['Wichtig','Lautsprecher gehören zur Ausgabe. Sie erfassen selbst keine Informationen aus der Umgebung.']]},
+ touch:{name:'Touchscreen',kicker:'Bauteil außen am Gerät',short:'Ein Touchscreen verbindet Bildschirm und Berührungserkennung in einem sichtbaren Bauteil.',facts:[['Aufgabe','Er zeigt Informationen an und erkennt zugleich Berührungen als Eingabe.'],['Was heißt das?','Der englische Begriff Touchscreen bedeutet sinngemäß: berührungsempfindlicher Bildschirm.'],['Beispiel','Du tippst auf ein Symbol und auf dem Bildschirm öffnet sich eine App.'],['Wichtig','Ein Touchscreen vereint also Ausgabe und Eingabe in einem Bauteil.']]},
+ touchpad:{name:'Touchpad',kicker:'Bauteil außen am Gerät',short:'Das Touchpad erkennt Bewegungen und Berührungen deiner Finger.',facts:[['Aufgabe','Es dient als Eingabefläche, mit der du den Zeiger steuern und klicken kannst.'],['Was heißt das?','Touchpad ist ein englisch geprägter Begriff. Gemeint ist eine berührungsempfindliche Fläche.'],['Beispiel','Beim Laptop kannst du damit den Mauszeiger bewegen, auch wenn keine extra Maus angeschlossen ist.'],['Wichtig','Das Touchpad ist kein Bildschirm. Es dient vor allem der Eingabe.']]},
+ controller:{name:'Controller',kicker:'Bauteil außen am Gerät',short:'Mit einem Controller können Spieler Befehle an eine Spielekonsole übermitteln.',facts:[['Aufgabe','Er dient zur Eingabe von Steuerbefehlen beim Spielen.'],['Was heißt das?','Controller ist ein englisches Wort und bedeutet hier: Steuergerät zum Bedienen einer Konsole.'],['Beispiel','Du drückst nach rechts und die Spielfigur bewegt sich nach rechts.'],['Wichtig','Der Controller gehört zur Eingabe. Die sichtbaren Ergebnisse erscheinen anschließend zum Beispiel auf dem Fernseher.']]}
+};
+
+const devices={
+ desktop:{label:'Desktop-Computer',icon:'🖥️',shell:'desktop',parts:[['board','Hauptplatine'],['cpu','Prozessor'],['ram','Arbeitsspeicher'],['graphicscard','Grafikkarte'],['storage','Datenspeicher'],['power','Netzteil'],['cooling','Lüfter']],outer:[['monitor','Bildschirm'],['keyboard','Tastatur'],['mouse','Maus'],['camera','Kamera'],['speaker','Lautsprecher']]},
+ laptop:{label:'Laptop',icon:'💻',shell:'laptop',parts:[['board','Hauptplatine'],['cpu','Prozessor'],['ram','Arbeitsspeicher'],['graphics','Grafikchip'],['storage','Datenspeicher'],['battery','Akku']],outer:[['monitor','Bildschirm'],['keyboard','Tastatur'],['touchpad','Touchpad'],['camera','Kamera'],['microphone','Mikrofon'],['speaker','Lautsprecher']]},
+ phone:{label:'Smartphone',icon:'📱',shell:'phone',parts:[['board','Hauptplatine'],['cpu','Prozessor'],['graphics','Grafikchip'],['ram','Arbeitsspeicher'],['storage','Datenspeicher'],['battery','Akku']],outer:[['touch','Touchscreen'],['speaker','Lautsprecher'],['microphone','Mikrofon'],['camera','Kamera (hinten)']]},
+ console:{label:'Spielekonsole',icon:'🎮',shell:'console',parts:[['board','Hauptplatine'],['cpu','Prozessor'],['ram','Arbeitsspeicher'],['graphics','Grafikchip'],['storage','Datenspeicher'],['power','Netzteil'],['cooling','Lüfter']],outer:[['monitor','Fernseher'],['controller','Controller']]}
+};
+
+const outerLayout={
+ desktop:{monitor:[35.0,41.0],keyboard:[34.0,82.0],mouse:[50.0,82.0],camera:[35.0,25.0],speaker:[52.5,42.0]},
+ laptop:{monitor:[50,26],keyboard:[50,77],touchpad:[50,84],camera:[53,11],microphone:[41,11],speaker:[86,73]},
+ phone:{touch:[50,69],speaker:[50,8],microphone:[50,95],camera:[84,16]},
+ console:{monitor:[27,29],controller:[73,90]}
+};
+const signalRoutes={
+ desktop:{
+  mouse:{
+   points:[[49.3,80],[58,63],[64,47],[69.3,31.5],[73.5,47],[61,44],[34.5,41.5]],
+   cpu:[69.3,31.5],ram:[77.8,32.5],graphics:[73.5,47],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Die Maus übermittelt Informationen an den Computer. Prozessor und Arbeitsspeicher arbeiten bei der Verarbeitung zusammen. Die Grafikkarte erzeugt daraus die grafische Ausgabe für den Bildschirm.'
+  },
+  keyboard:{
+   points:[[35.5,79.5],[48,67],[61,49],[69.3,31.5],[73.5,47],[61,44],[34.5,41.5]],
+   cpu:[69.3,31.5],ram:[77.8,32.5],graphics:[73.5,47],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Ein Tastendruck gelangt in den Computer. Prozessor und Arbeitsspeicher arbeiten bei der Verarbeitung zusammen. Die Grafikkarte berechnet die Darstellung, die anschließend auf dem Bildschirm erscheint.'
+  },
+  camera:{
+   points:[[34.5,25.7],[51,27],[62,29],[69.3,31.5],[73.5,47],[61,44],[34.5,41.5]],
+   cpu:[69.3,31.5],ram:[77.8,32.5],graphics:[73.5,47],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Die Kamera liefert Bilddaten an den Computer. Prozessor und Arbeitsspeicher wirken bei der Verarbeitung mit. Die Grafikkarte erzeugt daraus eine Darstellung für den Bildschirm.'
+  }
+ },
+ laptop:{
+  keyboard:{
+   points:[[32,82],[36,64],[40,49],[40,35],[39,49],[46,27],[50,11]],
+   cpu:[40,35],ram:[56,34],graphics:[39,49],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Ein Tastendruck wird im Laptop verarbeitet. Prozessor und Arbeitsspeicher arbeiten zusammen; die Grafikeinheit erzeugt die Darstellung für den eingebauten Bildschirm.'
+  },
+  touchpad:{
+   points:[[50,85],[47,66],[43,52],[40,35],[39,49],[46,27],[50,11]],
+   cpu:[40,35],ram:[56,34],graphics:[39,49],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Das Touchpad erfasst deine Bewegung. Nach der Verarbeitung durch das System berechnet die Grafikeinheit die veränderte Bildschirmdarstellung.'
+  },
+  camera:{
+   points:[[80,24],[65,27],[51,31],[40,35],[39,49],[46,27],[50,11]],
+   cpu:[40,35],ram:[56,34],graphics:[39,49],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Die Kamera liefert Bilddaten. Prozessor und Arbeitsspeicher wirken bei der Verarbeitung mit; die Grafikeinheit bereitet die Darstellung für den Bildschirm vor.'
+  }
+ },
+ phone:{
+  touch:{
+   points:[[50,72],[50,60],[40,25],[60,25],[55,22],[50,22]],
+   cpu:[40,25],ram:[38,57],graphics:[60,25],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Der Berührungssensor erkennt deine Berührung. Im Smartphone arbeiten mehrere Recheneinheiten zusammen; die Grafikeinheit erzeugt anschließend die veränderte Anzeige.'
+  },
+  camera:{
+   points:[[74,23],[66,24],[40,25],[60,25],[55,22],[50,22]],
+   cpu:[40,25],ram:[38,57],graphics:[60,25],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Die Kamera erfasst Bilddaten. Nach der Verarbeitung erzeugt die Grafikeinheit die Darstellung, die auf dem Bildschirm angezeigt werden kann.'
+  }
+ },
+ console:{
+  controller:{
+   points:[[77,82],[74,66],[70,51],[67,36],[77.5,46],[56,35],[42,31],[27,29]],
+   cpu:[67,36],ram:[79,36],graphics:[77.5,46],
+   text:'<strong>Vereinfachter Informationsweg:</strong> Der Controller übermittelt eine Eingabe an die Spielekonsole. Prozessor und Arbeitsspeicher wirken bei der Verarbeitung zusammen. Die Grafikeinheit berechnet die Bildausgabe, die anschließend an den Fernseher übertragen wird.'
+  }
+ }
+}
+
+const traceDefs={
+ desktop:{
+   mouse:{through:['cpu','graphicscard'],memory:'ram',end:'monitor'},
+   keyboard:{through:['cpu','graphicscard'],memory:'ram',end:'monitor'},
+   camera:{through:['cpu','graphicscard'],memory:'ram',end:'monitor'}
+ },
+ laptop:{
+   keyboard:{through:['cpu','graphics'],memory:'ram',end:'monitor'},
+   touchpad:{through:['cpu','graphics'],memory:'ram',end:'monitor'},
+   camera:{through:['cpu','graphics'],memory:'ram',end:'monitor'}
+ },
+ phone:{
+   touch:{through:['cpu','graphics'],memory:'ram',end:'touch'},
+   camera:{through:['cpu','graphics'],memory:'ram',end:'touch'}
+ },
+ console:{
+   controller:{through:['cpu','graphics'],memory:'ram',end:'monitor'}
+ }
+};
+let state={step:1,device:'desktop',open:false,selected:null,selectedType:null,seen:new Set()};
+const tabs=document.getElementById('deviceTabs'),canvas=document.getElementById('deviceCanvas'),stage=document.getElementById('deviceStage'),info=document.getElementById('infoCard');
+function shellArt(id){if(id==='desktop')return '<div class="desktop-monitor-wrap"><div class="desktop-monitor"></div><div class="desktop-webcam"></div><div class="desktop-speaker-left"></div><div class="desktop-speaker-right"></div><div class="desktop-stand"></div><div class="desktop-base"></div></div><div class="desktop-tower"><div class="tower-window"></div><div class="tower-vent"></div><div class="tower-drive"></div><div class="tower-power"></div></div><div class="desktop-keyboard"></div><div class="desktop-mouse"></div>';if(id==='laptop')return '<div class="laptop-screen"></div><div class="laptop-camera"></div><div class="laptop-base"></div><div class="laptop-speaker-left"></div><div class="laptop-speaker-right"></div>';if(id==='console')return '<div class="console-tv-wrap"><div class="console-tv"></div><div class="console-tv-stand"></div><div class="console-tv-base"></div></div><div class="console-box"><div class="console-slot"></div><div class="console-vents"></div><div class="console-power"></div></div><div class="console-controller"></div>';return '';}
+function buildTabs(){tabs.innerHTML='';Object.entries(devices).forEach(([id,d])=>{const b=document.createElement('button');b.className='device-tab'+(state.device===id?' active':'');b.innerHTML=`<span class="ico">${d.icon}</span>${d.label}`;b.onclick=()=>{state.device=id;state.open=false;state.selected=null;state.selectedType=null;renderExplorer();};tabs.appendChild(b);});}
+function getContextInfo(key,type,deviceId){
+ if(type==='inner') return commonInfo[key];
+ const map={
+  desktop:{
+   monitor:{name:'Bildschirm',short:'Auf dem Bildschirm des Desktop-Computers werden Informationen sichtbar.',facts:[['Aufgabe','Er zeigt Texte, Bilder und Programme an.'],['Bei diesem Gerät','Der Bildschirm ist als eigenes Gerät mit dem Desktop-Computer verbunden.']]},
+   keyboard:{name:'Tastatur',short:'Mit der Tastatur des Desktop-Computers gibst du Zeichen und Befehle ein.',facts:[['Beispiel','Du drückst eine Taste und ein Zeichen kann auf dem Bildschirm erscheinen.'],['Bei diesem Gerät','Die Tastatur ist als eigenes Gerät mit dem Computer verbunden.']]},
+   mouse:{name:'Maus',short:'Mit der Maus des Desktop-Computers steuerst du Zeiger und Klicks.',facts:[['Beispiel','Du bewegst die Maus und der Mauszeiger bewegt sich.'],['Bei diesem Gerät','Die Maus ist als eigenes Gerät mit dem Computer verbunden.']]},
+   camera:{name:'Kamera',short:'Die Kamera erfasst Bilder aus der Umgebung.',facts:[['Bei diesem Gerät','Am Desktop-Computer wird sie häufig als Webcam am Bildschirm angebracht oder zusätzlich angeschlossen.']]},
+   speaker:{name:'Lautsprecher',short:'Über die Lautsprecher des Desktop-Computers werden Töne hörbar.',facts:[['Aufgabe','Sie geben Sprache, Musik oder andere Geräusche aus.'],['Bei diesem Gerät','Die Lautsprecher sind hier als eigene, angeschlossene Geräte dargestellt.']]}
+  },
+  laptop:{
+   monitor:{name:'Bildschirm',short:'Auf dem Bildschirm des Laptops werden Informationen sichtbar.',facts:[['Aufgabe','Er zeigt Texte, Bilder und Programme an.'],['Bei diesem Gerät','Der Bildschirm ist direkt in den Laptop eingebaut.']]},
+   keyboard:{name:'Tastatur',short:'Mit der Laptop-Tastatur gibst du Zeichen und Befehle ein.',facts:[['Beispiel','Du drückst eine Taste und ein Zeichen kann auf dem Bildschirm erscheinen.'],['Bei diesem Gerät','Die Tastatur ist direkt im Laptop eingebaut.']]},
+   touchpad:{name:'Touchpad',short:'Das Touchpad erkennt Berührungen und Fingerbewegungen.',facts:[['Aufgabe','Damit kannst du den Mauszeiger steuern, ohne eine zusätzliche Maus zu benutzen.'],['Bei diesem Gerät','Das Touchpad ist direkt im Laptop eingebaut.']]},
+   camera:{name:'Kamera',short:'Die Laptop-Kamera erfasst Bilder aus der Umgebung.',facts:[['Bei diesem Gerät','Sie sitzt meist oberhalb des Bildschirms.']]},
+   microphone:{name:'Mikrofon',short:'Das Mikrofon erfasst Schall, zum Beispiel Sprache.',facts:[['Bei diesem Gerät','Es ist direkt im Laptop eingebaut.']]},
+   speaker:{name:'Lautsprecher',short:'Über die Lautsprecher des Laptops werden Töne hörbar.',facts:[['Bei diesem Gerät','Die Lautsprecher sind direkt im Laptop eingebaut.']]}
+  },
+  phone:{
+   touch:{name:'Touchscreen',short:'Der Touchscreen des Smartphones zeigt Informationen an und erkennt Berührungen.',facts:[['Aufgabe','Er verbindet Bildschirm und Berührungssensor in einem sichtbaren Bauteil.'],['Bei diesem Gerät','Der Touchscreen ist fest im Smartphone eingebaut.']]},
+   camera:{name:'Kamera (hinten)',short:'Die hintere Smartphone-Kamera erfasst Bilder und Videos.',facts:[['Bei diesem Gerät','Sie ist direkt im Smartphone eingebaut und sitzt typischerweise auf der Rückseite.']]},
+   microphone:{name:'Mikrofon',short:'Das Mikrofon erfasst Sprache und andere Geräusche.',facts:[['Bei diesem Gerät','Es ist direkt im Smartphone eingebaut.']]},
+   speaker:{name:'Lautsprecher',short:'Über den Lautsprecher des Smartphones werden Töne hörbar.',facts:[['Bei diesem Gerät','Er ist direkt im Smartphone eingebaut.']]}
+  },
+  console:{
+   monitor:{name:'Fernseher',short:'Auf dem Fernseher werden die Bilder der Spielekonsole sichtbar.',facts:[['Aufgabe','Er zeigt die Bildausgabe der Konsole an.'],['Bei diesem Gerät','Der Fernseher ist als eigenes Gerät mit der Konsole verbunden.']]},
+   controller:{name:'Controller',short:'Mit dem Controller gibst du Befehle an die Spielekonsole weiter.',facts:[['Beispiel','Du drückst eine Taste und eine Spielfigur kann sich bewegen.'],['Bei diesem Gerät','Der Controller gehört hier zur Bedienung der Konsole.']]},
+   headset:{name:'Headset',short:'Ein Headset verbindet Kopfhörer und meist auch ein Mikrofon.',facts:[['Aufgabe','Damit kannst du Töne hören und oft auch selbst sprechen.'],['Bei diesem Gerät','Das Headset ist hier als zusätzliches Zubehör der Konsole dargestellt.']]}
+  }
+ };
+ return (map[deviceId] && map[deviceId][key]) ? map[deviceId][key] : outerInfo[key];
+}
+
+function elementCenter(el){
+  const cr=canvas.getBoundingClientRect(), r=el.getBoundingClientRect();
+  return [r.left-cr.left+r.width/2, r.top-cr.top+r.height/2];
+}
+function drawTrace(){
+  canvas.querySelectorAll('.signal-svg,.trace-legend').forEach(n=>n.remove());
+  canvas.querySelectorAll('.trace-node').forEach(n=>n.classList.remove('trace-node'));
+  if(!state.open || state.selectedType!=='outer') return;
+  const def=(traceDefs[state.device]||{})[state.selected];
+  if(!def) return;
+
+  const start=canvas.querySelector(`.peri-btn[data-key="${state.selected}"]`);
+  const end=canvas.querySelector(`.peri-btn[data-key="${def.end}"]`);
+  if(!start || !end) return;
+
+  const throughEls=def.through.map(k=>canvas.querySelector(`.hotspot.${k}`)).filter(Boolean);
+  const ram=def.memory ? canvas.querySelector(`.hotspot.${def.memory}`) : null;
+  throughEls.forEach(el=>el.classList.add('trace-node'));
+  if(ram) ram.classList.add('trace-node');
+
+  const points=[elementCenter(start), ...throughEls.map(elementCenter), elementCenter(end)];
+  const cr=canvas.getBoundingClientRect();
+  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+  svg.setAttribute('class','signal-svg');
+  svg.setAttribute('viewBox',`0 0 ${cr.width} ${cr.height}`);
+  svg.setAttribute('preserveAspectRatio','none');
+
+  const pathData='M '+points.map(p=>`${p[0]} ${p[1]}`).join(' L ');
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+  path.setAttribute('class','trace-main');
+  path.setAttribute('d',pathData);
+  svg.appendChild(path);
+
+  if(ram && throughEls[0]){
+    const a=elementCenter(throughEls[0]), b=elementCenter(ram);
+    const ml=document.createElementNS('http://www.w3.org/2000/svg','line');
+    ml.setAttribute('class','trace-memory');
+    ml.setAttribute('x1',a[0]); ml.setAttribute('y1',a[1]);
+    ml.setAttribute('x2',b[0]); ml.setAttribute('y2',b[1]);
+    svg.appendChild(ml);
+  }
+
+  const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
+  dot.setAttribute('class','trace-dot');
+  dot.setAttribute('r','5');
+  const motion=document.createElementNS('http://www.w3.org/2000/svg','animateMotion');
+  motion.setAttribute('dur','2.4s');
+  motion.setAttribute('repeatCount','indefinite');
+  motion.setAttribute('path',pathData);
+  dot.appendChild(motion);
+  svg.appendChild(dot);
+  canvas.appendChild(svg);
+
+  const startLabel=start.textContent.trim();
+  const endLabel=end.textContent.trim();
+  const legend=document.createElement('div');
+  legend.className='trace-legend';
+  legend.innerHTML=`<h4>Beobachtungshilfe</h4>
+    <p>Du hast <strong>${startLabel}</strong> ausgewählt. Die gestrichelte Linie zeigt einen <strong>vereinfachten Weg</strong> durch das Gerät bis zur Ausgabe bei <strong>${endLabel}</strong>.</p>
+    <div class="legend-row"><span class="legend-line"></span><span>gestrichelte Linie = vereinfachter Informationsweg</span></div>
+    <div class="legend-row"><span class="legend-box"></span><span>hervorgehobene Bauteile = daran beteiligt</span></div>
+    <div class="legend-row"><span class="legend-dot"></span><span>blauer Punkt = Information bewegt sich entlang des Wegs</span></div>`;
+  canvas.appendChild(legend);
+}
+function renderExplorer(){buildTabs();const d=devices[state.device];document.getElementById('stageTitle').textContent=d.label;document.getElementById('stageHint').textContent='';stage.classList.toggle('open',state.open);const periphery=state.open?`<div class="stage-periphery">${d.outer.map(([key,label])=>{const pos=(outerLayout[state.device]||{})[key]||[50,90];const extra=(state.device==='desktop'||state.device==='phone'||state.device==='laptop'||state.device==='console')?` ${state.device}-label-${key}`:'';return `<button class="peri-btn${extra} ${state.selectedType==='outer'&&state.selected===key?'active':''}" data-key="${key}" style="left:${pos[0]}%;top:${pos[1]}%">${label}</button>`;}).join('')}</div>`:'';canvas.innerHTML=`${periphery}<div class="device-shell ${d.shell}">${shellArt(state.device)}</div><div class="internals ${state.device}-int">${d.parts.map(([key,label])=>`<button class="hotspot ${key} ${state.selectedType==='inner'&&state.selected===key?'active':''}" data-key="${key}">${label}</button>`).join('')}</div>`;canvas.querySelectorAll('.hotspot').forEach(b=>b.onclick=()=>selectInner(b.dataset.key));canvas.querySelectorAll('.peri-btn').forEach(b=>b.onclick=()=>selectOuter(b.dataset.key));const ob=document.getElementById('openBtn');ob.textContent=state.open?'↩ Gerät schließen':'🔧 Gerät öffnen';ob.onclick=()=>{state.open=!state.open;state.selected=null;state.selectedType=null;renderExplorer();};document.getElementById('canvasNote').textContent='';drawTrace();if(!state.selected)showEmpty();}
+function selectInner(key){state.selected=key;state.selectedType='inner';state.seen.add(state.device+':i:'+key);renderExplorer();showInfo(getContextInfo(key,'inner',state.device),devices[state.device].label);}
+function selectOuter(key){state.selected=key;state.selectedType='outer';state.seen.add(state.device+':o:'+key);renderExplorer();showInfo(getContextInfo(key,'outer',state.device),devices[state.device].label);}
+function showEmpty(){info.innerHTML='';}
+function showInfo(c,device){info.innerHTML=`<div class="info-kicker">${c.kicker||'Bestandteil des Informatiksystems'}</div><h2 class="info-title">${c.name}</h2><p class="info-short">${c.short}</p><div class="factlist">${c.facts.map(f=>`<div class="fact"><strong>${f[0]}</strong>${f[1]}</div>`).join('')}</div><div class="device-found">Gerade untersucht bei: <strong>${device}</strong></div>`;}
+renderExplorer();
+</script>
+</body>
+</html>
