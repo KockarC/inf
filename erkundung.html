@@ -1,302 +1,464 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Was steckt in unseren Informatiksystemen?</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Informatiksysteme entdecken – Aufbau & EVA-Prinzip</title>
 <style>
-:root{--bg:#edf0f5;--card:#fff;--line:#cfd7e6;--text:#16233f;--sub:#495a7b;--accent:#676fe8;--accent2:#4b58d4;--soft:#f5f7fc;--ok:#2f9d68;--shadow:0 10px 28px rgba(22,35,63,.08)}
-*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text)}button{font:inherit}
-.wrap{max-width:1240px;margin:22px auto 36px;padding:0 18px}h1{margin:0 0 6px;font-size:clamp(2.5rem,6vw,4.4rem);line-height:1;letter-spacing:-.04em;font-weight:900;color:#1a2542}.subtitle{font-size:1.14rem;color:#3848b8;font-weight:850;margin-bottom:18px}
-.panel{background:#fff;border:1px solid var(--line);border-radius:28px;overflow:hidden;box-shadow:var(--shadow)}.panel-top{padding:18px 22px 14px;border-bottom:1px solid var(--line)}.toprow{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;font-size:1rem;font-weight:850;color:#566483;margin-bottom:8px}.progress{height:14px;background:#e7ecf5;border-radius:999px;overflow:hidden}.progress>div{height:100%;width:50%;background:linear-gradient(90deg,var(--accent2),#8a78ff);border-radius:999px;transition:.3s}.content{padding:28px 26px 24px}.hidden{display:none!important}
-.stephead{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start;margin-bottom:10px}.stepnum{width:56px;height:56px;border-radius:18px;display:grid;place-items:center;background:#ececfb;color:#4a54d2;font-weight:900;font-size:1.45rem}.steptitle{font-size:clamp(1.7rem,4vw,2.2rem);line-height:1.06;font-weight:900;margin:6px 0 6px;letter-spacing:-.03em}.steplead{color:#495a7b;font-size:1.02rem;font-weight:700;margin:0;max-width:940px}.taskbar{margin:0 0 16px;padding:12px 16px;border:1px solid #d6def0;background:#f7f9fd;border-radius:18px;font-weight:850;color:#3f4c6d}.taskbar strong{color:#3346c5}
-.device-tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.device-tab{border:2px solid var(--line);background:#fff;border-radius:20px;padding:15px 12px;cursor:pointer;font-weight:900;color:#334066;display:flex;align-items:center;justify-content:center;gap:9px;min-height:62px;transition:.15s}.device-tab:hover{transform:translateY(-1px);border-color:#a9b4c9}.device-tab.active{border-color:#757dec;background:#f0f1ff;color:#3f49c5;box-shadow:0 5px 16px rgba(103,111,232,.12)}.device-tab .ico{font-size:1.65rem}
-.explorer{display:block}.device-stage{border:1px solid var(--line);background:linear-gradient(180deg,#f7f9fd,#eef2f8);border-radius:24px;min-height:760px;padding:22px;position:relative;overflow:hidden}.stage-head{display:flex;justify-content:flex-start;gap:14px;align-items:center;margin-bottom:8px}.stage-title{font-size:1.35rem;font-weight:900}.stage-hint{display:none}.device-canvas{height:660px;position:relative;display:grid;place-items:center}.device-shell{position:relative;transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .4s ease;filter:drop-shadow(0 16px 18px rgba(22,35,63,.14));z-index:1}.open .device-shell{opacity:.22;transform:translateX(-1%) scale(1.12);pointer-events:none}.open .device-shell.desktop{opacity:1;transform:scale(1.16) translateY(10px)}.open .device-shell.desktop .desktop-tower{opacity:.16;transition:opacity .35s ease}.open .device-shell.desktop .desktop-monitor-wrap,.open .device-shell.desktop .desktop-keyboard,.open .device-shell.desktop .desktop-mouse{opacity:.32}.open .device-shell.laptop{opacity:1;transform:scale(1.22) translateY(12px)}.open .device-shell.laptop .laptop-screen,.open .device-shell.laptop .laptop-base,.open .device-shell.laptop .laptop-camera,.open .device-shell.laptop .laptop-speaker-left,.open .device-shell.laptop .laptop-speaker-right{opacity:.22;transition:opacity .35s ease}.open .device-shell.phone{opacity:1;transform:scale(1.22) translateY(10px)}.open .device-shell.phone:before,.open .device-shell.phone:after{opacity:.22}.open .device-shell.console{opacity:1;transform:scale(1.16) translateY(12px)}.open .device-shell.console .console-box{opacity:.16;transition:opacity .35s ease}.open .device-shell.console .console-tv-wrap,.open .device-shell.console .console-controller,.open .device-shell.console .console-headset{opacity:1}.internals{position:absolute;inset:18px 3% 10px;opacity:0;pointer-events:none;transform:scale(.98) translateY(8px);transition:opacity .34s ease .14s,transform .42s cubic-bezier(.2,.8,.2,1) .1s;z-index:12}.open .internals{opacity:1;pointer-events:auto;transform:scale(1) translateY(0)}
-.hotspot{position:absolute;border:2px solid rgba(255,255,255,.95);box-shadow:0 5px 14px rgba(22,35,63,.18);border-radius:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.76rem;line-height:1.1;font-weight:900;color:#15203b;padding:4px;text-align:center;transition:.15s;min-width:46px;min-height:36px;z-index:20}.hotspot:hover,.hotspot.active{transform:scale(1.05);outline:4px solid rgba(103,111,232,.18);z-index:30}.hotspot.board{background:#c7edda;z-index:1;color:#1b4b3c;justify-content:flex-start;align-items:flex-end;padding:0 0 10px 12px;font-size:.74rem}.hotspot.board:hover,.hotspot.board.active{transform:none;outline:3px solid rgba(103,111,232,.15);z-index:1}.cpu{background:#ffd98c}.ram{background:#b8f3c8}.graphicscard,.graphics{background:#d7c8ff}.storage{background:#b9dafc}.battery{background:#f6b5c4}.power{background:#ffd0a8}.cooling{background:#d9e1eb}
-.canvas-note{display:none}.stage-periphery{position:absolute;inset:0;pointer-events:none;z-index:18}.peri-btn{position:absolute;transform:translate(-50%,-50%);pointer-events:auto;border:2px solid #cad4e6;background:#fff;border-radius:999px;padding:8px 12px;cursor:pointer;font-weight:850;color:#34415f;box-shadow:0 6px 16px rgba(22,35,63,.08);white-space:nowrap;transition:.15s}.peri-btn:hover,.peri-btn.active{border-color:#777fe8;background:#eef0ff;color:#3e48c2;transform:translate(-50%,-50%) scale(1.03)}.desktop-label-monitor{background:rgba(255,255,255,.92);border-color:rgba(255,255,255,.85);box-shadow:0 4px 12px rgba(22,35,63,.10);padding:6px 12px}.desktop-label-camera{font-size:.72rem;padding:5px 9px}.desktop-label-speaker{font-size:.76rem;padding:6px 10px}.desktop-label-keyboard{font-size:.76rem;padding:5px 10px}.desktop-label-mouse{font-size:.72rem;padding:5px 9px}.desktop-label-printer{font-size:.75rem;padding:5px 10px}.phone-label-touch{font-size:.78rem;padding:7px 12px}.phone-label-camera,.phone-label-microphone,.phone-label-speaker{font-size:.72rem;padding:6px 10px}.signal-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:16;overflow:visible}.signal-path{fill:none;stroke:#5663d8;stroke-width:.58;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:2 1.8;opacity:.88;animation:dash 1.25s linear infinite}.memory-link{fill:none;stroke:#6e7b98;stroke-width:.36;stroke-linecap:round;stroke-dasharray:1.2 1.3;opacity:.9;animation:memoryPulse 1.5s ease-in-out infinite}.signal-node{fill:#fff;stroke:#5663d8;stroke-width:.48}.signal-node.core{fill:#fff8df}.signal-node.memory{fill:#eafbef;stroke:#4d9a68}.signal-node.graphics{fill:#f2edff;stroke:#725cc7}.signal-end{fill:#5663d8;opacity:.9}
-.trace-main{fill:none;stroke:#5b66d6;stroke-width:3;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:9 8;opacity:.82;animation:traceDash 1.1s linear infinite}
-.trace-memory{fill:none;stroke:#4e9a68;stroke-width:2;stroke-linecap:round;stroke-dasharray:4 5;opacity:.8}
-.trace-dot{fill:#5b66d6;filter:drop-shadow(0 0 4px rgba(91,102,214,.55))}
-.hotspot.trace-node{outline:4px solid rgba(91,102,214,.18);box-shadow:0 0 0 3px rgba(91,102,214,.10),0 5px 14px rgba(22,35,63,.18)}
-.hotspot.ram.trace-node{outline-color:rgba(78,154,104,.22)}
-.trace-legend{position:absolute;left:18px;bottom:16px;z-index:22;width:min(360px,42%);background:rgba(255,255,255,.96);border:1px solid #cfd7e6;border-radius:18px;padding:12px 14px;box-shadow:0 8px 18px rgba(22,35,63,.10)}
-.trace-legend h4{margin:0 0 6px;font-size:1rem;color:#25345a}
-.trace-legend p{margin:0 0 10px;font-size:.92rem;line-height:1.4;color:#425172;font-weight:700}
-.trace-legend .legend-row{display:flex;align-items:center;gap:10px;font-size:.88rem;color:#425172;font-weight:700;margin-top:6px}
-.trace-legend .legend-line{width:38px;height:0;border-top:3px dashed #5b66d6;border-radius:999px;flex:0 0 auto}
-.trace-legend .legend-box{width:22px;height:14px;border-radius:6px;background:rgba(91,102,214,.14);outline:3px solid rgba(91,102,214,.18);flex:0 0 auto}
-.trace-legend .legend-dot{width:12px;height:12px;border-radius:50%;background:#5b66d6;box-shadow:0 0 0 3px rgba(91,102,214,.12);flex:0 0 auto}
-@keyframes traceDash{to{stroke-dashoffset:-34}}.signal-caption{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);z-index:17;background:rgba(255,255,255,.94);border:1px solid #cfd7e6;border-radius:14px;padding:8px 12px;font-weight:850;color:#334066;box-shadow:0 5px 14px rgba(22,35,63,.08);max-width:min(92%,520px);text-align:center}.signal-caption strong{color:#3f49c5}@keyframes dash{to{stroke-dashoffset:-18}}@keyframes memoryPulse{0%,100%{opacity:.45}50%{opacity:1}}
-.open-btn{position:absolute;bottom:16px;right:18px;left:auto;transform:none;z-index:40;border:none;border-radius:999px;background:linear-gradient(90deg,var(--accent2),var(--accent));color:#fff;font-weight:900;padding:13px 24px;cursor:pointer;box-shadow:0 6px 18px rgba(103,111,232,.28)}
-/* Geräte */
-.desktop{width:820px;height:390px;position:relative}.desktop-monitor-wrap{position:absolute;left:34px;top:34px;width:340px;height:218px}.desktop-monitor{position:absolute;inset:0;border-radius:18px;background:#111827;border:8px solid #182132;box-shadow:0 14px 18px rgba(22,35,63,.16)}.desktop-monitor:before{content:"";position:absolute;inset:13px;background:linear-gradient(180deg,#7d8ef7,#4467d7 46%,#1d2b5f);border-radius:10px}.desktop-webcam{position:absolute;left:50%;top:7px;transform:translateX(-50%);width:12px;height:12px;border-radius:50%;background:#44516a;border:2px solid #8fa1b6}.desktop-stand{position:absolute;left:148px;bottom:-30px;width:44px;height:36px;background:linear-gradient(180deg,#9aa8bc,#6b7688);border-radius:0 0 6px 6px}.desktop-base{position:absolute;left:114px;bottom:-42px;width:112px;height:13px;border-radius:999px;background:#6b7688}.desktop-speaker-left,.desktop-speaker-right{position:absolute;top:58px;width:24px;height:126px;border-radius:10px;background:linear-gradient(180deg,#cfd7e2,#96a3b6);border:2px solid #738096;box-shadow:0 8px 12px rgba(22,35,63,.10)}.desktop-speaker-left{left:-34px}.desktop-speaker-right{right:-34px}.desktop-speaker-left:before,.desktop-speaker-right:before{content:"";position:absolute;left:5px;right:5px;top:10px;bottom:10px;border-radius:8px;background:repeating-linear-gradient(180deg,#607086 0 6px,#cfd7e2 6px 12px)}.desktop-tower{position:absolute;right:52px;top:-2px;width:300px;height:352px;border-radius:20px;background:linear-gradient(180deg,#2f3b50,#172131);border:4px solid #101827;box-shadow:inset 0 0 0 2px rgba(255,255,255,.04),0 18px 24px rgba(22,35,63,.17)}.tower-window{position:absolute;left:24px;top:28px;width:130px;height:184px;border-radius:16px;border:4px solid rgba(148,163,184,.22);background:rgba(148,163,184,.07)}.tower-vent{position:absolute;right:22px;top:38px;width:38px;height:108px;border-radius:9px;background:#0d1524}.tower-vent:before{content:"";position:absolute;inset:7px 6px;background:repeating-linear-gradient(180deg,#6f7f96 0 3px,#172131 3px 8px);border-radius:4px}.tower-drive{position:absolute;right:20px;top:170px;width:46px;height:8px;border-radius:6px;background:#050912}.tower-power{position:absolute;right:30px;bottom:28px;width:18px;height:18px;border-radius:50%;background:#8396ff;box-shadow:0 0 0 4px #263247,0 0 9px rgba(131,150,255,.42)}.desktop-keyboard{position:absolute;left:94px;bottom:24px;width:272px;height:48px;border-radius:10px;background:linear-gradient(180deg,#d8dee7,#a3afbe);border:2px solid #778397;box-shadow:0 7px 12px rgba(22,35,63,.12)}.desktop-keyboard:before{content:"";position:absolute;left:10px;right:10px;top:6px;bottom:6px;border-radius:6px;border:1px solid #7e8a9d;background:linear-gradient(180deg,#edf2f8,#d7dee8),repeating-linear-gradient(90deg,#465369 0 10px,transparent 10px 14px),repeating-linear-gradient(90deg,#465369 0 10px,transparent 10px 14px),repeating-linear-gradient(90deg,#465369 0 10px,transparent 10px 14px);background-size:100% 100%,calc(100% - 20px) 9px,calc(100% - 12px) 9px,calc(100% - 24px) 9px;background-position:0 0,10px 7px,6px 19px,12px 31px;background-repeat:no-repeat;box-shadow:inset 0 1px 0 rgba(255,255,255,.75), inset 0 -1px 0 rgba(80,92,112,.18)}.desktop-mouse{position:absolute;left:375px;bottom:20px;width:31px;height:40px;border-radius:15px;background:linear-gradient(180deg,#d8dee7,#a3afbe);border:2px solid #778397;box-shadow:0 7px 12px rgba(22,35,63,.12)}.desktop-mouse:before{content:"";position:absolute;left:12px;top:6px;width:2px;height:10px;background:#66758c;border-radius:2px}
-.laptop{width:760px;height:430px;position:relative}.laptop-screen{position:absolute;left:92px;top:16px;width:576px;height:286px;border-radius:22px 22px 10px 10px;background:#111827;border:10px solid #182132;box-shadow:0 12px 18px rgba(22,35,63,.14)}.laptop-screen:before{content:"";position:absolute;inset:14px;background:linear-gradient(180deg,#7487ee,#2d478c);border-radius:10px}.laptop-camera{position:absolute;left:374px;top:22px;width:12px;height:12px;border-radius:50%;background:#44516a;border:2px solid #8fa1b6}.laptop-base{position:absolute;left:22px;right:22px;bottom:26px;height:110px;border-radius:12px 12px 30px 30px;background:linear-gradient(180deg,#cbd5e1,#8995a7);border:3px solid #6b7688;transform:perspective(600px) rotateX(22deg);box-shadow:0 12px 18px rgba(22,35,63,.12)}.laptop-base:before{content:"";position:absolute;left:64px;right:64px;top:10px;height:60px;border-radius:10px;border:2px solid #7b879a;background:linear-gradient(180deg,#eef2f7,#d9e0ea),repeating-linear-gradient(90deg,#435066 0 12px,transparent 12px 16px),repeating-linear-gradient(90deg,#435066 0 12px,transparent 12px 16px),repeating-linear-gradient(90deg,#435066 0 12px,transparent 12px 16px),repeating-linear-gradient(90deg,#435066 0 12px,transparent 12px 16px);background-size:100% 100%,calc(100% - 34px) 9px,calc(100% - 22px) 9px,calc(100% - 28px) 9px,calc(100% - 40px) 9px;background-position:0 0,18px 8px,12px 21px,14px 34px,20px 47px;background-repeat:no-repeat;box-shadow:inset 0 1px 0 rgba(255,255,255,.82), inset 0 -1px 0 rgba(80,92,112,.18)}.laptop-base:after{content:"";position:absolute;left:292px;right:292px;bottom:10px;height:26px;border-radius:7px;border:2px solid #758195;background:rgba(255,255,255,.12)}.laptop-speaker-left,.laptop-speaker-right{position:absolute;bottom:62px;width:54px;height:30px;border-radius:10px;background:linear-gradient(180deg,#d6dce5,#a1adbd);border:2px solid #7c899d;box-shadow:0 6px 10px rgba(22,35,63,.10)}.laptop-speaker-left{left:74px}.laptop-speaker-right{right:74px}.laptop-speaker-left:before,.laptop-speaker-right:before{content:"";position:absolute;inset:6px;border-radius:6px;background:repeating-linear-gradient(90deg,#647388 0 4px,#d6dce5 4px 8px)}
-.phone{width:286px;height:548px;border-radius:46px;background:#111827;border:8px solid #0a0f1a;box-shadow:inset 0 0 0 2px #4b5563}.phone:before{content:"";position:absolute;inset:22px 14px;background:linear-gradient(180deg,#7d8ef7,#4467d7 46%,#1d2b5f);border-radius:35px}.phone:after{content:"";position:absolute;width:82px;height:20px;border-radius:0 0 14px 14px;background:#0b1020;top:8px;left:50%;transform:translateX(-50%)}
-.console{width:820px;height:410px;position:relative}.console-tv-wrap{position:absolute;left:34px;top:26px;width:390px;height:242px}.console-tv{position:absolute;inset:0;border-radius:20px;background:#111827;border:8px solid #182132;box-shadow:0 14px 18px rgba(22,35,63,.16)}.console-tv:before{content:"";position:absolute;inset:14px;background:linear-gradient(180deg,#7588ee,#314a91);border-radius:12px}.console-tv-stand{position:absolute;left:168px;bottom:-36px;width:50px;height:41px;background:linear-gradient(180deg,#9aa8bc,#6b7688);border-radius:0 0 6px 6px}.console-tv-base{position:absolute;left:122px;bottom:-49px;width:144px;height:15px;border-radius:999px;background:#6b7688}.console-box{position:absolute;right:28px;top:46px;width:360px;height:300px;border-radius:30px;background:linear-gradient(155deg,#303b4f,#111827);border:5px solid #101827;box-shadow:inset -18px -12px 26px rgba(0,0,0,.23),0 16px 22px rgba(22,35,63,.14)}.console-slot{position:absolute;left:30px;top:76px;width:118px;height:8px;border-radius:8px;background:#070c14}.console-vents{position:absolute;right:22px;top:34px;width:96px;height:62px;border-radius:10px;background:repeating-linear-gradient(90deg,#56647b 0 3px,#1a2435 3px 8px)}.console-power{position:absolute;left:31px;bottom:30px;width:16px;height:16px;border-radius:50%;background:#8fa0ff}.console-controller{position:absolute;left:510px;bottom:0px;width:184px;height:88px;border-radius:42px;background:linear-gradient(180deg,#f8fafc,#cbd5e1);border:4px solid #64748b;box-shadow:0 13px 18px rgba(22,35,63,.18)}.console-controller:before{content:"+";position:absolute;left:34px;top:16px;font-size:34px;font-weight:900}.console-controller:after{content:"••";position:absolute;right:24px;top:14px;color:#4652c9;font-size:28px;letter-spacing:5px;font-weight:900}.console-headset{display:none}
-/* Innenpositionen */
-.desktop-int .board{left:61.5%;top:12%;width:23%;height:43%;border-radius:20px}.desktop-int .cpu{left:66%;top:24%;width:10%;height:11%}.desktop-int .ram{left:77%;top:19%;width:6.5%;height:23%}.desktop-int .graphicscard{left:63.5%;top:43%;width:20%;height:8%;min-height:30px}.desktop-int .storage{left:76%;top:59%;width:14%;height:16%}.desktop-int .power{left:59%;top:61%;width:14%;height:18%}.desktop-int .cooling{left:80%;top:8%;width:9%;height:16%}
-.laptop-int{left:16%;right:16%;top:55%;bottom:9%}.laptop-int .board{left:8%;top:8%;width:72%;height:48%}.laptop-int .cpu{left:25%;top:18%;width:16%;height:22%}.laptop-int .ram{left:47%;top:14%;width:10%;height:31%}.laptop-int .graphics{left:61%;top:20%;width:15%;height:20%}.laptop-int .storage{left:7%;top:64%;width:22%;height:22%}.laptop-int .battery{right:9%;top:61%;width:37%;height:24%}
-.phone-int{left:22%;right:22%;top:24px;bottom:24px}.phone-int .board{left:18%;top:8%;width:64%;height:30%}.phone-int .cpu{left:22%;top:17%;width:22%;height:10%}.phone-int .graphics{right:22%;top:17%;width:22%;height:10%}.phone-int .ram{left:16%;top:45%;width:22%;height:10%}.phone-int .storage{right:16%;top:45%;width:23%;height:10%}.phone-int .battery{left:18%;right:18%;bottom:5%;height:18%;align-items:flex-end;padding-bottom:12px}
-.console-int .board{left:56%;top:18%;width:30%;height:44%;border-radius:20px}.console-int .cpu{left:61%;top:27%;width:12%;height:11%}.console-int .ram{left:77%;top:23%;width:8%;height:23%}.console-int .graphics{left:71%;top:46%;width:15%;height:12%}.console-int .storage{left:79%;top:66%;width:15%;height:14%}.console-int .cooling{left:56%;top:9%;width:15%;height:14%}.console-int .power{left:53%;top:65%;width:15%;height:14%}
-.info-card{margin-top:14px;border-top:1px solid var(--line);padding:18px 4px 2px;min-height:0;background:transparent}.info-card:empty{display:none}.info-kicker{font-size:.82rem;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:#6875d7;margin-bottom:6px}.info-title{font-size:1.65rem;font-weight:950;margin:0 0 6px}.info-short{font-size:1.03rem;font-weight:800;color:#364564;margin:0 0 12px;line-height:1.45;max-width:900px}.factlist{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px}.fact{border-radius:14px;background:var(--soft);padding:11px 13px}.fact strong{display:block;margin-bottom:3px}.device-found{margin-top:12px;font-size:.92rem;color:#5c6987;font-weight:750}
-.mascot{display:grid;grid-template-columns:78px 1fr;gap:14px;align-items:center;margin-top:18px}.face{width:78px;height:78px;border-radius:50%;background:#fff4bf;border:3px solid #efc84a;display:grid;place-items:center;font-size:2.2rem}.speech{border:1px solid var(--line);border-radius:18px;background:#fff;padding:14px 16px;font-size:.98rem;font-weight:800;color:#123e67}
-.actions{margin-top:18px;display:flex;justify-content:space-between;gap:12px;align-items:center}.btn{border:none;cursor:pointer;border-radius:999px;padding:14px 26px;font-size:1rem;font-weight:900}.btn.secondary{background:#eef1f7;color:#6f7a90}.btn.primary{background:linear-gradient(90deg,var(--accent2),var(--accent));color:#fff;box-shadow:0 6px 18px rgba(103,111,232,.28)}.btn:disabled{opacity:.45;cursor:not-allowed}
-.compare-row span:first-child{font-size:1.2rem}.discovery{margin-top:18px;border:2px dashed #c8d1e2;border-radius:22px;padding:16px;background:#fbfcff}.discovery h3{margin:0 0 8px}
-.scenario-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:18px 0}.scenario{border:2px solid var(--line);background:#fff;border-radius:20px;padding:16px;cursor:pointer;text-align:left}.scenario.active{border-color:#757dec;background:#f0f1ff}.scenario strong{display:block;font-size:1.05rem;margin-bottom:4px}.scenario small{font-weight:750;color:#61708d}.flow-stage{border:1px solid var(--line);border-radius:24px;background:var(--soft);padding:20px;min-height:270px}.flow-title{font-weight:900;font-size:1.2rem;margin-bottom:15px}.flow{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:stretch}.flow-box{border:2px solid #cfd7e6;border-radius:20px;background:#fff;padding:18px;min-height:150px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;font-weight:850;transition:.25s}.flow-box .icon{font-size:2.5rem;margin-bottom:8px}.flow-arrow{display:grid;place-items:center;font-size:2rem;color:#6670dc;font-weight:900}.flow-box.pulse{outline:5px solid rgba(103,111,232,.18);transform:scale(1.03)}.observe-prompts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:14px}.prompt{border-radius:16px;background:#fff;border:1px solid var(--line);padding:12px;font-weight:850;color:#4d5b78}.play-row{display:flex;justify-content:center;margin-top:16px}.play{border:none;border-radius:999px;background:#202d55;color:#fff;padding:12px 20px;font-weight:900;cursor:pointer}
-.eva-reveal{border:1px solid var(--line);border-radius:24px;background:#fff;padding:18px;margin-top:18px}.eva-line{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:12px;align-items:center}.eva-box{border:2px solid #737ce8;border-radius:20px;background:#f3f4ff;padding:18px;text-align:center;min-height:130px}.eva-box h3{margin:0 0 7px;font-size:1.35rem}.eva-box p{margin:0;font-weight:750;color:#56617d}.reflection{margin-top:16px;border-radius:20px;background:#fff7dc;border:1px solid #ead78e;padding:16px}.reflection strong{display:block;margin-bottom:5px}.smallnote{font-size:.92rem;color:#66738d;font-weight:750;margin-top:9px}
-@media(max-width:980px){.device-tabs,.scenario-grid,.compare-grid{grid-template-columns:1fr 1fr}.flow,.eva-line{grid-template-columns:1fr}.flow-arrow{transform:rotate(90deg)}.observe-prompts{grid-template-columns:1fr}.device-stage{min-height:610px}.device-canvas{height:465px}}
-@media(max-width:620px){.content{padding:22px 16px}.device-tabs,.scenario-grid,.compare-grid{grid-template-columns:1fr}.stephead{grid-template-columns:1fr}.device-stage{min-height:520px}.device-canvas{height:335px}.desktop{transform:scale(.78)}.laptop{transform:scale(.78)}.console{transform:scale(.72)}.phone{transform:scale(.84)}.stage-head{flex-direction:column;align-items:flex-start}.stage-hint{text-align:left}.actions{flex-direction:column;align-items:stretch}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+:root{
+  --ink:#17223b;--muted:#5b6782;--bg:#f4f7fb;--card:#ffffff;--line:#dce3ef;
+  --blue:#315be8;--blue2:#5e75f2;--blueSoft:#edf1ff;--green:#2f9668;--greenSoft:#e8f6ef;
+  --orange:#d97706;--orangeSoft:#fff3dd;--red:#d94e5d;--redSoft:#fff0f2;--purple:#7257c8;
+  --shadow:0 18px 46px rgba(25,38,71,.10);--shadow2:0 9px 24px rgba(25,38,71,.10);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#f8faff 0,#f2f5fa 55%,#eef2f7 100%)}
+button{font:inherit} button:focus-visible,[tabindex]:focus-visible{outline:4px solid rgba(49,91,232,.25);outline-offset:3px}
+.site{max-width:1280px;margin:auto;padding:22px 22px 48px}
+.header{display:flex;align-items:center;justify-content:space-between;gap:20px;margin-bottom:8px}
+.brand{display:flex;align-items:center;gap:12px}.brandmark{width:48px;height:48px;border-radius:16px;background:linear-gradient(135deg,#244ed9,#7a6cf4);display:grid;place-items:center;color:#fff;font-weight:950;box-shadow:0 9px 18px rgba(49,91,232,.22)}
+.brand h1{font-size:clamp(1.7rem,3.2vw,2.55rem);margin:0;letter-spacing:-.035em}.brand p{margin:3px 0 0;color:var(--muted);font-weight:700;font-size:.94rem}
+.nav{display:flex;gap:8px;flex-wrap:wrap}.nav button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 15px;font-weight:850;color:#40506f;cursor:pointer;transition:.18s}.nav button:hover{border-color:#aebaf0;transform:translateY(-1px)}.nav button.active{color:#284ad1;background:var(--blueSoft);border-color:#b8c4ff}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch;margin-bottom:24px}.hero-main,.hero-side{background:rgba(255,255,255,.88);border:1px solid var(--line);border-radius:28px;box-shadow:var(--shadow);padding:27px}.kicker{font-weight:900;color:#4055d1;letter-spacing:.02em}.hero h2{font-size:clamp(2rem,4vw,3.45rem);line-height:1.02;letter-spacing:-.05em;margin:8px 0 13px}.hero p{font-size:1.06rem;line-height:1.62;color:#4e5d78;margin:0}.hero-side{display:grid;gap:12px;align-content:center}.lesson-chip{display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center;padding:13px 14px;border:1px solid var(--line);background:#fbfcff;border-radius:18px}.lesson-chip .n{width:44px;height:44px;border-radius:14px;background:#edf1ff;color:#3251ce;display:grid;place-items:center;font-weight:950}.lesson-chip strong{display:block;margin-bottom:2px}.lesson-chip span{color:var(--muted);font-size:.92rem}
+.section{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:30px;box-shadow:var(--shadow);margin-top:14px;overflow:hidden}.section-head{padding:26px 28px 20px;border-bottom:1px solid var(--line);display:flex;gap:16px;align-items:flex-start}.section-num{width:58px;height:58px;border-radius:18px;background:var(--blueSoft);color:#3450ce;display:grid;place-items:center;font-size:1.35rem;font-weight:950;flex:0 0 auto}.section-head h2{margin:0;font-size:clamp(1.8rem,3vw,2.55rem);letter-spacing:-.035em}.section-head p{margin:7px 0 0;color:var(--muted);line-height:1.5;max-width:900px}.section-body{padding:24px 28px 30px}
+.levelnote{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;border-radius:16px;background:#f7f9fc;border:1px solid #e0e6f0;color:#47546c;font-size:.95rem;line-height:1.45}.levelnote b{color:#24314f}
+.device-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}.device-tab{border:1px solid var(--line);background:#fff;border-radius:17px;padding:12px 12px;min-height:60px;cursor:pointer;font-weight:900;color:#43516e;transition:.16s;display:flex;align-items:center;justify-content:center;gap:8px}.device-tab:hover{transform:translateY(-1px);border-color:#aeb9dd}.device-tab.active{color:#2949c5;background:#eef1ff;border-color:#abb8ff;box-shadow:0 7px 18px rgba(49,91,232,.10)}
+.explorer-grid{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(310px,.7fr);gap:18px;align-items:stretch}.device-stage{min-height:650px;position:relative;border:1px solid #d8e0ed;border-radius:24px;background:radial-gradient(circle at 50% 35%,#fff 0,#f7f9fd 45%,#eef3f9 100%);overflow:hidden;padding:18px}.stage-toolbar{position:absolute;left:18px;top:18px;z-index:50;display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid #d4dce9;background:rgba(255,255,255,.92);border-radius:999px;padding:8px 11px;font-weight:850;color:#40506a;box-shadow:0 5px 13px rgba(22,35,63,.06)}
+.device-view{height:100%;min-height:610px;display:grid;place-items:center;position:relative}.closed-device,.open-device{position:absolute;inset:56px 20px 20px;display:grid;place-items:center;transition:.35s ease}.open-device{opacity:0;pointer-events:none;transform:scale(.97)}.device-stage.open .closed-device{opacity:.14;transform:scale(1.02);pointer-events:none}.device-stage.open .open-device{opacity:1;pointer-events:auto;transform:scale(1)}
+/* Das Innere wird über das dargestellte Gerät selbst geöffnet, nicht über einen separaten Aktionsknopf. */
+.open-target{position:absolute;border:0;background:transparent;padding:0;cursor:pointer;z-index:10}
+.open-target:before{content:"";position:absolute;inset:-5px;border:2px solid transparent;background:rgba(238,242,255,0);transition:.16s}
+.open-target:hover:before,.open-target:focus-visible:before{border-color:rgba(49,91,232,.48);background:rgba(238,242,255,.10);box-shadow:0 0 0 5px rgba(49,91,232,.06)}
+.shell-desktop .open-target{right:32px;top:0;width:245px;height:340px}.shell-desktop .open-target:before{border-radius:22px}
+.shell-laptop .open-target{left:60px;top:15px;width:560px;height:398px}.shell-laptop .open-target:before{border-radius:25px}
+.shell-phone .open-target{inset:0}.shell-phone .open-target:before{border-radius:50px}
+.shell-console .open-target{right:20px;top:18px;width:255px;height:350px}.shell-console .open-target:before{border-radius:30px}
+.view-switch{border:1px solid #d4dce9;background:rgba(255,255,255,.94);border-radius:999px;padding:8px 11px;font-weight:850;color:#40506a;cursor:pointer;box-shadow:0 5px 13px rgba(22,35,63,.06)}
+.view-switch:hover{border-color:#aebaf0;color:#284ad1}
+/* exterior illustrations */
+.device-shell{position:relative}
+.shell-desktop{width:min(740px,90%);height:360px}.shell-laptop{width:min(680px,88%);height:430px}.shell-phone{width:310px;height:560px}.shell-console{width:min(760px,90%);height:420px}
+.ext-desktop,.ext-laptop,.ext-phone,.ext-console{width:100%;height:100%;position:relative}
+.ext-monitor{position:absolute;left:20px;top:28px;width:360px;height:232px;border-radius:18px;background:#182235;border:7px solid #202c41;box-shadow:0 15px 25px rgba(28,40,66,.18)}.ext-monitor:before{content:"";position:absolute;inset:14px;border-radius:10px;background:linear-gradient(145deg,#83a9ff,#466bd8 45%,#1e2f67)}.ext-monitor:after{content:"";position:absolute;left:50%;top:8px;width:8px;height:8px;border-radius:50%;background:#0a1020;box-shadow:0 0 0 2px #63708a}.monitor-stand{position:absolute;left:170px;top:260px;width:58px;height:48px;background:linear-gradient(#9aa8bb,#697588);border-radius:0 0 7px 7px}.monitor-base{position:absolute;left:126px;top:302px;width:145px;height:15px;background:#697588;border-radius:999px}
+.ext-speaker{position:absolute;top:82px;width:32px;height:120px;border-radius:16px;background:linear-gradient(180deg,#ced6e2,#a5b2c4);border:3px solid #9aa7b8;box-shadow:0 8px 18px rgba(25,38,71,.12)}.ext-speaker:before{content:"";position:absolute;inset:14px 8px;border-radius:10px;background:repeating-linear-gradient(180deg,#b8c3d3 0 6px,#edf2f8 6px 11px)}.speaker-left{left:0}.speaker-right{left:388px}
+.ext-tower{position:absolute;right:32px;top:0;width:245px;height:340px;border-radius:20px;background:linear-gradient(180deg,#303c52,#141d2b);border:4px solid #0e1623;box-shadow:0 18px 28px rgba(28,40,66,.18)}.ext-tower:before{content:"";position:absolute;left:26px;top:28px;width:116px;height:180px;border-radius:15px;background:rgba(173,190,215,.08);border:3px solid rgba(173,190,215,.18)}.ext-tower:after{content:"";position:absolute;right:34px;bottom:28px;width:16px;height:16px;border-radius:50%;background:#7e92ff;box-shadow:0 0 0 4px #222f45}
+.ext-keyboard{position:absolute;left:64px;bottom:0;width:318px;height:62px;border-radius:14px;background:linear-gradient(180deg,#dde5ef,#b9c5d3);border:3px solid #97a3b5;box-shadow:0 10px 16px rgba(25,38,71,.12);transform:perspective(420px) rotateX(20deg)}.ext-keyboard:before{content:"";position:absolute;left:12px;right:12px;top:8px;bottom:12px;border-radius:10px;background:repeating-linear-gradient(90deg,#f9fbff 0 16px,#bcc6d4 16px 18px),repeating-linear-gradient(180deg,#f9fbff 0 12px,#bcc6d4 12px 14px)}.ext-keyboard:after{content:"";position:absolute;left:108px;right:108px;bottom:7px;height:11px;border-radius:6px;background:#a4afbf}
+.ext-mouse{position:absolute;left:405px;bottom:8px;width:44px;height:58px;border-radius:24px;background:linear-gradient(180deg,#e3e9f1,#bec9d8);border:3px solid #97a3b5;box-shadow:0 9px 15px rgba(25,38,71,.10)}.ext-mouse:before{content:"";position:absolute;left:50%;top:6px;bottom:6px;width:2px;background:#8c98aa;transform:translateX(-50%)}.ext-mouse:after{content:"";position:absolute;left:50%;top:13px;width:8px;height:13px;border-radius:5px;background:#8895a8;transform:translateX(-50%)}
+.ext-deskmic{position:absolute;left:470px;bottom:5px;width:42px;height:62px}.ext-deskmic:before{content:"";position:absolute;left:11px;top:0;width:20px;height:30px;border-radius:12px;background:linear-gradient(180deg,#d7deea,#a9b6c7);border:3px solid #93a0b3}.ext-deskmic:after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:30px;height:18px;border-top:4px solid #8693a7;border-radius:0 0 20px 20px}
+.ext-laptop .lap-screen{position:absolute;left:50%;top:18px;transform:translateX(-50%);width:470px;height:270px;border-radius:20px 20px 10px 10px;background:#141c2a;border:8px solid #273248;box-shadow:0 16px 26px rgba(28,40,66,.18)}.lap-screen:before{content:"";position:absolute;inset:12px;background:linear-gradient(145deg,#8eb8ff,#476ed6 50%,#263c7c);border-radius:10px}.lap-screen:after{content:"";position:absolute;left:50%;top:7px;transform:translateX(-50%);width:10px;height:10px;border-radius:50%;background:#aeb8c9}
+.lap-base{position:absolute;left:50%;top:285px;transform:translateX(-50%);width:560px;height:126px;border-radius:12px 12px 30px 30px;background:linear-gradient(180deg,#c8d0db,#9aa7b8);border:3px solid #8996a8;box-shadow:0 12px 18px rgba(25,38,71,.10)}.lap-base:before{content:"";position:absolute;left:96px;right:96px;top:14px;height:56px;border-radius:9px;background:repeating-linear-gradient(90deg,#f9fbff 0 16px,#98a6b8 16px 18px),repeating-linear-gradient(180deg,#f9fbff 0 11px,#98a6b8 11px 13px)}.lap-base:after{content:"";position:absolute;left:50%;bottom:13px;transform:translateX(-50%);width:150px;height:38px;border-radius:9px;border:2px solid #8a96a8;background:#b6c0cd}.lap-speaker{position:absolute;top:300px;width:52px;height:50px;border-radius:11px;background:linear-gradient(180deg,#c7cfdb,#adb8c8);border:2px solid #94a0b0}.lap-speaker:before{content:"";position:absolute;inset:8px;background:repeating-linear-gradient(90deg,#92a0b3 0 4px,#e7ebf1 4px 8px);border-radius:7px}.lap-speaker.left{left:88px}.lap-speaker.right{right:88px}
+.ext-phone{border-radius:48px;background:#0e1624;border:6px solid #172132;position:relative;box-shadow:0 18px 30px rgba(28,40,66,.20)}.ext-phone:before{content:"";position:absolute;inset:28px 17px 25px;border-radius:34px;background:linear-gradient(155deg,#7ba7ff,#4b6bd3 42%,#1f326b)}.ext-phone:after{content:"";position:absolute;top:18px;left:50%;transform:translateX(-50%);width:70px;height:10px;border-radius:999px;background:#27354c}
+.phone-mic-slot{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);width:36px;height:5px;border-radius:999px;background:#91a0b6}
+.ext-console .tv{position:absolute;left:5px;top:25px;width:430px;height:250px;border-radius:18px;background:#121b2b;border:8px solid #202d44;box-shadow:0 15px 24px rgba(28,40,66,.17)}.tv:before{content:"";position:absolute;inset:12px;border-radius:10px;background:linear-gradient(150deg,#8ab8ff,#486bd0 46%,#25376d)}.tv-stand{position:absolute;left:172px;top:277px;width:94px;height:18px;border-radius:999px;background:#68758a}.tv-stand:before{content:"";position:absolute;left:50%;bottom:13px;transform:translateX(-50%);width:48px;height:46px;border-radius:0 0 7px 7px;background:linear-gradient(#97a5b7,#6a778a)}
+.consolebox{position:absolute;right:20px;top:18px;width:255px;height:350px;border-radius:28px;background:linear-gradient(180deg,#222d41,#111827);border:4px solid #0b1220;box-shadow:0 18px 26px rgba(28,40,66,.18)}.consolebox:before{content:"";position:absolute;left:24px;right:24px;top:22px;bottom:22px;border-radius:22px;background:rgba(255,255,255,.06)}
+.controller{position:absolute;right:55px;bottom:0;width:210px;height:102px;border-radius:52px 52px 36px 36px;background:#d7dde8;border:4px solid #9da9ba;transform:rotate(-4deg);box-shadow:0 12px 18px rgba(25,38,71,.10)}.controller:before,.controller:after{content:"";position:absolute;top:31px;width:28px;height:28px;border-radius:50%;background:#3d4b61}.controller:before{left:42px}.controller:after{right:42px}.controller-mid{position:absolute;right:142px;bottom:32px;width:18px;height:18px;border-radius:50%;background:#e15b67;box-shadow:26px 0 0 #4454d5}
+.outer-part{position:absolute;border:0;background:transparent;padding:0;cursor:pointer;z-index:20}.outer-part:before{content:"";position:absolute;inset:-5px;border-radius:18px;border:2px dashed transparent;background:rgba(255,255,255,0);transition:.16s}.outer-part:hover:before,.outer-part:focus-visible:before,.outer-part.active:before{border-color:rgba(49,91,232,.45);background:rgba(238,242,255,.16)}.outer-part .label{position:absolute;left:50%;bottom:-24px;transform:translateX(-50%) translateY(6px);background:rgba(255,255,255,.98);border:1px solid #d6deea;border-radius:999px;padding:4px 8px;font-size:.74rem;font-weight:900;color:#273653;white-space:nowrap;box-shadow:0 5px 12px rgba(25,38,71,.08);opacity:0;transition:.15s}.outer-part:hover .label,.outer-part:focus-visible .label,.outer-part.active .label{opacity:1;transform:translateX(-50%) translateY(0)}.outer-part.label-top .label{bottom:auto;top:-26px}
+.shell-desktop .part-screen{left:20px;top:28px;width:360px;height:232px}.shell-desktop .part-keyboard{left:64px;top:298px;width:318px;height:62px}.shell-desktop .part-mouse{left:405px;top:302px;width:44px;height:58px}.shell-desktop .part-camera{left:191px;top:33px;width:26px;height:18px}.shell-desktop .part-mic{left:468px;top:295px;width:44px;height:65px}.shell-desktop .part-speaker{left:0;top:82px;width:420px;height:120px}.shell-desktop .part-speaker:before{border-radius:20px}
+.shell-laptop .part-screen{left:105px;top:18px;width:470px;height:270px}.shell-laptop .part-keyboard{left:142px;top:300px;width:396px;height:56px}.shell-laptop .part-touchpad{left:265px;top:359px;width:150px;height:38px}.shell-laptop .part-camera{left:335px;top:18px;width:16px;height:20px}.shell-laptop .part-mic{left:324px;top:36px;width:40px;height:14px}.shell-laptop .part-speaker{left:88px;top:300px;width:472px;height:50px}.shell-laptop .part-speaker:before{border-radius:14px}
+.shell-phone .part-touchscreen{left:17px;top:28px;width:276px;height:507px}.shell-phone .part-camera{right:-112px;top:82px;width:108px;height:34px}.shell-phone .part-mic{left:122px;bottom:-2px;width:66px;height:18px}.shell-phone .part-speaker{left:120px;top:14px;width:70px;height:16px}
+.shell-console .part-tv{left:5px;top:25px;width:430px;height:250px}.shell-console .part-controller{right:55px;top:318px;width:210px;height:102px}.shell-console .part-speaker{left:5px;top:25px;width:430px;height:250px}.shell-console .part-speaker .label{left:72%}
+/* open internals */
+.board-area{width:min(780px,94%);height:530px;border-radius:30px;background:linear-gradient(145deg,#2f8d67,#1f7052);border:6px solid #1c5d47;box-shadow:inset 0 0 0 2px rgba(255,255,255,.18),0 16px 30px rgba(28,40,66,.16);position:relative;overflow:hidden}.board-area:before{content:"";position:absolute;inset:0;background-image:linear-gradient(90deg,transparent 0 17%,rgba(218,239,118,.22) 17% 17.35%,transparent 17.35% 50%,rgba(218,239,118,.18) 50% 50.35%,transparent 50.35%),linear-gradient(0deg,transparent 0 25%,rgba(218,239,118,.16) 25% 25.35%,transparent 25.35% 70%,rgba(218,239,118,.18) 70% 70.35%,transparent 70.35%);opacity:.7}.board-title{position:absolute;left:18px;top:14px;color:rgba(255,255,255,.9);font-weight:900;font-size:.86rem;letter-spacing:.04em;text-transform:uppercase}.component{position:absolute;border:0;background:transparent;padding:0;cursor:pointer;z-index:5;transition:.16s;filter:drop-shadow(0 7px 8px rgba(0,0,0,.16))}.component:hover,.component:focus-visible,.component.active{transform:translateY(-3px) scale(1.04);z-index:15}.component .label{position:absolute;left:50%;bottom:-29px;transform:translateX(-50%);background:rgba(255,255,255,.96);border:1px solid #d6deea;border-radius:999px;padding:5px 9px;font-size:.76rem;font-weight:900;color:#273653;white-space:nowrap;box-shadow:0 5px 12px rgba(25,38,71,.08)}.component:hover .label,.component.active .label{color:#2949c5;border-color:#b7c2ff;background:#f7f8ff}.component svg{display:block;width:100%;height:100%}
+.quicktip{position:absolute;z-index:80;max-width:260px;background:#17223b;color:#fff;border-radius:13px;padding:9px 11px;font-size:.84rem;line-height:1.35;font-weight:700;box-shadow:0 12px 28px rgba(12,20,38,.24);pointer-events:none;opacity:0;transform:translateY(4px);transition:.12s}.quicktip.show{opacity:1;transform:translateY(0)}
+/* component positions */
+.comp-cpu{width:132px;height:132px;left:29%;top:22%}.comp-ram{width:260px;height:92px;left:47%;top:12%}.comp-storage{width:190px;height:132px;right:7%;bottom:13%}.comp-gpu{width:245px;height:118px;left:7%;bottom:12%}.comp-fan{width:142px;height:142px;right:7%;top:28%}.comp-power{width:160px;height:128px;left:6%;top:10%}.comp-battery{width:250px;height:115px;left:9%;bottom:11%}
+/* device-specific hidden components */
+.board-area[data-device="laptop"] .comp-power,.board-area[data-device="phone"] .comp-power,.board-area[data-device="phone"] .comp-fan{display:none}
+.board-area[data-device="laptop"] .comp-battery,.board-area[data-device="phone"] .comp-battery{display:block}
+.board-area[data-device="desktop"] .comp-battery,.board-area[data-device="console"] .comp-battery{display:none}
+/* Laptop: Grafik und Akku liegen bewusst getrennt, damit jedes Bauteil klar sichtbar und anklickbar bleibt. */
+.board-area[data-device="laptop"] .comp-gpu{width:225px;height:108px;left:5%;bottom:29%}
+.board-area[data-device="laptop"] .comp-battery{width:270px;height:96px;left:5%;bottom:5%;z-index:7}
+.board-area[data-device="laptop"] .comp-battery .label{bottom:-25px}
+.board-area[data-device="phone"] .comp-gpu{width:170px;height:90px;left:7%;bottom:27%}.board-area[data-device="phone"] .comp-storage{width:160px;height:105px}.board-area[data-device="phone"] .comp-ram{width:220px;height:82px}.board-area[data-device="phone"] .comp-cpu{width:115px;height:115px}.board-area[data-device="phone"] .comp-battery{width:300px;height:130px;left:21%;bottom:7%}
+.info-panel{border:1px solid var(--line);border-radius:24px;background:#fff;padding:20px;box-shadow:var(--shadow2);min-height:650px;display:flex;flex-direction:column}.info-visual{height:205px;border-radius:20px;background:linear-gradient(145deg,#f8faff,#eef3fa);border:1px solid #dce3ee;display:grid;place-items:center;overflow:hidden}.info-visual svg{width:78%;height:78%}.info-panel h3{font-size:1.55rem;margin:18px 0 4px;letter-spacing:-.025em}.info-panel .eng{font-size:.86rem;color:#66728a;font-weight:800}.info-panel p{color:#52607a;line-height:1.54}.fact{border-top:1px solid #e3e8f0;padding:12px 0}.fact b{display:block;color:#263550;margin-bottom:4px}.fact span{color:#5c6880;font-size:.94rem;line-height:1.45}.focus-three{margin-top:auto;background:#f7f9fd;border:1px solid #e0e6ef;border-radius:18px;padding:13px 14px;font-size:.91rem;color:#4e5c76;line-height:1.45}.focus-three strong{color:#2949c5}
+/* EVA */
+.eva-discovery{display:flex;gap:14px;align-items:flex-start;margin:4px 0 18px;padding:15px 17px;border:1px solid #dfe5ef;border-radius:19px;background:#f8faff}.lumi-avatar{width:48px;height:48px;flex:0 0 auto;border-radius:15px;background:#eef1ff;display:grid;place-items:center;font-size:1.65rem}.eva-discovery strong{display:block;color:#2949c5;margin-bottom:4px}.eva-discovery p{margin:0;color:#52607a;line-height:1.48}
+.experiment-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.exp-tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-weight:900;color:#43516e;cursor:pointer}.exp-tab.active{background:#eef1ff;border-color:#adbaff;color:#2e4aca}
+.experiment{border:1px solid #d9e1ed;border-radius:24px;background:linear-gradient(180deg,#fbfcff,#f5f8fc);overflow:hidden}.exp-head{padding:18px 20px 0}.exp-head h3{font-size:1.35rem;margin:0 0 4px}.exp-head p{margin:0;color:#5b6782;line-height:1.5}.exp-stage{padding:20px}.flow{width:100%;display:grid;grid-template-columns:1fr 52px 1fr 52px 1fr;align-items:stretch;gap:6px}.station{min-height:300px;border:1px solid #d9e1eb;border-radius:22px;background:#fff;box-shadow:0 10px 22px rgba(24,38,72,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:48px 16px 18px;transition:.25s}.station.active{border-color:#8398ff;box-shadow:0 0 0 5px rgba(49,91,232,.10),0 12px 26px rgba(24,38,72,.10);transform:translateY(-2px)}.station.done{border-color:#cdd6e7}.stage-number{position:absolute;left:14px;top:13px;width:28px;height:28px;border-radius:9px;background:#eef2f8;color:#56637b;display:grid;place-items:center;font-size:.82rem;font-weight:950}.stage-caption{position:absolute;left:51px;top:18px;font-size:.76rem;font-weight:950;text-transform:uppercase;letter-spacing:.055em;color:#69758b}.arrow{font-size:1.9rem;color:#9aa7ba;text-align:center;font-weight:900;display:grid;place-items:center}.observed-text{min-height:48px;margin-top:14px;text-align:center;color:#53617a;line-height:1.4;font-size:.9rem;opacity:0;transform:translateY(5px);transition:.25s}.station.revealed .observed-text{opacity:1;transform:translateY(0)}
+/* reused-looking peripheral illustrations */
+.eva-keyboard-wrap{width:235px;height:112px;position:relative;display:grid;place-items:center}.eva-keyboard-wrap .ext-keyboard{position:relative;left:auto;bottom:auto;width:225px;height:60px;transform:perspective(420px) rotateX(18deg)}.eva-key-a{position:absolute;left:62px;top:39px;width:27px;height:25px;border:2px solid #71819b;border-radius:5px;background:#f7f9fc;color:#27344d;font-weight:950;cursor:pointer;z-index:10;box-shadow:0 3px 0 #8290a4}.eva-key-a:active,.eva-key-a.pressed{transform:translateY(3px);box-shadow:none;background:#dfe5ff;border-color:#536de0}.eva-input-hint{font-size:.79rem;color:#68748b;margin-top:7px;text-align:center}
+.eva-controller-wrap{width:230px;height:135px;position:relative;display:grid;place-items:center}.eva-controller-wrap .controller{position:relative;right:auto;bottom:auto;width:205px;height:98px;transform:none}.eva-controller-wrap .controller:before{left:40px}.eva-controller-wrap .controller:after{right:40px}.eva-controller-button{position:absolute;right:38px;top:44px;width:31px;height:31px;border-radius:50%;border:0;background:#e15b67;color:#fff;font-size:.75rem;font-weight:950;cursor:pointer;z-index:11;box-shadow:0 3px 0 #b33f4b}.eva-controller-button:active,.eva-controller-button.pressed{transform:translateY(3px);box-shadow:none}
+.eva-phone-camera{width:150px;height:250px;position:relative}.eva-phone-camera .ext-phone{width:140px;height:245px;border-radius:26px;border-width:4px;box-shadow:none}.eva-phone-camera .ext-phone:before{inset:16px 8px 12px;border-radius:18px;background:linear-gradient(160deg,#dfe7f2,#eef3f8)}.eva-phone-camera .ext-phone:after{top:7px;width:38px;height:5px}.camera-app-lens{position:absolute;left:50%;top:50px;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;background:radial-gradient(circle at 38% 36%,#8ad8ff 0 9%,#39517e 20%,#121c31 48%,#040912 70%);border:7px solid #78869a;z-index:5}.eva-shutter{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:48px;height:48px;border-radius:50%;border:6px solid #fff;background:#e85b68;box-shadow:0 0 0 2px #c9d1dc;cursor:pointer;z-index:10}.eva-shutter:active,.eva-shutter.pressed{transform:translateX(-50%) scale(.92)}
+/* processing happens inside the device, without opening the technical detail */
+.process-shell{width:190px;height:180px;display:grid;place-items:center;position:relative}.process-pc{width:112px;height:154px;border-radius:16px;background:linear-gradient(180deg,#303c52,#141d2b);border:4px solid #0e1623;position:relative}.process-pc:before{content:"";position:absolute;left:15px;top:18px;width:53px;height:82px;border-radius:10px;background:rgba(173,190,215,.10);border:2px solid rgba(173,190,215,.18)}.process-pc:after{content:"";position:absolute;right:15px;bottom:18px;width:10px;height:10px;border-radius:50%;background:#7e92ff}.process-console{width:116px;height:164px;border-radius:20px;background:linear-gradient(180deg,#222d41,#111827);border:4px solid #0b1220}.process-phone{width:92px;height:166px;border-radius:23px;background:#0e1624;border:4px solid #172132;position:relative}.process-phone:before{content:"";position:absolute;inset:15px 7px 10px;border-radius:14px;background:linear-gradient(155deg,#7ba7ff,#4b6bd3 48%,#1f326b)}.process-glow{position:absolute;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(102,123,244,.18),transparent 68%);opacity:0;transform:scale(.8);transition:.35s}.station.active .process-glow{opacity:1;transform:scale(1.08)}
+.monitor-demo{width:220px;height:160px;border-radius:15px;background:#111b2b;border:7px solid #202c42;display:grid;place-items:center}.monitor-demo .screen{width:190px;height:126px;border-radius:8px;background:#f9fbff;color:#24324d;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:2rem;padding:15px}.game-screen{width:220px;height:160px;border:7px solid #202c42;border-radius:15px;background:linear-gradient(#96cfff 0 64%,#8ac073 64%);position:relative;overflow:hidden}.hero-figure{position:absolute;left:42px;bottom:22px;width:31px;height:46px;border-radius:12px 12px 8px 8px;background:#4454d5;transition:.4s}.hero-figure.jump{bottom:78px}.photo-screen{width:175px;height:255px;border:6px solid #202c42;border-radius:24px;background:#eef2f7;display:grid;place-items:center;overflow:hidden}.photo-thumb{width:145px;height:190px;border-radius:14px;background:linear-gradient(160deg,#80c9ff 0 52%,#7cbc6c 52%);position:relative;opacity:0;transform:scale(.92);transition:.35s}.photo-thumb.show{opacity:1;transform:scale(1)}.photo-thumb:after{content:"";position:absolute;width:50px;height:50px;border-radius:50% 50% 42% 42%;left:50%;top:48px;transform:translateX(-50%);background:#ffd2b8;box-shadow:0 45px 0 15px #e36c7b}
+.eva-below{padding:0 20px 20px}.lumi-question{display:none;gap:12px;align-items:flex-start;margin-top:4px;padding:14px 16px;border-radius:18px;background:#fff;border:1px solid #dfe5ef}.lumi-question.show{display:flex}.lumi-question .lumi-avatar{width:42px;height:42px;font-size:1.45rem}.lumi-question p{margin:0;color:#52607a;line-height:1.46}.lumi-question strong{color:#2949c5}.concept-task{display:none;margin-top:14px;padding:17px;border:1px solid #dce3ee;border-radius:20px;background:#fff}.concept-task.show{display:block}.concept-task h4{margin:0 0 5px;font-size:1.05rem}.concept-task>p{margin:0 0 14px;color:#5a667d;line-height:1.4}.term-bank{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px;min-height:44px}.term-chip{border:1px solid #b9c5e8;background:#eef1ff;color:#2d49c8;border-radius:999px;padding:9px 14px;font-weight:950;cursor:grab;user-select:none}.term-chip.selected{outline:3px solid rgba(49,91,232,.18);background:#dde4ff}.term-chip.placed{display:none}.drop-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.drop-zone{min-height:72px;border:2px dashed #c8d2e3;border-radius:15px;display:grid;place-items:center;text-align:center;padding:8px;color:#738099;font-weight:850;background:#f9fbfd;transition:.16s}.drop-zone.over{border-color:#7188ed;background:#f0f3ff}.drop-zone.correct{border-style:solid;border-color:#8ccaa9;background:#edf8f2;color:#257454}.drop-zone.wrong{border-color:#df808c;background:#fff2f4;color:#b33d4a}.concept-feedback{min-height:24px;margin-top:10px;font-weight:800;color:#5a667d}.concept-feedback.success{color:#257454}.eva-reveal{display:none;margin-top:12px;padding:13px 15px;border-radius:16px;background:#eef8f2;border:1px solid #cce8d8;color:#2b6f53;line-height:1.45}.eva-reveal.show{display:block}.eva-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.secondary{border:0;border-radius:13px;padding:10px 13px;font-weight:900;cursor:pointer;background:#eef2f7;color:#394963}
+@media(max-width:980px){.flow{grid-template-columns:1fr;gap:9px}.arrow{transform:rotate(90deg);min-height:38px}.station{min-height:245px}.drop-grid{grid-template-columns:1fr}.stage-caption{font-size:.75rem}}
+.footer{margin-top:24px;text-align:center;color:#66738a;font-size:.88rem;padding:10px}
+
+/* Themenübersicht */
+.home-view{padding-top:18px}
+.home-intro{margin:18px 0 20px}
+.home-intro h2{font-size:clamp(2rem,4vw,3rem);margin:0;letter-spacing:-.045em}
+.home-intro p{margin:8px 0 0;color:var(--muted);font-size:1.02rem}
+.topic-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+.topic-card{border:1px solid var(--line);background:rgba(255,255,255,.96);border-radius:28px;padding:26px;min-height:285px;display:grid;grid-template-rows:auto 1fr auto;gap:18px;text-align:left;cursor:pointer;color:var(--ink);box-shadow:var(--shadow);transition:.2s}
+.topic-card:hover{transform:translateY(-3px);border-color:#b8c4ef;box-shadow:0 22px 50px rgba(25,38,71,.14)}
+.topic-card .topic-no{width:42px;height:42px;border-radius:14px;background:var(--blueSoft);color:#3154d4;display:grid;place-items:center;font-weight:950}
+.topic-card h3{font-size:clamp(1.55rem,2.6vw,2.2rem);letter-spacing:-.035em;margin:12px 0 8px}
+.topic-card p{margin:0;color:var(--muted);line-height:1.5;font-size:1rem}
+.topic-open{font-weight:900;color:#3154d4;display:flex;align-items:center;gap:8px}
+.topic-visual{height:112px;border:1px solid #dfe5ef;border-radius:20px;background:linear-gradient(145deg,#f9fbff,#eef3fa);display:flex;align-items:center;justify-content:center;gap:18px;overflow:hidden}
+.mini-chip{width:72px;height:72px;border-radius:13px;background:#29364c;border:5px solid #182235;position:relative;box-shadow:inset 0 0 0 3px #d8c77c}
+.mini-chip:after{content:'CPU';position:absolute;inset:12px;border-radius:8px;background:#ead997;display:grid;place-items:center;font-weight:950;color:#22304b}
+.mini-ram-home{width:142px;height:48px;border-radius:8px;background:#246849;border:4px solid #174d36;position:relative}
+.mini-ram-home:after{content:'';position:absolute;inset:8px;background:repeating-linear-gradient(90deg,#263247 0 17px,#3a4960 17px 21px);border-radius:3px}
+.mini-ssd{width:88px;height:66px;border-radius:11px;background:#2e3747;border:4px solid #1a2230;position:relative}.mini-ssd:after{content:'SSD';position:absolute;inset:12px;border-radius:7px;background:#dbe2eb;display:grid;place-items:center;font-weight:950;color:#26344d}
+.eva-home-box{width:76px;height:76px;border-radius:18px;display:grid;place-items:center;font-size:1.65rem;font-weight:950;border:1px solid rgba(0,0,0,.07)}
+.eva-home-box.e{background:#e6f6ed;color:#257454}.eva-home-box.v{background:#fff0d8;color:#aa6308}.eva-home-box.a{background:#edf1ff;color:#3154d4}.eva-home-arrow{font-size:1.7rem;color:#98a4b8;font-weight:900}
+.topic-back{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 13px;font-weight:850;color:#40506f;cursor:pointer;white-space:nowrap}
+.topic-back:hover{border-color:#aebaf0;color:#284ad1}
+.view-hidden{display:none!important}
+.info-panel.placeholder{justify-content:center;align-items:center;text-align:center;color:var(--muted)}
+.info-panel.placeholder .info-placeholder-icon{font-size:3.4rem;margin-bottom:12px}
+.info-panel.placeholder h3{margin:0 0 8px;color:var(--ink)}
+.info-panel.placeholder p{max-width:300px;margin:0;line-height:1.55}
+
+@media(max-width:980px){.topic-grid{grid-template-columns:1fr}.hero{grid-template-columns:1fr}.explorer-grid,.exp-grid{grid-template-columns:1fr}.exp-stage{border-right:0;border-bottom:1px solid #e0e6ef}.info-panel{min-height:auto}.flow{grid-template-columns:1fr;gap:9px}.arrow{transform:rotate(90deg)}.station{height:220px}.summary-strip{grid-template-columns:1fr}.sumarr{transform:rotate(90deg)}.device-tabs{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.site{padding:14px 12px 34px}.header{align-items:flex-start;flex-direction:column}.hero-main,.hero-side,.section-body,.section-head{padding-left:18px;padding-right:18px}.device-tabs{grid-template-columns:1fr 1fr}.board-area{height:560px}.comp-cpu{left:10%;top:18%}.comp-ram{left:34%;top:8%;width:210px}.comp-gpu{left:8%;bottom:15%;width:210px}.comp-storage{right:4%;bottom:18%;width:160px}.comp-fan{right:3%;top:30%;width:120px;height:120px}.comp-power{left:2%;top:43%;width:135px}.device-stage{min-height:720px}.device-view{min-height:680px}}
 </style>
 </head>
 <body>
-<div class="wrap">
-<h1>Was steckt in unseren Informatiksystemen?</h1>
-<div class="subtitle">Computer als Informatiksystem · Erkunden und verstehen</div>
-<section class="panel">
-<div class="panel-top"><div class="toprow"><span id="stepLabel">Schritt 1 von 2</span><span id="progressText">Informatiksysteme erkunden</span></div><div class="progress"><div id="progressBar"></div></div></div>
-<div class="content">
-<section id="step1">
-<div class="stephead"><div class="stepnum">1</div><div><div class="steptitle">Erkundet Informatiksysteme</div><p class="steplead">Untersucht Informatiksysteme und ihre Bestandteile.</p></div></div>
-<div class="taskbar"><strong>Arbeitsauftrag:</strong> Wählt ein Gerät aus. Öffnet es und untersucht äußere sowie innere Bestandteile am Modell.</div>
-<div class="device-tabs" id="deviceTabs"></div>
-<div class="explorer">
-<div class="device-stage" id="deviceStage">
-<div class="stage-head"><div class="stage-title" id="stageTitle"></div><div class="stage-hint" id="stageHint"></div></div>
-<div class="device-canvas" id="deviceCanvas"></div>
-<div class="canvas-note" id="canvasNote">Öffne das Gerät. Dann kannst du äußere und innere Bestandteile direkt am Modell anklicken und genauer erkunden.</div>
-<button class="open-btn" id="openBtn">🔧 Gerät öffnen</button>
-</div>
-<div class="info-card" id="infoCard"></div>
+<div class="site" id="app">
+  <header class="header">
+    <div class="brand">
+      <div class="brandmark">IF</div>
+      <div><h1>Informatiksysteme entdecken</h1></div>
+    </div>
+  </header>
+
+  <main class="home-view" id="homeView">
+    <div class="home-intro">
+      <h2>Wähle einen Themenbereich</h2>
+    </div>
+    <div class="topic-grid">
+      <button class="topic-card" type="button" data-view="aufbau">
+        <div>
+          <div class="topic-no">1</div>
+          <h3>Wie ist ein Informatiksystem aufgebaut?</h3>
+          <p>Untersuche verschiedene Geräte und ihre Bauteile.</p>
+        </div>
+        <div class="topic-visual" aria-hidden="true"><div class="mini-chip"></div><div class="mini-ram-home"></div><div class="mini-ssd"></div></div>
+        <div class="topic-open">Themenbereich öffnen <span>→</span></div>
+      </button>
+      <button class="topic-card" type="button" data-view="eva">
+        <div>
+          <div class="topic-no">2</div>
+          <h3>Das EVA-Prinzip</h3>
+          <p>Untersuche Eingabe, Verarbeitung und Ausgabe an konkreten Vorgängen.</p>
+        </div>
+        <div class="topic-visual" aria-hidden="true"><div class="eva-home-box e">E</div><div class="eva-home-arrow">→</div><div class="eva-home-box v">V</div><div class="eva-home-arrow">→</div><div class="eva-home-box a">A</div></div>
+        <div class="topic-open">Themenbereich öffnen <span>→</span></div>
+      </button>
+    </div>
+  </main>
+
+  <section class="section view-hidden" id="aufbau">
+    <div class="section-head"><div class="section-num">1</div><div style="flex:1"><h2>Wie ist ein Informatiksystem aufgebaut?</h2><p>Wähle ein Gerät. Klicke auf die dargestellten Bestandteile, um ihre Aufgaben kennenzulernen. Über das Gerät selbst gelangst du zu den Bauteilen im Inneren.</p></div><button type="button" class="topic-back" data-home>← Themenübersicht</button></div>
+    <div class="section-body">
+      <div class="device-tabs" role="tablist" aria-label="Gerät auswählen">
+        <button class="device-tab active" type="button" data-device="desktop">🖥️ Desktop-Computer</button>
+        <button class="device-tab" type="button" data-device="laptop">💻 Laptop</button>
+        <button class="device-tab" type="button" data-device="phone">📱 Smartphone</button>
+        <button class="device-tab" type="button" data-device="console">🎮 Spielekonsole</button>
+      </div>
+      <div class="explorer-grid">
+        <div class="device-stage" id="deviceStage">
+          <div class="stage-toolbar"><span class="pill" id="deviceName">Desktop-Computer</span><button type="button" class="view-switch" id="closeView" hidden>← Außenansicht</button></div>
+          <div class="device-view">
+            <div class="closed-device" id="closedDevice"></div>
+            <div class="open-device">
+              <div class="board-area" id="boardArea" data-device="desktop">
+                <div class="board-title">Hauptplatine · vereinfachte Darstellung</div>
+                <button class="component comp-cpu" type="button" data-part="cpu" aria-label="Prozessor"><span class="label">Prozessor</span></button>
+                <button class="component comp-ram" type="button" data-part="ram" aria-label="Arbeitsspeicher"><span class="label">Arbeitsspeicher</span></button>
+                <button class="component comp-storage" type="button" data-part="storage" aria-label="Datenspeicher"><span class="label">Datenspeicher</span></button>
+                <button class="component comp-gpu" type="button" data-part="gpu" aria-label="Grafikkarte oder Grafikchip"><span class="label">Grafikeinheit</span></button>
+                <button class="component comp-fan" type="button" data-part="fan" aria-label="Kühlung"><span class="label">Kühlung</span></button>
+                <button class="component comp-power" type="button" data-part="power" aria-label="Netzteil"><span class="label">Netzteil</span></button>
+                <button class="component comp-battery" type="button" data-part="battery" aria-label="Akku"><span class="label">Akku</span></button>
+              </div>
+            </div>
+          </div>
+          <div class="quicktip" id="quicktip" role="status"></div>
+        </div>
+        <aside class="info-panel placeholder" id="infoPanel" aria-live="polite">
+          <div id="infoPlaceholder">
+            <div class="info-placeholder-icon">🔧</div>
+            <h3 id="infoPlaceholderTitle">Gerät untersuchen</h3>
+            <p id="infoPlaceholderText">Fahre mit der Maus über die dargestellten Bestandteile und klicke sie für weitere Informationen an. Klicke auf das Gerät selbst, um in sein Inneres zu sehen.</p>
+          </div>
+          <div id="infoContent" hidden>
+            <div class="info-visual" id="infoVisual"></div>
+            <h3 id="infoTitle"></h3><div class="eng" id="infoEng"></div>
+            <div class="fact"><b>Aufgabe</b><span id="infoTask"></span></div>
+            <div class="fact"><b>Beispiel</b><span id="infoExample"></span></div>
+            <div class="fact"><b>Interessantes</b><span id="infoInteresting"></span></div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="section view-hidden" id="eva">
+    <div class="section-head"><div class="section-num">2</div><div style="flex:1"><h2>Das EVA-Prinzip</h2><p>Probiere die Vorgänge zunächst selbst aus und beobachte genau, was nacheinander passiert. Die Fachbegriffe ordnest du erst danach zu.</p></div><button type="button" class="topic-back" data-home>← Themenübersicht</button></div>
+    <div class="section-body">
+      <div class="eva-discovery">
+        <div class="lumi-avatar" aria-hidden="true">🧑‍🔬</div>
+        <div><strong>Lumi</strong><p>Starte einen Vorgang. Achte darauf, <b>was du zuerst tust</b>, <b>was anschließend im Gerät geschieht</b> und <b>was du am Ende beobachten kannst</b>.</p></div>
+      </div>
+      <div class="experiment-tabs" role="tablist" aria-label="Beispiele auswählen">
+        <button class="exp-tab active" type="button" data-exp="text">Tastatur</button>
+        <button class="exp-tab" type="button" data-exp="game">Computerspiel</button>
+        <button class="exp-tab" type="button" data-exp="camera">Kamera-App</button>
+      </div>
+      <div class="experiment">
+        <div class="exp-head"><h3 id="expTitle"></h3><p id="expLead"></p></div>
+        <div class="exp-stage" id="expStage">
+          <div class="flow">
+            <div class="station" id="inputStation"><span class="stage-number">1</span><span class="stage-caption">Zuerst</span><div id="inputDemo"></div><div class="observed-text" id="inputObserved"></div></div>
+            <div class="arrow">→</div>
+            <div class="station" id="processStation"><span class="stage-number">2</span><span class="stage-caption">Im Gerät</span><div id="processDemo"></div><div class="observed-text" id="processObserved"></div></div>
+            <div class="arrow">→</div>
+            <div class="station" id="outputStation"><span class="stage-number">3</span><span class="stage-caption">Am Ende</span><div id="outputDemo"></div><div class="observed-text" id="outputObserved"></div></div>
+          </div>
+        </div>
+        <div class="eva-below">
+          <div class="lumi-question" id="lumiQuestion"><div class="lumi-avatar" aria-hidden="true">🧑‍🔬</div><p><strong>Lumi fragt:</strong> Die drei Schritte sehen bei verschiedenen Geräten unterschiedlich aus. Welche Fachbegriffe könnten zu den drei Schritten passen?</p></div>
+          <div class="concept-task" id="conceptTask">
+            <h4>Ordne die Fachbegriffe zu.</h4>
+            <p>Ziehe die drei Begriffe zu den passenden Schritten. Du kannst einen Begriff auch anklicken und anschließend das passende Feld auswählen.</p>
+            <div class="term-bank" id="termBank"></div>
+            <div class="drop-grid">
+              <div class="drop-zone" data-answer="Eingabe" data-slot="0">Begriff für Schritt 1</div>
+              <div class="drop-zone" data-answer="Verarbeitung" data-slot="1">Begriff für Schritt 2</div>
+              <div class="drop-zone" data-answer="Ausgabe" data-slot="2">Begriff für Schritt 3</div>
+            </div>
+            <div class="concept-feedback" id="conceptFeedback"></div>
+            <div class="eva-reveal" id="evaReveal"><strong>EVA</strong> steht für <strong>Eingabe – Verarbeitung – Ausgabe</strong>. Viele Vorgänge in Informatiksystemen lassen sich mit diesen drei Schritten beschreiben.</div>
+          </div>
+          <div class="eva-actions"><button class="secondary" id="resetExp" type="button">Vorgang noch einmal</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
-</section>
-
-<section id="step2" class="hidden" aria-hidden="true"></section>
-
-
-</div>
-</section>
-</div>
 <script>
-const commonInfo={
- board:{name:'Hauptplatine',kicker:'Bauteil im Inneren',short:'Die Hauptplatine ist die große Trägerplatte im Gerät. Auf ihr sitzen viele wichtige Bauteile, die dort befestigt und elektrisch miteinander verbunden sind.',facts:[['Aufgabe','Sie verbindet unter anderem Prozessor, Arbeitsspeicher, Grafikchip und Datenspeicher.'],['Was heißt das?','Es gibt dafür keine gängige englische Abkürzung. Technisch spricht man oft auch von einer Leiterplatte oder einem Mainboard.'],['Beispiel','Wenn ein Gerät arbeitet, tauschen viele Bauteile über die Hauptplatine Informationen und elektrische Signale aus.'],['Wichtig','Die Hauptplatine rechnet nicht allein. Sie ist vor allem die gemeinsame Grundlage, auf der andere Bauteile zusammenarbeiten.']]},
- cpu:{name:'Prozessor',kicker:'Bauteil im Inneren',short:'Der Prozessor ist eine zentrale Recheneinheit. Er führt Befehle von Programmen aus und verarbeitet dabei Informationen.',facts:[['Aufgabe','Er rechnet, vergleicht, entscheidet nach Vorgaben und steuert viele Abläufe im Gerät.'],['Was heißt das?','CPU ist die englische Abkürzung für „Central Processing Unit“. Das bedeutet sinngemäß: zentrale Verarbeitungseinheit.'],['Beispiel','Wenn du eine Taste drückst oder eine App öffnest, verarbeitet der Prozessor die zugehörigen Befehle.'],['Wichtig','Der Prozessor arbeitet nicht wie ein Mensch „von selbst“, sondern führt nur die vorgegebenen Befehle von Programmen aus.']]},
- ram:{name:'Arbeitsspeicher',kicker:'Bauteil im Inneren',short:'Der Arbeitsspeicher hält Daten und Programme bereit, die das Gerät gerade schnell braucht. Dadurch kann darauf besonders zügig zugegriffen werden.',facts:[['Aufgabe','Er speichert Inhalte für kurze Zeit, solange das Gerät gerade mit ihnen arbeitet.'],['Was heißt das?','RAM ist die englische Abkürzung für „Random Access Memory“. Gemeint ist ein Speicher, auf den schnell zugegriffen werden kann.'],['Beispiel','Geöffnete Apps, ein laufendes Spiel oder ein gerade bearbeitetes Dokument benötigen Arbeitsspeicher.'],['Wichtig','Der Arbeitsspeicher ist nicht dasselbe wie der Datenspeicher: Beim Ausschalten gehen seine Inhalte normalerweise verloren.']]},
- graphicscard:{name:'Grafikkarte',kicker:'Bauteil im Inneren',short:'Die Grafikkarte erzeugt und berechnet Bildinformationen, die anschließend auf einem Bildschirm dargestellt werden können.',facts:[['Aufgabe','Sie übernimmt grafische Berechnungen und bereitet Bilddaten für die Ausgabe vor.'],['Was heißt das?','Auf einer Grafikkarte sitzt meist eine GPU. GPU ist die englische Abkürzung für „Graphics Processing Unit“, also Grafikeinheit.'],['Beispiel','Bei einem Desktop-Computer wird der Bildschirm oft an die Anschlüsse der Grafikkarte angeschlossen.'],['Wichtig','Nicht jeder Computer besitzt eine eigene Grafikkarte. Manche Geräte haben stattdessen nur einen eingebauten Grafikchip.']]},
- graphics:{name:'Grafikchip',kicker:'Bauteil im Inneren',short:'Der Grafikchip berechnet Bilder, Oberflächen und andere grafische Darstellungen für den Bildschirm.',facts:[['Aufgabe','Er unterstützt die Verarbeitung von Bilddaten und sorgt dafür, dass Darstellungen sichtbar werden können.'],['Was heißt das?','Auch hier wird oft die Abkürzung GPU verwendet. GPU bedeutet „Graphics Processing Unit“.'],['Beispiel','Spiele, Videos oder bewegte Menüs nutzen den Grafikchip besonders stark.'],['Wichtig','Bei Laptop, Smartphone und Spielekonsole ist der Grafikchip oft direkt im Gerät eingebaut und nicht als eigene Karte sichtbar.']]},
- storage:{name:'Datenspeicher',kicker:'Bauteil im Inneren',short:'Der Datenspeicher bewahrt Programme und Dateien auch dann auf, wenn das Gerät ausgeschaltet wird.',facts:[['Aufgabe','Er speichert Daten langfristig, zum Beispiel Programme, Fotos, Spiele oder Dokumente.'],['Was heißt das?','Häufig steht dort SSD. SSD ist die englische Abkürzung für „Solid State Drive“, also ein schneller Speicher ohne drehende Scheiben.'],['Beispiel','Auf dem Datenspeicher liegen zum Beispiel das Betriebssystem, gespeicherte Fotos oder installierte Spiele.'],['Wichtig','Der Datenspeicher bleibt erhalten, wenn das Gerät ausgeschaltet wird. Damit unterscheidet er sich vom Arbeitsspeicher.']]},
- battery:{name:'Akku',kicker:'Bauteil im Inneren',short:'Der Akku ist ein wiederaufladbarer Energiespeicher. Er versorgt mobile Geräte mit elektrischer Energie.',facts:[['Aufgabe','Er ermöglicht, dass ein Smartphone oder Laptop auch ohne Steckdose benutzt werden kann.'],['Was heißt das?','Akku ist die Kurzform von Akkumulator. Gemeint ist ein wiederaufladbarer elektrischer Speicher.'],['Beispiel','Wenn du dein Smartphone unterwegs benutzt, stammt die Energie aus dem Akku.'],['Wichtig','Der Akku verarbeitet selbst keine Informationen. Er liefert Energie, damit andere Bauteile arbeiten können.']]},
- power:{name:'Netzteil',kicker:'Bauteil im Inneren',short:'Das Netzteil versorgt die Bauteile eines Geräts mit passender elektrischer Energie.',facts:[['Aufgabe','Es wandelt und verteilt elektrische Energie so, dass die einzelnen Bauteile damit betrieben werden können.'],['Was heißt das?','Es gibt dafür keine typische englische Abkürzung im Alltag. Der Name beschreibt seine Aufgabe direkt.'],['Beispiel','Ein Desktop-Computer benötigt ein Netzteil, damit Prozessor, Datenspeicher und andere Bauteile überhaupt laufen können.'],['Wichtig','Das Netzteil gehört zum Gerät, ist aber keine eigene Stufe der Informationsverarbeitung. Es liefert vor allem Energie.']]},
- cooling:{name:'Lüfter und Kühlkörper',kicker:'Bauteile im Inneren',short:'Lüfter und Kühlkörper helfen dabei, entstehende Wärme aus dem Gerät abzuführen.',facts:[['Aufgabe','Sie kühlen wichtige Bauteile, damit das Gerät zuverlässig arbeiten kann.'],['Was heißt das?','Es gibt keine feste Abkürzung, die hier immer benutzt wird. Ein Kühlkörper nimmt Wärme auf, ein Lüfter bewegt Luft.'],['Beispiel','Wenn ein Gerät länger arbeitet oder ein Spiel läuft, können Prozessor und Grafikchip warm werden.'],['Wichtig','Die Kühlung verarbeitet keine Informationen. Sie schützt das Gerät davor, zu heiß zu werden.']]}
+(()=>{
+const app=document.getElementById('app');
+const deviceStage=document.getElementById('deviceStage'), boardArea=document.getElementById('boardArea'), closedDevice=document.getElementById('closedDevice'), deviceName=document.getElementById('deviceName'), closeView=document.getElementById('closeView'), quicktip=document.getElementById('quicktip'), infoPlaceholderTitle=document.getElementById('infoPlaceholderTitle'), infoPlaceholderText=document.getElementById('infoPlaceholderText');
+const infoPanel=document.getElementById('infoPanel'), infoPlaceholder=document.getElementById('infoPlaceholder'), infoContent=document.getElementById('infoContent'), infoVisual=document.getElementById('infoVisual'), infoTitle=document.getElementById('infoTitle'), infoEng=document.getElementById('infoEng'), infoTask=document.getElementById('infoTask'), infoExample=document.getElementById('infoExample'), infoInteresting=document.getElementById('infoInteresting');
+
+const svg={
+ cpu:`<svg viewBox="0 0 140 140" aria-hidden="true"><defs><linearGradient id="cg" x1="0" x2="1"><stop stop-color="#e8d9a0"/><stop offset="1" stop-color="#bda76a"/></linearGradient></defs><rect x="14" y="14" width="112" height="112" rx="12" fill="#354052" stroke="#1e2736" stroke-width="6"/><rect x="31" y="31" width="78" height="78" rx="8" fill="url(#cg)" stroke="#f4e6b2" stroke-width="4"/><text x="70" y="76" text-anchor="middle" font-size="24" font-weight="900" fill="#283243">CPU</text>${Array.from({length:8},(_,i)=>`<rect x="${25+i*13}" y="3" width="5" height="11" rx="2" fill="#c7b56f"/><rect x="${25+i*13}" y="126" width="5" height="11" rx="2" fill="#c7b56f"/>`).join('')}${Array.from({length:8},(_,i)=>`<rect x="3" y="${25+i*13}" width="11" height="5" rx="2" fill="#c7b56f"/><rect x="126" y="${25+i*13}" width="11" height="5" rx="2" fill="#c7b56f"/>`).join('')}</svg>`,
+ ram:`<svg viewBox="0 0 280 100" aria-hidden="true"><rect x="5" y="13" width="270" height="66" rx="7" fill="#1e7f59" stroke="#13543e" stroke-width="5"/><path d="M18 79h244v11H18z" fill="#d6b44c"/>${Array.from({length:12},(_,i)=>`<rect x="${23+i*20}" y="82" width="12" height="8" fill="#f0d170"/>`).join('')}${Array.from({length:8},(_,i)=>`<rect x="${20+i*31}" y="26" width="24" height="30" rx="3" fill="#253145" stroke="#59677d" stroke-width="2"/>`).join('')}<circle cx="18" cy="65" r="4" fill="#d9ece3"/><circle cx="262" cy="65" r="4" fill="#d9ece3"/></svg>`,
+ storage:`<svg viewBox="0 0 200 140" aria-hidden="true"><rect x="18" y="16" width="164" height="108" rx="15" fill="#313d4d" stroke="#151d2a" stroke-width="5"/><rect x="32" y="31" width="136" height="78" rx="9" fill="#e9edf4"/><text x="100" y="66" text-anchor="middle" font-size="22" font-weight="900" fill="#28364c">SSD</text><text x="100" y="89" text-anchor="middle" font-size="11" font-weight="800" fill="#6a768a">DATENSPEICHER</text><circle cx="30" cy="28" r="4" fill="#8793a4"/><circle cx="170" cy="28" r="4" fill="#8793a4"/><circle cx="30" cy="112" r="4" fill="#8793a4"/><circle cx="170" cy="112" r="4" fill="#8793a4"/></svg>`,
+ gpu:`<svg viewBox="0 0 260 125" aria-hidden="true"><rect x="10" y="16" width="232" height="82" rx="10" fill="#255f49" stroke="#174a38" stroke-width="5"/><circle cx="82" cy="57" r="31" fill="#242d3d" stroke="#a1adbd" stroke-width="4"/><circle cx="82" cy="57" r="8" fill="#8d99a9"/>${Array.from({length:7},(_,i)=>`<path d="M82 57 L82 29 A28 28 0 0 1 ${82+Math.cos((i+1)*.9)*26} ${57+Math.sin((i+1)*.9)*26} Z" fill="#6d798b" transform="rotate(${i*52} 82 57)"/>`).join('')}<rect x="130" y="31" width="36" height="31" rx="4" fill="#273346"/><rect x="176" y="31" width="42" height="16" rx="3" fill="#273346"/><rect x="176" y="54" width="42" height="16" rx="3" fill="#273346"/><path d="M20 98h190v14H20z" fill="#d1b149"/></svg>`,
+ fan:`<svg viewBox="0 0 150 150" aria-hidden="true"><rect x="8" y="8" width="134" height="134" rx="20" fill="#414d60" stroke="#202a39" stroke-width="6"/><circle cx="75" cy="75" r="54" fill="#1e2634" stroke="#7e8a9d" stroke-width="5"/><circle cx="75" cy="75" r="13" fill="#98a5b7"/>${Array.from({length:7},(_,i)=>`<ellipse cx="75" cy="47" rx="12" ry="29" fill="#6c788a" transform="rotate(${i*51.43} 75 75)"/>`).join('')}</svg>`,
+ power:`<svg viewBox="0 0 170 135" aria-hidden="true"><rect x="10" y="12" width="150" height="108" rx="12" fill="#3c4655" stroke="#1c2431" stroke-width="5"/><circle cx="55" cy="65" r="34" fill="#1b2431" stroke="#8591a3" stroke-width="4"/><circle cx="55" cy="65" r="9" fill="#8996a8"/><path d="M107 37h35v10h-35zm0 22h35v10h-35zm0 22h35v10h-35z" fill="#9ca8b8"/><path d="M145 29c16 7 22 19 24 33" fill="none" stroke="#e4bf55" stroke-width="5"/><path d="M145 32c14 8 20 18 21 37" fill="none" stroke="#db5a5f" stroke-width="4"/></svg>`,
+ battery:`<svg viewBox="0 0 280 125" aria-hidden="true"><rect x="11" y="17" width="254" height="90" rx="20" fill="#313a49" stroke="#171f2c" stroke-width="5"/><rect x="28" y="34" width="210" height="56" rx="12" fill="#4b5668"/><rect x="246" y="48" width="18" height="28" rx="5" fill="#aeb7c5"/><path d="M86 63h72" stroke="#a9b4c4" stroke-width="6" stroke-linecap="round"/><path d="M122 47v32" stroke="#a9b4c4" stroke-width="6" stroke-linecap="round"/></svg>`
+};
+const partInfo={
+ cpu:{title:'Prozessor',eng:'CPU · Central Processing Unit',tip:'Bearbeitet Vorgänge und steuert andere Bauteile an.',task:'Im Prozessor werden Vorgänge bearbeitet. Er führt Befehle von Programmen aus und steuert dabei auch andere Bauteile des Geräts an.',example:'Wenn du in einem Spiel eine Taste drückst, verarbeitet der Prozessor die dazugehörigen Befehle des Programms.',interesting:'Der Prozessor kann beim Arbeiten sehr warm werden. Deshalb wird er in vielen Computern mit einem Kühlkörper und einem Lüfter gekühlt.'},
+ ram:{title:'Arbeitsspeicher',eng:'RAM · Random Access Memory',tip:'Speichert Informationen, die gerade schnell benötigt werden.',task:'Der Arbeitsspeicher speichert Informationen, die der Prozessor gerade für seine Arbeit benötigt. Auf diese Informationen kann sehr schnell zugegriffen werden.',example:'Während du an einem Text arbeitest, liegen gerade benötigte Teile des Programms und des Dokuments im Arbeitsspeicher.',interesting:'Man kann den Arbeitsspeicher mit einem Kurzzeitgedächtnis vergleichen: Er hält Informationen nur vorübergehend bereit und verliert seinen Inhalt normalerweise beim Ausschalten.'},
+ storage:{title:'Datenspeicher',eng:'z. B. SSD (Solid State Drive) oder HDD (Hard Disk Drive)',tip:'Speichert Daten über längere Zeit – auch nach dem Ausschalten.',task:'Der Datenspeicher bewahrt Daten über längere Zeit auf. Die gespeicherten Daten bleiben auch nach dem Ausschalten des Geräts erhalten.',example:'Auf dem Datenspeicher können das Betriebssystem, Programme, Spiele und persönliche Dateien gespeichert sein.',interesting:'Man kann den Datenspeicher mit einem Langzeitgedächtnis vergleichen: Gespeicherte Daten bleiben auch nach dem Ausschalten erhalten. Bei einer SSD (Solid State Drive) nutzen sich die Speicherzellen durch sehr häufiges Schreiben mit der Zeit ab. Eine HDD (Hard Disk Drive) speichert Daten dagegen magnetisch auf sich drehenden Scheiben und ist wegen ihrer beweglichen Teile empfindlicher gegenüber Stößen und Erschütterungen. Im normalen Gebrauch hält eine SSD meist viele Jahre.'},
+ gpu:{title:'Grafikeinheit',eng:'Grafikchip oder Grafikkarte',tip:'Verarbeitet besonders viele Daten für Bilder und Grafiken.',task:'Die Grafikeinheit verarbeitet Bild- und Grafikdaten und hilft dabei, Bilder für die Darstellung auf einem Bildschirm zu erzeugen.',example:'Bei einem Computerspiel verarbeitet sie fortlaufend viele Bildinformationen für die dargestellte Spielwelt.',interesting:'Grafikeinheit und Prozessor können beim Arbeiten besonders warm werden. Deshalb müssen sie in leistungsstarken Computern oft gut gekühlt werden.'},
+ fan:{title:'Kühlung',eng:'Lüfter und Kühlkörper',tip:'Führt Wärme ab und schützt Bauteile vor zu hohen Temperaturen.',task:'Die Kühlung führt Wärme von Bauteilen ab, damit diese nicht zu heiß werden.',example:'Bei einem aufwendigen Spiel kann der Lüfter schneller drehen und dadurch deutlich hörbar werden.',interesting:'Ein Kühlkörper nimmt Wärme von einem Bauteil auf und gibt sie an die Umgebung ab. Ein Lüfter bewegt zusätzlich Luft daran vorbei und hilft beim Kühlen.'},
+ power:{title:'Netzteil',eng:'Stromversorgung',tip:'Versorgt die Bauteile des Computers mit elektrischer Energie.',task:'Das Netzteil versorgt die Bauteile eines Desktop-Computers mit der benötigten elektrischen Energie.',example:'Das Netzteil erhält Energie aus der Steckdose und versorgt damit unter anderem Hauptplatine, Prozessor und Datenspeicher.',interesting:'Das Netzteil verteilt die Energie aus der Steckdose so, dass die verschiedenen Bauteile des Computers damit arbeiten können.'},
+ battery:{title:'Akku',eng:'wiederaufladbarer Energiespeicher',tip:'Versorgt mobile Geräte mit elektrischer Energie.',task:'Der Akku speichert elektrische Energie und versorgt ein mobiles Gerät damit, wenn es nicht an eine Steckdose angeschlossen ist.',example:'Ein Laptop oder Smartphone kann mit geladenem Akku auch unterwegs verwendet werden.',interesting:'Ein Akku kann immer wieder aufgeladen werden. Wie lange eine Ladung hält, hängt davon ab, wie stark das Gerät gerade genutzt wird.'}
 };
 const outerInfo={
- keyboard:{name:'Tastatur',kicker:'Bauteil außen am Gerät',short:'Mit der Tastatur können Zeichen, Zahlen und Befehle in ein Informatiksystem eingegeben werden.',facts:[['Aufgabe','Sie dient zur Eingabe von Texten und Befehlen.'],['Was heißt das?','Es gibt keine gängige Abkürzung. Der Name beschreibt direkt, dass man über Tasten eingibt.'],['Beispiel','Du drückst einen Buchstaben und dieser kann auf dem Bildschirm erscheinen.'],['Wichtig','Beim Laptop ist die Tastatur meist eingebaut, beim Desktop-Computer oft ein eigenes angeschlossenes Gerät.']]},
- mouse:{name:'Maus',kicker:'Bauteil außen am Gerät',short:'Mit der Maus können Bewegungen und Klicks an ein Informatiksystem übermittelt werden.',facts:[['Aufgabe','Sie hilft dabei, Zeiger zu bewegen und Befehle durch Klicken auszuwählen.'],['Was heißt das?','Es gibt keine besondere Abkürzung. Die Bezeichnung „Maus“ stammt aus dem Alltag und beschreibt das Eingabegerät.'],['Beispiel','Du bewegst die Maus und der Mauszeiger bewegt sich auf dem Bildschirm mit.'],['Wichtig','Eine Maus ist typisch für Desktop-Computer; bei Laptops übernimmt oft das Touchpad eine ähnliche Aufgabe.']]},
- monitor:{name:'Bildschirm / Fernseher',kicker:'Bauteil außen am Gerät',short:'Auf einem Bildschirm oder Fernseher werden Texte, Bilder, Menüs und andere Ergebnisse sichtbar.',facts:[['Aufgabe','Er dient vor allem der Ausgabe von Informationen.'],['Was heißt das?','Monitor ist ein englisches Wort für Bildschirm. Ein Fernseher kann in diesem Aufbau ebenfalls als Ausgabegerät dienen.'],['Beispiel','Wenn du tippst, klickst oder spielst, siehst du die Ergebnisse auf dem Bildschirm oder Fernseher.'],['Wichtig','Ein Smart-TV kann selbst wieder ein eigenes Informatiksystem sein. In diesem Modell betrachten wir ihn hier aber vor allem als Ausgabegerät.']]},
- camera:{name:'Kamera',kicker:'Bauteil außen am Gerät',short:'Eine Kamera erfasst Bilder aus der Umgebung und übermittelt sie an das Gerät.',facts:[['Aufgabe','Sie nimmt Bilder oder Videos auf und dient damit der Eingabe von Bildinformationen.'],['Was heißt das?','Es gibt keine feste Abkürzung. Bei Desktop-Geräten heißt eine angeschlossene Kamera oft auch Webcam.'],['Beispiel','Bei Videotelefonie nimmt die Kamera dein Bild auf.'],['Wichtig','Bei Laptop und Smartphone ist die Kamera meist eingebaut; beim Desktop-Computer kann sie zusätzlich angeschlossen sein.']]},
- microphone:{name:'Mikrofon',kicker:'Bauteil außen am Gerät',short:'Ein Mikrofon erfasst Schall, zum Beispiel Sprache oder Musik, und überträgt ihn an das Gerät.',facts:[['Aufgabe','Es dient der Eingabe von Toninformationen.'],['Was heißt das?','Es gibt keine gängige Abkürzung. Das Wort beschreibt das Bauteil, mit dem Töne aufgenommen werden.'],['Beispiel','Wenn du eine Sprachnachricht aufnimmst, nutzt das Gerät das Mikrofon.'],['Wichtig','Bei Smartphone und Laptop ist das Mikrofon meist eingebaut; bei anderen Geräten kann es als Zubehör vorhanden sein.']]},
- speaker:{name:'Lautsprecher',kicker:'Bauteil außen am Gerät',short:'Über Lautsprecher werden Töne, Sprache oder Musik hörbar gemacht.',facts:[['Aufgabe','Sie dienen der Ausgabe von Ton.'],['Was heißt das?','Es gibt keine feste Abkürzung. Lautsprecher machen akustische Ergebnisse eines Geräts hörbar.'],['Beispiel','Beim Anschauen eines Videos hörst du Stimmen oder Musik über die Lautsprecher.'],['Wichtig','Lautsprecher gehören zur Ausgabe. Sie erfassen selbst keine Informationen aus der Umgebung.']]},
- touch:{name:'Touchscreen',kicker:'Bauteil außen am Gerät',short:'Ein Touchscreen verbindet Bildschirm und Berührungserkennung in einem sichtbaren Bauteil.',facts:[['Aufgabe','Er zeigt Informationen an und erkennt zugleich Berührungen als Eingabe.'],['Was heißt das?','Der englische Begriff Touchscreen bedeutet sinngemäß: berührungsempfindlicher Bildschirm.'],['Beispiel','Du tippst auf ein Symbol und auf dem Bildschirm öffnet sich eine App.'],['Wichtig','Ein Touchscreen vereint also Ausgabe und Eingabe in einem Bauteil.']]},
- touchpad:{name:'Touchpad',kicker:'Bauteil außen am Gerät',short:'Das Touchpad erkennt Bewegungen und Berührungen deiner Finger.',facts:[['Aufgabe','Es dient als Eingabefläche, mit der du den Zeiger steuern und klicken kannst.'],['Was heißt das?','Touchpad ist ein englisch geprägter Begriff. Gemeint ist eine berührungsempfindliche Fläche.'],['Beispiel','Beim Laptop kannst du damit den Mauszeiger bewegen, auch wenn keine extra Maus angeschlossen ist.'],['Wichtig','Das Touchpad ist kein Bildschirm. Es dient vor allem der Eingabe.']]},
- controller:{name:'Controller',kicker:'Bauteil außen am Gerät',short:'Mit einem Controller können Spieler Befehle an eine Spielekonsole übermitteln.',facts:[['Aufgabe','Er dient zur Eingabe von Steuerbefehlen beim Spielen.'],['Was heißt das?','Controller ist ein englisches Wort und bedeutet hier: Steuergerät zum Bedienen einer Konsole.'],['Beispiel','Du drückst nach rechts und die Spielfigur bewegt sich nach rechts.'],['Wichtig','Der Controller gehört zur Eingabe. Die sichtbaren Ergebnisse erscheinen anschließend zum Beispiel auf dem Fernseher.']]}
+ screen:{title:'Bildschirm',eng:'Peripheriegerät',tip:'Macht Texte, Bilder und andere Informationen sichtbar.',task:'Der Bildschirm stellt Informationen des Informatiksystems sichtbar dar.',example:'Beim Schreiben in Word erscheinen Buchstaben und Menüs auf dem Bildschirm.',interesting:'Ein Bildschirm besteht aus sehr vielen kleinen Bildpunkten. Diese Bildpunkte nennt man Pixel.'},
+ keyboard:{title:'Tastatur',eng:'Peripheriegerät',tip:'Übermittelt Zeichen und Befehle an den Computer.',task:'Mit der Tastatur können Zeichen, Zahlen und Befehle an das Informatiksystem übermittelt werden.',example:'Du drückst die Taste A, damit in einem Text ein A geschrieben werden kann.',interesting:'Viele Tasten können je nach Programm unterschiedliche Aufgaben haben. Die Taste A schreibt zum Beispiel nicht in jedem Programm einfach nur den Buchstaben A.'},
+ mouse:{title:'Maus',eng:'Peripheriegerät',tip:'Übermittelt Bewegungen und Mausklicks an den Computer.',task:'Mit der Maus können der Mauszeiger bewegt und Elemente auf dem Bildschirm ausgewählt werden.',example:'Du bewegst die Maus zu einem Programmsymbol und klickst es an.',interesting:'Auf der Unterseite vieler Mäuse befindet sich ein kleiner Sensor. Er erkennt, wie die Maus über den Tisch bewegt wird.'},
+ touchpad:{title:'Touchpad',eng:'Peripheriegerät',tip:'Steuert den Mauszeiger durch Bewegungen mit dem Finger.',task:'Mit dem Touchpad können der Mauszeiger bewegt und Elemente auf dem Bildschirm ausgewählt werden.',example:'Du bewegst deinen Finger über das Touchpad und klickst auf ein Programmsymbol.',interesting:'Ein Touchpad ist direkt in viele Laptops eingebaut. Es übernimmt dort ähnliche Aufgaben wie eine Maus.'},
+ camera:{title:'Kamera',eng:'Peripheriegerät',tip:'Nimmt Bilder oder Videos aus der Umgebung auf.',task:'Die Kamera nimmt Bildinformationen aus der Umgebung auf und stellt sie dem Informatiksystem als digitale Daten bereit.',example:'Mit der Kamera eines Smartphones kannst du ein Foto aufnehmen.',interesting:'Ein digitales Foto besteht aus sehr vielen Bildpunkten. Das Gerät kann das Foto danach speichern oder weiterverwenden.'},
+ microphone:{title:'Mikrofon',eng:'Peripheriegerät',tip:'Nimmt Sprache und andere Geräusche auf.',task:'Das Mikrofon nimmt Geräusche aus der Umgebung auf und stellt sie dem Informatiksystem als digitale Daten bereit.',example:'Beim Aufnehmen einer Sprachnachricht wird deine Stimme mit dem Mikrofon aufgenommen.',interesting:'Mikrofone sind in Smartphones und Laptops oft sehr klein. Von außen sieht man deshalb häufig nur eine winzige Öffnung.'},
+ speaker:{title:'Lautsprecher',eng:'Peripheriegerät',tip:'Macht Töne, Sprache und Musik hörbar.',task:'Der Lautsprecher gibt Töne und Geräusche des Informatiksystems hörbar wieder.',example:'Beim Abspielen eines Videos hörst du Sprache und Musik über den Lautsprecher.',interesting:'Im Lautsprecher bewegt sich ein kleines Bauteil sehr schnell hin und her. Dadurch entstehen Schwingungen in der Luft, die wir als Töne hören.'},
+ touchscreen:{title:'Touchscreen',eng:'Bildschirm mit Berührungsfunktion',tip:'Zeigt Inhalte an und erkennt gleichzeitig Berührungen.',task:'Der Touchscreen stellt Informationen sichtbar dar und erkennt gleichzeitig Berührungen auf seiner Oberfläche.',example:'Du tippst auf ein App-Symbol und siehst anschließend die geöffnete App auf demselben Bildschirm.',interesting:'Beim Touchscreen sind zwei Aufgaben an derselben Stelle verbunden: Er zeigt Inhalte an und erkennt gleichzeitig, wo du ihn berührst.'},
+ controller:{title:'Controller',eng:'Peripheriegerät',tip:'Übermittelt Tasten- und Stickbewegungen an die Spielekonsole.',task:'Mit dem Controller können Befehle an eine Spielekonsole übermittelt werden.',example:'Du drückst eine Taste und die Spielfigur führt im Spiel eine Aktion aus.',interesting:'Viele Controller können vibrieren. So kannst du bestimmte Ereignisse im Spiel nicht nur sehen oder hören, sondern auch spüren.'},
+ tv:{title:'Fernseher / Bildschirm',eng:'Peripheriegerät',tip:'Stellt Bilder und Informationen der Spielekonsole sichtbar dar.',task:'Der Fernseher stellt Bilder, Menüs und andere Informationen der Spielekonsole sichtbar dar.',example:'Beim Spielen werden Spielfigur und Spielwelt auf dem Fernseher angezeigt.',interesting:'Hier ist der Fernseher mit der Spielekonsole verbunden und zeigt ihr Bild. Ein Smart-TV kann aber auch selbst Programme ausführen und eigene Aufgaben erledigen.'}
+}
+let currentDevice='desktop';
+const deviceData={
+ desktop:{name:'Desktop-Computer',ext:'desktop'},
+ laptop:{name:'Laptop',ext:'laptop'},
+ phone:{name:'Smartphone',ext:'phone'},
+ console:{name:'Spielekonsole',ext:'console'}
 };
+function exterior(type){
+  if(type==='desktop') return `<div class="device-shell shell-desktop"><div class="ext-desktop"><div class="ext-monitor"></div><div class="monitor-stand"></div><div class="monitor-base"></div><div class="ext-speaker speaker-left"></div><div class="ext-speaker speaker-right"></div><div class="ext-tower"></div><div class="ext-keyboard"></div><div class="ext-mouse"></div><div class="ext-deskmic"></div></div><button class="open-target" type="button" data-open-device aria-label="Desktop-Computer öffnen"></button><button class="outer-part part-screen" type="button" data-outer="screen" aria-label="Bildschirm"><span class="label">Bildschirm</span></button><button class="outer-part part-keyboard" type="button" data-outer="keyboard" aria-label="Tastatur"><span class="label">Tastatur</span></button><button class="outer-part part-mouse" type="button" data-outer="mouse" aria-label="Maus"><span class="label">Maus</span></button><button class="outer-part part-camera label-top" type="button" data-outer="camera" aria-label="Kamera"><span class="label">Kamera</span></button><button class="outer-part part-mic" type="button" data-outer="microphone" aria-label="Mikrofon"><span class="label">Mikrofon</span></button><button class="outer-part part-speaker label-top" type="button" data-outer="speaker" aria-label="Lautsprecher"><span class="label">Lautsprecher</span></button></div>`;
+  if(type==='laptop') return `<div class="device-shell shell-laptop"><div class="ext-laptop"><div class="lap-screen"></div><div class="lap-base"></div><div class="lap-speaker left"></div><div class="lap-speaker right"></div></div><button class="open-target" type="button" data-open-device aria-label="Laptop öffnen"></button><button class="outer-part part-screen" type="button" data-outer="screen" aria-label="Bildschirm"><span class="label">Bildschirm</span></button><button class="outer-part part-keyboard" type="button" data-outer="keyboard" aria-label="Tastatur"><span class="label">Tastatur</span></button><button class="outer-part part-touchpad" type="button" data-outer="touchpad" aria-label="Touchpad"><span class="label">Touchpad</span></button><button class="outer-part part-camera label-top" type="button" data-outer="camera" aria-label="Kamera"><span class="label">Kamera</span></button><button class="outer-part part-mic label-top" type="button" data-outer="microphone" aria-label="Mikrofon"><span class="label">Mikrofon</span></button><button class="outer-part part-speaker" type="button" data-outer="speaker" aria-label="Lautsprecher"><span class="label">Lautsprecher</span></button></div>`;
+  if(type==='phone') return `<div class="device-shell shell-phone"><div class="ext-phone"><div class="phone-mic-slot"></div></div><button class="open-target" type="button" data-open-device aria-label="Smartphone öffnen"></button><button class="outer-part part-touchscreen" type="button" data-outer="touchscreen" aria-label="Touchscreen"><span class="label">Touchscreen</span></button><button class="outer-part part-camera label-top" type="button" data-outer="camera" aria-label="Kamera"><span class="label">Kamera (hinten)</span></button><button class="outer-part part-mic" type="button" data-outer="microphone" aria-label="Mikrofon"><span class="label">Mikrofon</span></button><button class="outer-part part-speaker label-top" type="button" data-outer="speaker" aria-label="Lautsprecher"><span class="label">Lautsprecher</span></button></div>`;
+  return `<div class="device-shell shell-console"><div class="ext-console"><div class="tv"></div><div class="tv-stand"></div><div class="consolebox"></div><div class="controller"></div><div class="controller-mid"></div></div><button class="open-target" type="button" data-open-device aria-label="Spielekonsole öffnen"></button><button class="outer-part part-tv" type="button" data-outer="tv" aria-label="Fernseher oder Bildschirm"><span class="label">Fernseher</span></button><button class="outer-part part-controller" type="button" data-outer="controller" aria-label="Controller"><span class="label">Controller</span></button><button class="outer-part part-speaker label-top" type="button" data-outer="speaker" aria-label="Lautsprecher"><span class="label">Lautsprecher</span></button></div>`;
+}
+function resetInfo(){document.querySelectorAll('.component').forEach(c=>c.classList.remove('active'));document.querySelectorAll('.outer-part').forEach(c=>c.classList.remove('active'));infoPanel.classList.add('placeholder');infoPlaceholder.hidden=false;infoContent.hidden=true;}
+function showInfo(){infoPanel.classList.remove('placeholder');infoPlaceholder.hidden=true;infoContent.hidden=false;}
+function setPlaceholder(mode){
+  if(mode==='inside'){
+    infoPlaceholderTitle.textContent='Bauteil auswählen';
+    infoPlaceholderText.textContent='Fahre mit der Maus über ein Bauteil im Inneren und klicke es für weitere Informationen an.';
+  }else{
+    infoPlaceholderTitle.textContent='Gerät untersuchen';
+    infoPlaceholderText.textContent='Fahre mit der Maus über die dargestellten Bestandteile und klicke sie für weitere Informationen an. Klicke auf das Gerät selbst, um in sein Inneres zu sehen.';
+  }
+}
+function openDevice(){
+  deviceStage.classList.add('open');
+  closeView.hidden=false;
+  resetInfo();
+  setPlaceholder('inside');
+}
+function closeDevice(){
+  deviceStage.classList.remove('open');
+  closeView.hidden=true;
+  resetInfo();
+  setPlaceholder('outside');
+}
+function setDevice(type){currentDevice=type;document.querySelectorAll('.device-tab').forEach(b=>b.classList.toggle('active',b.dataset.device===type));deviceName.textContent=deviceData[type].name;closedDevice.innerHTML=exterior(deviceData[type].ext);boardArea.dataset.device=type;deviceStage.classList.remove('open');closeView.hidden=true;resetInfo();setPlaceholder('outside');}
+function setPart(id){
+  let d=partInfo[id];
+  if(id==='storage' && currentDevice==='phone'){
+    d={...d,
+      eng:'fest eingebauter Flash-Speicher',
+      example:'Auf dem Speicher des Smartphones liegen zum Beispiel Apps, Fotos, Videos und andere Dateien.',
+      interesting:'Man kann den Datenspeicher mit einem Langzeitgedächtnis vergleichen: Gespeicherte Daten bleiben auch nach dem Ausschalten erhalten. Smartphones und viele andere mobile Geräte verwenden meist fest eingebauten Flash-Speicher. Er funktioniert ähnlich wie der Speicher einer SSD, ist aber normalerweise kein eigenes SSD-Laufwerk.'
+    };
+  }
+  showInfo();
+  document.querySelectorAll('.component').forEach(c=>c.classList.toggle('active',c.dataset.part===id));
+  document.querySelectorAll('.outer-part').forEach(c=>c.classList.remove('active'));
+  infoVisual.innerHTML=svg[id];
+  infoTitle.textContent=d.title;
+  infoEng.textContent=d.eng;
+  infoTask.textContent=d.task;
+  infoExample.textContent=d.example;
+  infoInteresting.textContent=d.interesting;
+}
+function setOuter(id){const d=outerInfo[id];showInfo();document.querySelectorAll('.component').forEach(c=>c.classList.remove('active'));document.querySelectorAll('.outer-part').forEach(c=>c.classList.toggle('active',c.dataset.outer===id));infoVisual.innerHTML=`<div style="font-size:4.5rem">${id==='keyboard'?'⌨️':id==='mouse'||id==='touchpad'?'🖱️':id==='camera'?'📷':id==='microphone'?'🎤':id==='speaker'?'🔊':id==='controller'?'🎮':id==='tv'||id==='screen'?'🖥️':'📱'}</div>`;infoTitle.textContent=d.title;infoEng.textContent=d.eng;infoTask.textContent=d.task;infoExample.textContent=d.example;infoInteresting.textContent=d.interesting;}
+Object.entries(svg).forEach(([id,markup])=>{const el=document.querySelector(`.component[data-part="${id}"]`);if(el)el.insertAdjacentHTML('afterbegin',markup)});
+document.querySelectorAll('.device-tab').forEach(b=>b.addEventListener('click',()=>setDevice(b.dataset.device)));
+closeView.addEventListener('click',closeDevice);
+document.querySelectorAll('.component').forEach(c=>{c.addEventListener('click',()=>setPart(c.dataset.part));c.addEventListener('mouseenter',()=>{const d=partInfo[c.dataset.part];quicktip.textContent=d.tip;quicktip.classList.add('show');const r=deviceStage.getBoundingClientRect(),q=c.getBoundingClientRect();quicktip.style.left=Math.max(12,Math.min(q.left-r.left+q.width/2-110,deviceStage.clientWidth-240))+'px';quicktip.style.top=Math.max(65,q.top-r.top-56)+'px';});c.addEventListener('mouseleave',()=>quicktip.classList.remove('show'));});
+closedDevice.addEventListener('click',e=>{
+  const outer=e.target.closest('.outer-part');
+  if(outer){setOuter(outer.dataset.outer);return;}
+  const opener=e.target.closest('[data-open-device]');
+  if(opener)openDevice();
+});
+closedDevice.addEventListener('mouseover',e=>{
+  const outer=e.target.closest('.outer-part');
+  const opener=e.target.closest('[data-open-device]');
+  let target=null, text='';
+  if(outer){target=outer;text=outerInfo[outer.dataset.outer].tip;}
+  else if(opener){target=opener;text='Klicke hier, um das Innere des Geräts zu untersuchen.';}
+  if(!target)return;
+  quicktip.textContent=text;quicktip.classList.add('show');
+  const r=deviceStage.getBoundingClientRect(),q=target.getBoundingClientRect();
+  quicktip.style.left=Math.max(12,Math.min(q.left-r.left+q.width/2-110,deviceStage.clientWidth-240))+'px';
+  quicktip.style.top=Math.max(65,q.top-r.top-56)+'px';
+});
+closedDevice.addEventListener('mouseout',e=>{if(e.target.closest('.outer-part')||e.target.closest('[data-open-device]'))quicktip.classList.remove('show');});
+setDevice('desktop');
 
-const devices={
- desktop:{label:'Desktop-Computer',icon:'🖥️',shell:'desktop',parts:[['board','Hauptplatine'],['cpu','Prozessor'],['ram','Arbeitsspeicher'],['graphicscard','Grafikkarte'],['storage','Datenspeicher'],['power','Netzteil'],['cooling','Lüfter']],outer:[['monitor','Bildschirm'],['keyboard','Tastatur'],['mouse','Maus'],['camera','Kamera'],['speaker','Lautsprecher']]},
- laptop:{label:'Laptop',icon:'💻',shell:'laptop',parts:[['board','Hauptplatine'],['cpu','Prozessor'],['ram','Arbeitsspeicher'],['graphics','Grafikchip'],['storage','Datenspeicher'],['battery','Akku']],outer:[['monitor','Bildschirm'],['keyboard','Tastatur'],['touchpad','Touchpad'],['camera','Kamera'],['microphone','Mikrofon'],['speaker','Lautsprecher']]},
- phone:{label:'Smartphone',icon:'📱',shell:'phone',parts:[['board','Hauptplatine'],['cpu','Prozessor'],['graphics','Grafikchip'],['ram','Arbeitsspeicher'],['storage','Datenspeicher'],['battery','Akku']],outer:[['touch','Touchscreen'],['speaker','Lautsprecher'],['microphone','Mikrofon'],['camera','Kamera (hinten)']]},
- console:{label:'Spielekonsole',icon:'🎮',shell:'console',parts:[['board','Hauptplatine'],['cpu','Prozessor'],['ram','Arbeitsspeicher'],['graphics','Grafikchip'],['storage','Datenspeicher'],['power','Netzteil'],['cooling','Lüfter']],outer:[['monitor','Fernseher'],['controller','Controller']]}
-};
-
-const outerLayout={
- desktop:{monitor:[35.0,41.0],keyboard:[34.0,82.0],mouse:[50.0,82.0],camera:[35.0,25.0],speaker:[52.5,42.0]},
- laptop:{monitor:[50,26],keyboard:[50,77],touchpad:[50,84],camera:[53,11],microphone:[41,11],speaker:[86,73]},
- phone:{touch:[50,69],speaker:[50,8],microphone:[50,95],camera:[84,16]},
- console:{monitor:[27,29],controller:[73,90]}
-};
-const signalRoutes={
- desktop:{
-  mouse:{
-   points:[[49.3,80],[58,63],[64,47],[69.3,31.5],[73.5,47],[61,44],[34.5,41.5]],
-   cpu:[69.3,31.5],ram:[77.8,32.5],graphics:[73.5,47],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Die Maus übermittelt Informationen an den Computer. Prozessor und Arbeitsspeicher arbeiten bei der Verarbeitung zusammen. Die Grafikkarte erzeugt daraus die grafische Ausgabe für den Bildschirm.'
-  },
-  keyboard:{
-   points:[[35.5,79.5],[48,67],[61,49],[69.3,31.5],[73.5,47],[61,44],[34.5,41.5]],
-   cpu:[69.3,31.5],ram:[77.8,32.5],graphics:[73.5,47],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Ein Tastendruck gelangt in den Computer. Prozessor und Arbeitsspeicher arbeiten bei der Verarbeitung zusammen. Die Grafikkarte berechnet die Darstellung, die anschließend auf dem Bildschirm erscheint.'
-  },
-  camera:{
-   points:[[34.5,25.7],[51,27],[62,29],[69.3,31.5],[73.5,47],[61,44],[34.5,41.5]],
-   cpu:[69.3,31.5],ram:[77.8,32.5],graphics:[73.5,47],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Die Kamera liefert Bilddaten an den Computer. Prozessor und Arbeitsspeicher wirken bei der Verarbeitung mit. Die Grafikkarte erzeugt daraus eine Darstellung für den Bildschirm.'
-  }
+// EVA
+const inputDemo=document.getElementById('inputDemo'),processDemo=document.getElementById('processDemo'),outputDemo=document.getElementById('outputDemo');
+const inputStation=document.getElementById('inputStation'),processStation=document.getElementById('processStation'),outputStation=document.getElementById('outputStation');
+const inputObserved=document.getElementById('inputObserved'),processObserved=document.getElementById('processObserved'),outputObserved=document.getElementById('outputObserved');
+const expTitle=document.getElementById('expTitle'),expLead=document.getElementById('expLead'),resetExp=document.getElementById('resetExp');
+const lumiQuestion=document.getElementById('lumiQuestion'),conceptTask=document.getElementById('conceptTask'),termBank=document.getElementById('termBank'),conceptFeedback=document.getElementById('conceptFeedback'),evaReveal=document.getElementById('evaReveal');
+let exp='text',running=false,selectedTerm=null,runToken=0;
+const expData={
+ text:{
+   title:'Was passiert, wenn du eine Taste drückst?',
+   lead:'Klicke auf die Taste A in der Tastatur.',
+   input:`<div><div class="eva-keyboard-wrap"><div class="ext-keyboard"></div><button type="button" class="eva-key-a" id="triggerControl" aria-label="Taste A drücken">A</button></div><div class="eva-input-hint">Klicke auf A.</div></div>`,
+   process:`<div class="process-shell"><div class="process-glow"></div><div class="process-pc"></div></div>`,
+   output:`<div class="monitor-demo"><div class="screen" id="textScreen">|</div></div>`,
+   texts:['Du drückst die Taste A.','Im Computer wird die Eingabe verarbeitet.','Auf dem Bildschirm erscheint der Buchstabe A.']
  },
- laptop:{
-  keyboard:{
-   points:[[32,82],[36,64],[40,49],[40,35],[39,49],[46,27],[50,11]],
-   cpu:[40,35],ram:[56,34],graphics:[39,49],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Ein Tastendruck wird im Laptop verarbeitet. Prozessor und Arbeitsspeicher arbeiten zusammen; die Grafikeinheit erzeugt die Darstellung für den eingebauten Bildschirm.'
-  },
-  touchpad:{
-   points:[[50,85],[47,66],[43,52],[40,35],[39,49],[46,27],[50,11]],
-   cpu:[40,35],ram:[56,34],graphics:[39,49],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Das Touchpad erfasst deine Bewegung. Nach der Verarbeitung durch das System berechnet die Grafikeinheit die veränderte Bildschirmdarstellung.'
-  },
-  camera:{
-   points:[[80,24],[65,27],[51,31],[40,35],[39,49],[46,27],[50,11]],
-   cpu:[40,35],ram:[56,34],graphics:[39,49],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Die Kamera liefert Bilddaten. Prozessor und Arbeitsspeicher wirken bei der Verarbeitung mit; die Grafikeinheit bereitet die Darstellung für den Bildschirm vor.'
-  }
+ game:{
+   title:'Was passiert, wenn du den Controller benutzt?',
+   lead:'Klicke auf die rote Taste des Controllers.',
+   input:`<div><div class="eva-controller-wrap"><div class="controller"></div><button type="button" class="eva-controller-button" id="triggerControl" aria-label="Controllertaste drücken">A</button></div><div class="eva-input-hint">Klicke auf die rote Taste.</div></div>`,
+   process:`<div class="process-shell"><div class="process-glow"></div><div class="process-console"></div></div>`,
+   output:`<div class="game-screen"><div class="hero-figure" id="heroFigure"></div></div>`,
+   texts:['Du drückst eine Taste am Controller.','Die Eingabe wird in der Spielekonsole verarbeitet.','Die Spielfigur springt auf dem Bildschirm.']
  },
- phone:{
-  touch:{
-   points:[[50,72],[50,60],[40,25],[60,25],[55,22],[50,22]],
-   cpu:[40,25],ram:[38,57],graphics:[60,25],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Der Berührungssensor erkennt deine Berührung. Im Smartphone arbeiten mehrere Recheneinheiten zusammen; die Grafikeinheit erzeugt anschließend die veränderte Anzeige.'
-  },
-  camera:{
-   points:[[74,23],[66,24],[40,25],[60,25],[55,22],[50,22]],
-   cpu:[40,25],ram:[38,57],graphics:[60,25],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Die Kamera erfasst Bilddaten. Nach der Verarbeitung erzeugt die Grafikeinheit die Darstellung, die auf dem Bildschirm angezeigt werden kann.'
-  }
- },
- console:{
-  controller:{
-   points:[[77,82],[74,66],[70,51],[67,36],[77.5,46],[56,35],[42,31],[27,29]],
-   cpu:[67,36],ram:[79,36],graphics:[77.5,46],
-   text:'<strong>Vereinfachter Informationsweg:</strong> Der Controller übermittelt eine Eingabe an die Spielekonsole. Prozessor und Arbeitsspeicher wirken bei der Verarbeitung zusammen. Die Grafikeinheit berechnet die Bildausgabe, die anschließend an den Fernseher übertragen wird.'
-  }
+ camera:{
+   title:'Was passiert, wenn du ein Foto aufnimmst?',
+   lead:'Klicke in der Kamera-App auf den Auslöser.',
+   input:`<div><div class="eva-phone-camera"><div class="ext-phone"></div><div class="camera-app-lens"></div><button type="button" class="eva-shutter" id="triggerControl" aria-label="Foto auslösen"></button></div><div class="eva-input-hint">Klicke auf den Auslöser.</div></div>`,
+   process:`<div class="process-shell"><div class="process-glow"></div><div class="process-phone"></div></div>`,
+   output:`<div class="photo-screen"><div class="photo-thumb" id="photoThumb"></div></div>`,
+   texts:['Du drückst den Auslöser. Die Kamera nimmt Bilddaten auf.','Das Smartphone verarbeitet die Bilddaten und speichert das Foto.','Das aufgenommene Foto wird auf dem Bildschirm angezeigt.']
  }
-}
-
-const traceDefs={
- desktop:{
-   mouse:{through:['cpu','graphicscard'],memory:'ram',end:'monitor'},
-   keyboard:{through:['cpu','graphicscard'],memory:'ram',end:'monitor'},
-   camera:{through:['cpu','graphicscard'],memory:'ram',end:'monitor'}
- },
- laptop:{
-   keyboard:{through:['cpu','graphics'],memory:'ram',end:'monitor'},
-   touchpad:{through:['cpu','graphics'],memory:'ram',end:'monitor'},
-   camera:{through:['cpu','graphics'],memory:'ram',end:'monitor'}
- },
- phone:{
-   touch:{through:['cpu','graphics'],memory:'ram',end:'touch'},
-   camera:{through:['cpu','graphics'],memory:'ram',end:'touch'}
- },
- console:{
-   controller:{through:['cpu','graphics'],memory:'ram',end:'monitor'}
- }
 };
-let state={step:1,device:'desktop',open:false,selected:null,selectedType:null,seen:new Set()};
-const tabs=document.getElementById('deviceTabs'),canvas=document.getElementById('deviceCanvas'),stage=document.getElementById('deviceStage'),info=document.getElementById('infoCard');
-function shellArt(id){if(id==='desktop')return '<div class="desktop-monitor-wrap"><div class="desktop-monitor"></div><div class="desktop-webcam"></div><div class="desktop-speaker-left"></div><div class="desktop-speaker-right"></div><div class="desktop-stand"></div><div class="desktop-base"></div></div><div class="desktop-tower"><div class="tower-window"></div><div class="tower-vent"></div><div class="tower-drive"></div><div class="tower-power"></div></div><div class="desktop-keyboard"></div><div class="desktop-mouse"></div>';if(id==='laptop')return '<div class="laptop-screen"></div><div class="laptop-camera"></div><div class="laptop-base"></div><div class="laptop-speaker-left"></div><div class="laptop-speaker-right"></div>';if(id==='console')return '<div class="console-tv-wrap"><div class="console-tv"></div><div class="console-tv-stand"></div><div class="console-tv-base"></div></div><div class="console-box"><div class="console-slot"></div><div class="console-vents"></div><div class="console-power"></div></div><div class="console-controller"></div>';return '';}
-function buildTabs(){tabs.innerHTML='';Object.entries(devices).forEach(([id,d])=>{const b=document.createElement('button');b.className='device-tab'+(state.device===id?' active':'');b.innerHTML=`<span class="ico">${d.icon}</span>${d.label}`;b.onclick=()=>{state.device=id;state.open=false;state.selected=null;state.selectedType=null;renderExplorer();};tabs.appendChild(b);});}
-function getContextInfo(key,type,deviceId){
- if(type==='inner') return commonInfo[key];
- const map={
-  desktop:{
-   monitor:{name:'Bildschirm',short:'Auf dem Bildschirm des Desktop-Computers werden Informationen sichtbar.',facts:[['Aufgabe','Er zeigt Texte, Bilder und Programme an.'],['Bei diesem Gerät','Der Bildschirm ist als eigenes Gerät mit dem Desktop-Computer verbunden.']]},
-   keyboard:{name:'Tastatur',short:'Mit der Tastatur des Desktop-Computers gibst du Zeichen und Befehle ein.',facts:[['Beispiel','Du drückst eine Taste und ein Zeichen kann auf dem Bildschirm erscheinen.'],['Bei diesem Gerät','Die Tastatur ist als eigenes Gerät mit dem Computer verbunden.']]},
-   mouse:{name:'Maus',short:'Mit der Maus des Desktop-Computers steuerst du Zeiger und Klicks.',facts:[['Beispiel','Du bewegst die Maus und der Mauszeiger bewegt sich.'],['Bei diesem Gerät','Die Maus ist als eigenes Gerät mit dem Computer verbunden.']]},
-   camera:{name:'Kamera',short:'Die Kamera erfasst Bilder aus der Umgebung.',facts:[['Bei diesem Gerät','Am Desktop-Computer wird sie häufig als Webcam am Bildschirm angebracht oder zusätzlich angeschlossen.']]},
-   speaker:{name:'Lautsprecher',short:'Über die Lautsprecher des Desktop-Computers werden Töne hörbar.',facts:[['Aufgabe','Sie geben Sprache, Musik oder andere Geräusche aus.'],['Bei diesem Gerät','Die Lautsprecher sind hier als eigene, angeschlossene Geräte dargestellt.']]}
-  },
-  laptop:{
-   monitor:{name:'Bildschirm',short:'Auf dem Bildschirm des Laptops werden Informationen sichtbar.',facts:[['Aufgabe','Er zeigt Texte, Bilder und Programme an.'],['Bei diesem Gerät','Der Bildschirm ist direkt in den Laptop eingebaut.']]},
-   keyboard:{name:'Tastatur',short:'Mit der Laptop-Tastatur gibst du Zeichen und Befehle ein.',facts:[['Beispiel','Du drückst eine Taste und ein Zeichen kann auf dem Bildschirm erscheinen.'],['Bei diesem Gerät','Die Tastatur ist direkt im Laptop eingebaut.']]},
-   touchpad:{name:'Touchpad',short:'Das Touchpad erkennt Berührungen und Fingerbewegungen.',facts:[['Aufgabe','Damit kannst du den Mauszeiger steuern, ohne eine zusätzliche Maus zu benutzen.'],['Bei diesem Gerät','Das Touchpad ist direkt im Laptop eingebaut.']]},
-   camera:{name:'Kamera',short:'Die Laptop-Kamera erfasst Bilder aus der Umgebung.',facts:[['Bei diesem Gerät','Sie sitzt meist oberhalb des Bildschirms.']]},
-   microphone:{name:'Mikrofon',short:'Das Mikrofon erfasst Schall, zum Beispiel Sprache.',facts:[['Bei diesem Gerät','Es ist direkt im Laptop eingebaut.']]},
-   speaker:{name:'Lautsprecher',short:'Über die Lautsprecher des Laptops werden Töne hörbar.',facts:[['Bei diesem Gerät','Die Lautsprecher sind direkt im Laptop eingebaut.']]}
-  },
-  phone:{
-   touch:{name:'Touchscreen',short:'Der Touchscreen des Smartphones zeigt Informationen an und erkennt Berührungen.',facts:[['Aufgabe','Er verbindet Bildschirm und Berührungssensor in einem sichtbaren Bauteil.'],['Bei diesem Gerät','Der Touchscreen ist fest im Smartphone eingebaut.']]},
-   camera:{name:'Kamera (hinten)',short:'Die hintere Smartphone-Kamera erfasst Bilder und Videos.',facts:[['Bei diesem Gerät','Sie ist direkt im Smartphone eingebaut und sitzt typischerweise auf der Rückseite.']]},
-   microphone:{name:'Mikrofon',short:'Das Mikrofon erfasst Sprache und andere Geräusche.',facts:[['Bei diesem Gerät','Es ist direkt im Smartphone eingebaut.']]},
-   speaker:{name:'Lautsprecher',short:'Über den Lautsprecher des Smartphones werden Töne hörbar.',facts:[['Bei diesem Gerät','Er ist direkt im Smartphone eingebaut.']]}
-  },
-  console:{
-   monitor:{name:'Fernseher',short:'Auf dem Fernseher werden die Bilder der Spielekonsole sichtbar.',facts:[['Aufgabe','Er zeigt die Bildausgabe der Konsole an.'],['Bei diesem Gerät','Der Fernseher ist als eigenes Gerät mit der Konsole verbunden.']]},
-   controller:{name:'Controller',short:'Mit dem Controller gibst du Befehle an die Spielekonsole weiter.',facts:[['Beispiel','Du drückst eine Taste und eine Spielfigur kann sich bewegen.'],['Bei diesem Gerät','Der Controller gehört hier zur Bedienung der Konsole.']]},
-   headset:{name:'Headset',short:'Ein Headset verbindet Kopfhörer und meist auch ein Mikrofon.',facts:[['Aufgabe','Damit kannst du Töne hören und oft auch selbst sprechen.'],['Bei diesem Gerät','Das Headset ist hier als zusätzliches Zubehör der Konsole dargestellt.']]}
-  }
- };
- return (map[deviceId] && map[deviceId][key]) ? map[deviceId][key] : outerInfo[key];
+function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
+function setExp(id){
+  runToken++;
+  exp=id;running=false;
+  document.querySelectorAll('.exp-tab').forEach(b=>b.classList.toggle('active',b.dataset.exp===id));
+  const d=expData[id];expTitle.textContent=d.title;expLead.textContent=d.lead;inputDemo.innerHTML=d.input;processDemo.innerHTML=d.process;outputDemo.innerHTML=d.output;
+  resetExperiment(false);
+  const ctl=document.getElementById('triggerControl');if(ctl)ctl.addEventListener('click',startExperiment);
 }
-
-function elementCenter(el){
-  const cr=canvas.getBoundingClientRect(), r=el.getBoundingClientRect();
-  return [r.left-cr.left+r.width/2, r.top-cr.top+r.height/2];
+function clearStage(st){st.classList.remove('active','done','revealed');}
+function resetConceptTask(){
+  selectedTerm=null;conceptTask.classList.remove('show');lumiQuestion.classList.remove('show');evaReveal.classList.remove('show');conceptFeedback.textContent='';conceptFeedback.className='concept-feedback';
+  document.querySelectorAll('.drop-zone').forEach(z=>{z.classList.remove('correct','wrong','over');z.textContent=`Begriff für Schritt ${Number(z.dataset.slot)+1}`;delete z.dataset.placed;});
+  const terms=['Verarbeitung','Ausgabe','Eingabe'];
+  termBank.innerHTML=terms.map(t=>`<button class="term-chip" draggable="true" type="button" data-term="${t}">${t}</button>`).join('');
+  bindTermEvents();
 }
-function drawTrace(){
-  canvas.querySelectorAll('.signal-svg,.trace-legend').forEach(n=>n.remove());
-  canvas.querySelectorAll('.trace-node').forEach(n=>n.classList.remove('trace-node'));
-  if(!state.open || state.selectedType!=='outer') return;
-  const def=(traceDefs[state.device]||{})[state.selected];
-  if(!def) return;
-
-  const start=canvas.querySelector(`.peri-btn[data-key="${state.selected}"]`);
-  const end=canvas.querySelector(`.peri-btn[data-key="${def.end}"]`);
-  if(!start || !end) return;
-
-  const throughEls=def.through.map(k=>canvas.querySelector(`.hotspot.${k}`)).filter(Boolean);
-  const ram=def.memory ? canvas.querySelector(`.hotspot.${def.memory}`) : null;
-  throughEls.forEach(el=>el.classList.add('trace-node'));
-  if(ram) ram.classList.add('trace-node');
-
-  const points=[elementCenter(start), ...throughEls.map(elementCenter), elementCenter(end)];
-  const cr=canvas.getBoundingClientRect();
-  const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
-  svg.setAttribute('class','signal-svg');
-  svg.setAttribute('viewBox',`0 0 ${cr.width} ${cr.height}`);
-  svg.setAttribute('preserveAspectRatio','none');
-
-  const pathData='M '+points.map(p=>`${p[0]} ${p[1]}`).join(' L ');
-  const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-  path.setAttribute('class','trace-main');
-  path.setAttribute('d',pathData);
-  svg.appendChild(path);
-
-  if(ram && throughEls[0]){
-    const a=elementCenter(throughEls[0]), b=elementCenter(ram);
-    const ml=document.createElementNS('http://www.w3.org/2000/svg','line');
-    ml.setAttribute('class','trace-memory');
-    ml.setAttribute('x1',a[0]); ml.setAttribute('y1',a[1]);
-    ml.setAttribute('x2',b[0]); ml.setAttribute('y2',b[1]);
-    svg.appendChild(ml);
-  }
-
-  const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');
-  dot.setAttribute('class','trace-dot');
-  dot.setAttribute('r','5');
-  const motion=document.createElementNS('http://www.w3.org/2000/svg','animateMotion');
-  motion.setAttribute('dur','2.4s');
-  motion.setAttribute('repeatCount','indefinite');
-  motion.setAttribute('path',pathData);
-  dot.appendChild(motion);
-  svg.appendChild(dot);
-  canvas.appendChild(svg);
-
-  const startLabel=start.textContent.trim();
-  const endLabel=end.textContent.trim();
-  const legend=document.createElement('div');
-  legend.className='trace-legend';
-  legend.innerHTML=`<h4>Beobachtungshilfe</h4>
-    <p>Du hast <strong>${startLabel}</strong> ausgewählt. Die gestrichelte Linie zeigt einen <strong>vereinfachten Weg</strong> durch das Gerät bis zur Ausgabe bei <strong>${endLabel}</strong>.</p>
-    <div class="legend-row"><span class="legend-line"></span><span>gestrichelte Linie = vereinfachter Informationsweg</span></div>
-    <div class="legend-row"><span class="legend-box"></span><span>hervorgehobene Bauteile = daran beteiligt</span></div>
-    <div class="legend-row"><span class="legend-dot"></span><span>blauer Punkt = Information bewegt sich entlang des Wegs</span></div>`;
-  canvas.appendChild(legend);
+function resetExperiment(rebind=true){
+  runToken++;running=false;[inputStation,processStation,outputStation].forEach(clearStage);inputObserved.textContent='';processObserved.textContent='';outputObserved.textContent='';
+  const k=document.querySelector('.eva-key-a');if(k)k.classList.remove('pressed');const c=document.querySelector('.eva-controller-button');if(c)c.classList.remove('pressed');const s=document.querySelector('.eva-shutter');if(s)s.classList.remove('pressed');
+  const t=document.getElementById('textScreen');if(t)t.textContent='|';const h=document.getElementById('heroFigure');if(h)h.classList.remove('jump');const p=document.getElementById('photoThumb');if(p)p.classList.remove('show');
+  resetConceptTask();
+  if(rebind){const ctl=document.getElementById('triggerControl');if(ctl){const clone=ctl.cloneNode(true);ctl.replaceWith(clone);clone.addEventListener('click',startExperiment);}}
 }
-function renderExplorer(){buildTabs();const d=devices[state.device];document.getElementById('stageTitle').textContent=d.label;document.getElementById('stageHint').textContent='';stage.classList.toggle('open',state.open);const periphery=state.open?`<div class="stage-periphery">${d.outer.map(([key,label])=>{const pos=(outerLayout[state.device]||{})[key]||[50,90];const extra=(state.device==='desktop'||state.device==='phone'||state.device==='laptop'||state.device==='console')?` ${state.device}-label-${key}`:'';return `<button class="peri-btn${extra} ${state.selectedType==='outer'&&state.selected===key?'active':''}" data-key="${key}" style="left:${pos[0]}%;top:${pos[1]}%">${label}</button>`;}).join('')}</div>`:'';canvas.innerHTML=`${periphery}<div class="device-shell ${d.shell}">${shellArt(state.device)}</div><div class="internals ${state.device}-int">${d.parts.map(([key,label])=>`<button class="hotspot ${key} ${state.selectedType==='inner'&&state.selected===key?'active':''}" data-key="${key}">${label}</button>`).join('')}</div>`;canvas.querySelectorAll('.hotspot').forEach(b=>b.onclick=()=>selectInner(b.dataset.key));canvas.querySelectorAll('.peri-btn').forEach(b=>b.onclick=()=>selectOuter(b.dataset.key));const ob=document.getElementById('openBtn');ob.textContent=state.open?'↩ Gerät schließen':'🔧 Gerät öffnen';ob.onclick=()=>{state.open=!state.open;state.selected=null;state.selectedType=null;renderExplorer();};document.getElementById('canvasNote').textContent='';drawTrace();if(!state.selected)showEmpty();}
-function selectInner(key){state.selected=key;state.selectedType='inner';state.seen.add(state.device+':i:'+key);renderExplorer();showInfo(getContextInfo(key,'inner',state.device),devices[state.device].label);}
-function selectOuter(key){state.selected=key;state.selectedType='outer';state.seen.add(state.device+':o:'+key);renderExplorer();showInfo(getContextInfo(key,'outer',state.device),devices[state.device].label);}
-function showEmpty(){info.innerHTML='';}
-function showInfo(c,device){info.innerHTML=`<div class="info-kicker">${c.kicker||'Bestandteil des Informatiksystems'}</div><h2 class="info-title">${c.name}</h2><p class="info-short">${c.short}</p><div class="factlist">${c.facts.map(f=>`<div class="fact"><strong>${f[0]}</strong>${f[1]}</div>`).join('')}</div><div class="device-found">Gerade untersucht bei: <strong>${device}</strong></div>`;}
-renderExplorer();
+async function startExperiment(){
+  if(running)return;running=true;const token=++runToken;resetConceptTask();[inputStation,processStation,outputStation].forEach(clearStage);
+  const ctl=document.getElementById('triggerControl');if(ctl)ctl.classList.add('pressed');
+  const d=expData[exp];
+  inputStation.classList.add('active','revealed');inputObserved.textContent=d.texts[0];await delay(750);if(token!==runToken)return;
+  inputStation.classList.remove('active');inputStation.classList.add('done');processStation.classList.add('active','revealed');processObserved.textContent=d.texts[1];await delay(900);if(token!==runToken)return;
+  processStation.classList.remove('active');processStation.classList.add('done');outputStation.classList.add('active','revealed');outputObserved.textContent=d.texts[2];
+  if(exp==='text'){const t=document.getElementById('textScreen');if(t)t.textContent='A|';}
+  if(exp==='game'){const h=document.getElementById('heroFigure');if(h)h.classList.add('jump');}
+  if(exp==='camera'){const p=document.getElementById('photoThumb');if(p)p.classList.add('show');}
+  await delay(650);if(token!==runToken)return;outputStation.classList.remove('active');outputStation.classList.add('done');if(ctl)ctl.classList.remove('pressed');running=false;lumiQuestion.classList.add('show');conceptTask.classList.add('show');
+}
+function bindTermEvents(){
+  document.querySelectorAll('.term-chip').forEach(chip=>{
+    chip.addEventListener('dragstart',e=>{e.dataTransfer.setData('text/plain',chip.dataset.term);selectedTerm=chip.dataset.term;});
+    chip.addEventListener('click',()=>{document.querySelectorAll('.term-chip').forEach(c=>c.classList.remove('selected'));selectedTerm=chip.dataset.term;chip.classList.add('selected');conceptFeedback.textContent=`„${selectedTerm}“ ausgewählt. Klicke nun auf einen der drei Schritte.`;});
+  });
+}
+function placeTerm(zone,term){
+  if(!term||zone.dataset.placed)return;
+  zone.classList.remove('wrong');
+  if(term===zone.dataset.answer){zone.textContent=term;zone.dataset.placed=term;zone.classList.add('correct');const chip=termBank.querySelector(`[data-term="${term}"]`);if(chip)chip.classList.add('placed');selectedTerm=null;conceptFeedback.textContent='Das passt.';conceptFeedback.className='concept-feedback';checkConceptComplete();}
+  else{zone.classList.add('wrong');conceptFeedback.textContent='Das passt noch nicht. Vergleiche noch einmal mit dem beobachteten Vorgang.';setTimeout(()=>zone.classList.remove('wrong'),650);}
+}
+document.querySelectorAll('.drop-zone').forEach(zone=>{
+  zone.addEventListener('dragover',e=>{e.preventDefault();zone.classList.add('over');});zone.addEventListener('dragleave',()=>zone.classList.remove('over'));zone.addEventListener('drop',e=>{e.preventDefault();zone.classList.remove('over');placeTerm(zone,e.dataTransfer.getData('text/plain'));});zone.addEventListener('click',()=>placeTerm(zone,selectedTerm));
+});
+function checkConceptComplete(){
+  const zones=[...document.querySelectorAll('.drop-zone')];if(zones.every(z=>z.dataset.placed===z.dataset.answer)){conceptFeedback.textContent='Alle drei Begriffe sind richtig zugeordnet.';conceptFeedback.className='concept-feedback success';evaReveal.classList.add('show');}
+}
+resetExp.addEventListener('click',()=>resetExperiment(true));document.querySelectorAll('.exp-tab').forEach(b=>b.addEventListener('click',()=>setExp(b.dataset.exp)));setExp('text');
+
+const homeView=document.getElementById('homeView');
+function showView(id){homeView.classList.toggle('view-hidden',id!=='home');document.getElementById('aufbau').classList.toggle('view-hidden',id!=='aufbau');document.getElementById('eva').classList.toggle('view-hidden',id!=='eva');window.scrollTo({top:0,behavior:'smooth'});}
+document.querySelectorAll('[data-view]').forEach(b=>b.addEventListener('click',()=>showView(b.dataset.view)));
+document.querySelectorAll('[data-home]').forEach(b=>b.addEventListener('click',()=>showView('home')));
+})();
 </script>
 </body>
 </html>
