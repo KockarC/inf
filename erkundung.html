@@ -75,7 +75,7 @@ button{font:inherit} button:focus-visible,[tabindex]:focus-visible{outline:4px s
 .info-panel{border:1px solid var(--line);border-radius:24px;background:#fff;padding:20px;box-shadow:var(--shadow2);min-height:650px;display:flex;flex-direction:column}.info-visual{height:205px;border-radius:20px;background:linear-gradient(145deg,#f8faff,#eef3fa);border:1px solid #dce3ee;display:grid;place-items:center;overflow:hidden}.info-visual svg{width:78%;height:78%}.info-panel h3{font-size:1.55rem;margin:18px 0 4px;letter-spacing:-.025em}.info-panel .eng{font-size:.86rem;color:#66728a;font-weight:800}.info-panel p{color:#52607a;line-height:1.54}.fact{border-top:1px solid #e3e8f0;padding:12px 0}.fact b{display:block;color:#263550;margin-bottom:4px}.fact span{color:#5c6880;font-size:.94rem;line-height:1.45}.focus-three{margin-top:auto;background:#f7f9fd;border:1px solid #e0e6ef;border-radius:18px;padding:13px 14px;font-size:.91rem;color:#4e5c76;line-height:1.45}.focus-three strong{color:#2949c5}
 /* EVA */
 .eva-discovery{display:flex;gap:14px;align-items:flex-start;margin:4px 0 18px;padding:15px 17px;border:1px solid #dfe5ef;border-radius:19px;background:#f8faff}.lumi-avatar{width:48px;height:48px;flex:0 0 auto;border-radius:15px;background:#eef1ff;display:grid;place-items:center;font-size:1.65rem}.eva-discovery strong{display:block;color:#2949c5;margin-bottom:4px}.eva-discovery p{margin:0;color:#52607a;line-height:1.48}
-.experiment-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.exp-tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-weight:900;color:#43516e;cursor:pointer}.exp-tab.active{background:#eef1ff;border-color:#adbaff;color:#2e4aca}
+.experiment-tabs{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 14px}.exp-tab{border:1px solid var(--line);background:#fff;border-radius:999px;padding:10px 14px;font-weight:900;color:#43516e;cursor:pointer}.exp-tab.active{background:#eef1ff;border-color:#adbaff;color:#2e4aca}.exp-tab.completed::after{content:" ✓";color:#257454}.exp-progress{margin:-4px 0 14px;color:#5b6782;font-size:.9rem;font-weight:850}.exp-progress strong{color:#2949c5}
 .experiment{border:1px solid #d9e1ed;border-radius:24px;background:linear-gradient(180deg,#fbfcff,#f5f8fc);overflow:hidden}.exp-head{padding:18px 20px 0}.exp-head h3{font-size:1.35rem;margin:0 0 4px}.exp-head p{margin:0;color:#5b6782;line-height:1.5}.exp-stage{padding:20px}.flow{width:100%;display:grid;grid-template-columns:1fr 52px 1fr 52px 1fr;align-items:stretch;gap:6px}.station{min-height:300px;border:1px solid #d9e1eb;border-radius:22px;background:#fff;box-shadow:0 10px 22px rgba(24,38,72,.07);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;padding:48px 16px 18px;transition:.25s}.station.active{border-color:#8398ff;box-shadow:0 0 0 5px rgba(49,91,232,.10),0 12px 26px rgba(24,38,72,.10);transform:translateY(-2px)}.station.done{border-color:#cdd6e7}.stage-number{position:absolute;left:14px;top:13px;width:28px;height:28px;border-radius:9px;background:#eef2f8;color:#56637b;display:grid;place-items:center;font-size:.82rem;font-weight:950}.stage-caption{position:absolute;left:51px;top:18px;font-size:.76rem;font-weight:950;text-transform:uppercase;letter-spacing:.055em;color:#69758b}.arrow{font-size:1.9rem;color:#9aa7ba;text-align:center;font-weight:900;display:grid;place-items:center}.observed-text{min-height:48px;margin-top:14px;text-align:center;color:#53617a;line-height:1.4;font-size:.9rem;opacity:0;transform:translateY(5px);transition:.25s}.station.revealed .observed-text{opacity:1;transform:translateY(0)}
 /* reused-looking peripheral illustrations */
 .eva-keyboard-wrap{width:235px;height:112px;position:relative;display:grid;place-items:center}.eva-keyboard-wrap .ext-keyboard{position:relative;left:auto;bottom:auto;width:225px;height:60px;transform:perspective(420px) rotateX(18deg)}.eva-key-a{position:absolute;left:62px;top:39px;width:27px;height:25px;border:2px solid #71819b;border-radius:5px;background:#f7f9fc;color:#27344d;font-weight:950;cursor:pointer;z-index:10;box-shadow:0 3px 0 #8290a4}.eva-key-a:active,.eva-key-a.pressed{transform:translateY(3px);box-shadow:none;background:#dfe5ff;border-color:#536de0}.eva-input-hint{font-size:.79rem;color:#68748b;margin-top:7px;text-align:center}
@@ -83,8 +83,151 @@ button{font:inherit} button:focus-visible,[tabindex]:focus-visible{outline:4px s
 .eva-phone-camera{width:150px;height:250px;position:relative}.eva-phone-camera .ext-phone{width:140px;height:245px;border-radius:26px;border-width:4px;box-shadow:none}.eva-phone-camera .ext-phone:before{inset:16px 8px 12px;border-radius:18px;background:linear-gradient(160deg,#dfe7f2,#eef3f8)}.eva-phone-camera .ext-phone:after{top:7px;width:38px;height:5px}.camera-app-lens{position:absolute;left:50%;top:50px;transform:translateX(-50%);width:76px;height:76px;border-radius:50%;background:radial-gradient(circle at 38% 36%,#8ad8ff 0 9%,#39517e 20%,#121c31 48%,#040912 70%);border:7px solid #78869a;z-index:5}.eva-shutter{position:absolute;left:50%;bottom:22px;transform:translateX(-50%);width:48px;height:48px;border-radius:50%;border:6px solid #fff;background:#e85b68;box-shadow:0 0 0 2px #c9d1dc;cursor:pointer;z-index:10}.eva-shutter:active,.eva-shutter.pressed{transform:translateX(-50%) scale(.92)}
 /* processing happens inside the device, without opening the technical detail */
 .process-shell{width:190px;height:180px;display:grid;place-items:center;position:relative}.process-pc{width:112px;height:154px;border-radius:16px;background:linear-gradient(180deg,#303c52,#141d2b);border:4px solid #0e1623;position:relative}.process-pc:before{content:"";position:absolute;left:15px;top:18px;width:53px;height:82px;border-radius:10px;background:rgba(173,190,215,.10);border:2px solid rgba(173,190,215,.18)}.process-pc:after{content:"";position:absolute;right:15px;bottom:18px;width:10px;height:10px;border-radius:50%;background:#7e92ff}.process-console{width:116px;height:164px;border-radius:20px;background:linear-gradient(180deg,#222d41,#111827);border:4px solid #0b1220}.process-phone{width:92px;height:166px;border-radius:23px;background:#0e1624;border:4px solid #172132;position:relative}.process-phone:before{content:"";position:absolute;inset:15px 7px 10px;border-radius:14px;background:linear-gradient(155deg,#7ba7ff,#4b6bd3 48%,#1f326b)}.process-glow{position:absolute;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(102,123,244,.18),transparent 68%);opacity:0;transform:scale(.8);transition:.35s}.station.active .process-glow{opacity:1;transform:scale(1.08)}
-.monitor-demo{width:220px;height:160px;border-radius:15px;background:#111b2b;border:7px solid #202c42;display:grid;place-items:center}.monitor-demo .screen{width:190px;height:126px;border-radius:8px;background:#f9fbff;color:#24324d;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:2rem;padding:15px}.game-screen{width:220px;height:160px;border:7px solid #202c42;border-radius:15px;background:linear-gradient(#96cfff 0 64%,#8ac073 64%);position:relative;overflow:hidden}.hero-figure{position:absolute;left:42px;bottom:22px;width:31px;height:46px;border-radius:12px 12px 8px 8px;background:#4454d5;transition:.4s}.hero-figure.jump{bottom:78px}.photo-screen{width:175px;height:255px;border:6px solid #202c42;border-radius:24px;background:#eef2f7;display:grid;place-items:center;overflow:hidden}.photo-thumb{width:145px;height:190px;border-radius:14px;background:linear-gradient(160deg,#80c9ff 0 52%,#7cbc6c 52%);position:relative;opacity:0;transform:scale(.92);transition:.35s}.photo-thumb.show{opacity:1;transform:scale(1)}.photo-thumb:after{content:"";position:absolute;width:50px;height:50px;border-radius:50% 50% 42% 42%;left:50%;top:48px;transform:translateX(-50%);background:#ffd2b8;box-shadow:0 45px 0 15px #e36c7b}
-.eva-below{padding:0 20px 20px}.lumi-question{display:none;gap:12px;align-items:flex-start;margin-top:4px;padding:14px 16px;border-radius:18px;background:#fff;border:1px solid #dfe5ef}.lumi-question.show{display:flex}.lumi-question .lumi-avatar{width:42px;height:42px;font-size:1.45rem}.lumi-question p{margin:0;color:#52607a;line-height:1.46}.lumi-question strong{color:#2949c5}.concept-task{display:none;margin-top:14px;padding:17px;border:1px solid #dce3ee;border-radius:20px;background:#fff}.concept-task.show{display:block}.concept-task h4{margin:0 0 5px;font-size:1.05rem}.concept-task>p{margin:0 0 14px;color:#5a667d;line-height:1.4}.term-bank{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px;min-height:44px}.term-chip{border:1px solid #b9c5e8;background:#eef1ff;color:#2d49c8;border-radius:999px;padding:9px 14px;font-weight:950;cursor:grab;user-select:none}.term-chip.selected{outline:3px solid rgba(49,91,232,.18);background:#dde4ff}.term-chip.placed{display:none}.drop-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.drop-zone{min-height:72px;border:2px dashed #c8d2e3;border-radius:15px;display:grid;place-items:center;text-align:center;padding:8px;color:#738099;font-weight:850;background:#f9fbfd;transition:.16s}.drop-zone.over{border-color:#7188ed;background:#f0f3ff}.drop-zone.correct{border-style:solid;border-color:#8ccaa9;background:#edf8f2;color:#257454}.drop-zone.wrong{border-color:#df808c;background:#fff2f4;color:#b33d4a}.concept-feedback{min-height:24px;margin-top:10px;font-weight:800;color:#5a667d}.concept-feedback.success{color:#257454}.eva-reveal{display:none;margin-top:12px;padding:13px 15px;border-radius:16px;background:#eef8f2;border:1px solid #cce8d8;color:#2b6f53;line-height:1.45}.eva-reveal.show{display:block}.eva-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.secondary{border:0;border-radius:13px;padding:10px 13px;font-weight:900;cursor:pointer;background:#eef2f7;color:#394963}
+
+.processing-board{
+  width:100%;max-width:292px;border-radius:18px;
+  background:linear-gradient(180deg,#f8faff,#eef3f9);
+  border:1px solid #d6deea;padding:10px 9px 9px
+}
+.processing-note{
+  text-align:center;font-size:.73rem;font-weight:900;
+  color:#43516e;margin-bottom:7px
+}
+.processing-map{
+  position:relative;height:210px;border-radius:15px;
+  background:#fff;border:1px solid #e0e6ef;overflow:hidden
+}
+.processing-team{position:absolute;inset:0;z-index:2}
+
+.process-card{
+  position:absolute;
+  border:1px solid #cfd9e7;border-radius:13px;
+  background:rgba(255,255,255,.98);
+  padding:5px 4px 4px;text-align:center;
+  box-shadow:0 3px 8px rgba(25,39,72,.05);
+  transition:.2s
+}
+.process-card.cpu{
+  width:96px;min-height:76px;
+  left:98px;top:68px;
+  border-width:2px
+}
+.process-card.ram{
+  width:82px;min-height:63px;
+  left:105px;top:7px
+}
+.process-card.gpu{
+  width:82px;min-height:63px;
+  right:10px;top:73px
+}
+.process-card.storage{
+  width:82px;min-height:63px;
+  left:105px;bottom:6px
+}
+
+.process-icon{height:31px;display:grid;place-items:center}
+.process-card.cpu .process-icon{height:34px}
+.process-icon svg{width:43px;height:31px;max-width:100%}
+.process-card.cpu .process-icon svg{width:47px;height:34px}
+
+.process-card b{
+  display:block;font-size:.62rem;color:#243653;
+  line-height:1.04;margin-top:1px
+}
+.process-card.cpu b{font-size:.66rem}
+
+.process-flow-svg{
+  position:absolute;z-index:1;inset:0;width:100%;height:100%;
+  pointer-events:none
+}
+.flow-base{
+  fill:none;stroke:#dfe5ee;stroke-width:3.2;
+  stroke-linecap:round;stroke-linejoin:round
+}
+.flow-active{
+  fill:none;stroke:#6279e7;stroke-width:4;
+  stroke-linecap:round;stroke-linejoin:round;
+  stroke-dasharray:8 10;opacity:0
+}
+.flow-dot{fill:#536be0;opacity:0}
+
+/* Erst nach dem Klick auf "Vorgang weiterverfolgen" wird die
+   schematische Aktivität sichtbar. */
+.processing-board.running .flow-active{
+  opacity:1;animation:flowMove 1.05s linear infinite
+}
+.processing-board.running .flow-dot{opacity:1}
+
+.processing-board.running .process-card.cpu{
+  animation:cpuPulse 1.05s ease-in-out infinite alternate
+}
+.processing-board.running .process-card.ram{
+  animation:componentPulse 1.25s ease-in-out .08s infinite alternate
+}
+.processing-board.running .process-card.storage{
+  animation:componentPulse 1.4s ease-in-out .18s infinite alternate
+}
+.processing-board.running .process-card.gpu{
+  animation:gpuPulse 1.0s ease-in-out .35s infinite alternate
+}
+
+.process-start{
+  display:block;margin:8px auto 1px;border:0;border-radius:11px;
+  background:#3559d9;color:#fff;font-weight:900;
+  font-size:.67rem;padding:8px 12px;cursor:pointer;
+  box-shadow:0 5px 12px rgba(53,89,217,.18);
+  transition:.18s
+}
+.process-start:hover{transform:translateY(-1px)}
+.process-start:disabled{opacity:.55;cursor:default;transform:none}
+.station:not(.active) .process-start{opacity:.28;pointer-events:none}
+
+.processing-legend{
+  font-size:.59rem;color:#63708a;text-align:center;
+  margin:7px 4px 1px;line-height:1.24
+}
+
+/* Übergang von der Grafikeinheit zur sichtbaren Ausgabe */
+.route-arrow{position:relative;overflow:visible}
+.route-arrow span{position:relative;z-index:1}
+.route-arrow i{
+  position:absolute;left:7px;top:50%;
+  width:8px;height:8px;margin-top:-4px;border-radius:50%;
+  background:#536be0;opacity:0;z-index:2
+}
+.route-arrow.to-output span{color:#6279e7}
+.route-arrow.to-output i{
+  opacity:1;animation:toOutput .72s ease-in-out forwards
+}
+
+@keyframes flowMove{to{stroke-dashoffset:-36}}
+@keyframes componentPulse{
+  from{box-shadow:0 3px 8px rgba(25,39,72,.05);background:#fff;border-color:#cfd9e7}
+  to{box-shadow:0 0 0 3px rgba(82,107,224,.09),0 5px 11px rgba(25,39,72,.07);background:#f7f8ff;border-color:#9aabea}
+}
+@keyframes cpuPulse{
+  from{box-shadow:0 3px 8px rgba(25,39,72,.05);background:#fff;border-color:#aeb8d5}
+  to{box-shadow:0 0 0 5px rgba(82,107,224,.12),0 6px 14px rgba(25,39,72,.08);background:#f2f5ff;border-color:#647be4}
+}
+@keyframes gpuPulse{
+  from{box-shadow:0 3px 8px rgba(25,39,72,.05);background:#fff;border-color:#cfd9e7}
+  to{box-shadow:0 0 0 4px rgba(82,107,224,.12),0 6px 12px rgba(25,39,72,.08);background:#f3f6ff;border-color:#647be4}
+}
+@keyframes toOutput{
+  0%{left:5px;opacity:0}
+  12%{opacity:1}
+  88%{opacity:1}
+  100%{left:39px;opacity:0}
+}
+.monitor-demo{width:220px;height:160px;border-radius:15px;background:#111b2b;border:7px solid #202c42;display:grid;place-items:center}.monitor-demo .screen{width:190px;height:126px;border-radius:8px;background:#f9fbff;color:#24324d;font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:2rem;padding:15px}.game-screen{width:220px;height:160px;border:7px solid #202c42;border-radius:15px;background:linear-gradient(#96cfff 0 64%,#8ac073 64%);position:relative;overflow:hidden}.hero-figure{position:absolute;left:42px;bottom:22px;width:31px;height:46px;border-radius:12px 12px 8px 8px;background:#4454d5}
+.hero-figure.jump{animation:heroJump .82s cubic-bezier(.35,.05,.3,1) 1}
+@keyframes heroJump{
+  0%{bottom:22px}
+  42%{bottom:82px}
+  58%{bottom:82px}
+  100%{bottom:22px}
+}.photo-screen{width:175px;height:255px;border:6px solid #202c42;border-radius:24px;background:#eef2f7;display:grid;place-items:center;overflow:hidden}.photo-thumb{width:145px;height:190px;border-radius:14px;background:linear-gradient(160deg,#80c9ff 0 52%,#7cbc6c 52%);position:relative;opacity:0;transform:scale(.92);transition:.35s}.photo-thumb.show{opacity:1;transform:scale(1)}.photo-thumb:after{content:"";position:absolute;width:50px;height:50px;border-radius:50% 50% 42% 42%;left:50%;top:48px;transform:translateX(-50%);background:#ffd2b8;box-shadow:0 45px 0 15px #e36c7b}
+.eva-below{padding:0 20px 20px}.concept-task{display:none;margin-top:14px;padding:17px;border:1px solid #dce3ee;border-radius:20px;background:#fff}.concept-task.show{display:block}.concept-task h4{margin:0 0 5px;font-size:1.05rem}.concept-task>p{margin:0 0 14px;color:#5a667d;line-height:1.4}.term-bank{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:14px;min-height:44px}.term-chip{border:1px solid #b9c5e8;background:#eef1ff;color:#2d49c8;border-radius:999px;padding:9px 14px;font-weight:950;cursor:grab;user-select:none}.term-chip.selected{outline:3px solid rgba(49,91,232,.18);background:#dde4ff}.term-chip.placed{display:none}.drop-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}.drop-zone{min-height:72px;border:2px dashed #c8d2e3;border-radius:15px;display:grid;place-items:center;text-align:center;padding:8px;color:#738099;font-weight:850;background:#f9fbfd;transition:.16s}.drop-zone.over{border-color:#7188ed;background:#f0f3ff}.drop-zone.correct{border-style:solid;border-color:#8ccaa9;background:#edf8f2;color:#257454}.drop-zone.wrong{border-color:#df808c;background:#fff2f4;color:#b33d4a}.concept-feedback{min-height:24px;margin-top:10px;font-weight:800;color:#5a667d}.concept-feedback.success{color:#257454}.eva-reveal{display:none;margin-top:12px;padding:13px 15px;border-radius:16px;background:#eef8f2;border:1px solid #cce8d8;color:#2b6f53;line-height:1.45}.eva-reveal.show{display:block}.eva-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}.secondary{border:0;border-radius:13px;padding:10px 13px;font-weight:900;cursor:pointer;background:#eef2f7;color:#394963}
 @media(max-width:980px){.flow{grid-template-columns:1fr;gap:9px}.arrow{transform:rotate(90deg);min-height:38px}.station{min-height:245px}.drop-grid{grid-template-columns:1fr}.stage-caption{font-size:.75rem}}
 .footer{margin-top:24px;text-align:center;color:#66738a;font-size:.88rem;padding:10px}
 
@@ -146,10 +289,10 @@ button{font:inherit} button:focus-visible,[tabindex]:focus-visible{outline:4px s
       <button class="topic-card" type="button" data-view="eva">
         <div>
           <div class="topic-no">2</div>
-          <h3>Das EVA-Prinzip</h3>
+          <h3>Was passiert mit Informationen?</h3>
           <p>Untersuche Eingabe, Verarbeitung und Ausgabe an konkreten Vorgängen.</p>
         </div>
-        <div class="topic-visual" aria-hidden="true"><div class="eva-home-box e">E</div><div class="eva-home-arrow">→</div><div class="eva-home-box v">V</div><div class="eva-home-arrow">→</div><div class="eva-home-box a">A</div></div>
+        <div class="topic-visual" aria-hidden="true"><div class="eva-home-box e">1</div><div class="eva-home-arrow">→</div><div class="eva-home-box v">2</div><div class="eva-home-arrow">→</div><div class="eva-home-box a">3</div></div>
         <div class="topic-open">Themenbereich öffnen <span>→</span></div>
       </button>
     </div>
@@ -203,17 +346,18 @@ button{font:inherit} button:focus-visible,[tabindex]:focus-visible{outline:4px s
   </section>
 
   <section class="section view-hidden" id="eva">
-    <div class="section-head"><div class="section-num">2</div><div style="flex:1"><h2>Das EVA-Prinzip</h2><p>Probiere die Vorgänge zunächst selbst aus und beobachte genau, was nacheinander passiert. Die Fachbegriffe ordnest du erst danach zu.</p></div><button type="button" class="topic-back" data-home>← Themenübersicht</button></div>
+    <div class="section-head"><div class="section-num">2</div><div style="flex:1"><h2>Was passiert mit Informationen?</h2><p>Untersuche mindestens zwei verschiedene Vorgänge.</p></div><button type="button" class="topic-back" data-home>← Themenübersicht</button></div>
     <div class="section-body">
       <div class="eva-discovery">
         <div class="lumi-avatar" aria-hidden="true">🧑‍🔬</div>
-        <div><strong>Lumi</strong><p>Starte einen Vorgang. Achte darauf, <b>was du zuerst tust</b>, <b>was anschließend im Gerät geschieht</b> und <b>was du am Ende beobachten kannst</b>.</p></div>
+        <div><strong>Lumi</strong><p>Probiere verschiedene Vorgänge aus und beobachte genau, was passiert.</p></div>
       </div>
       <div class="experiment-tabs" role="tablist" aria-label="Beispiele auswählen">
         <button class="exp-tab active" type="button" data-exp="text">Tastatur</button>
         <button class="exp-tab" type="button" data-exp="game">Computerspiel</button>
         <button class="exp-tab" type="button" data-exp="camera">Kamera-App</button>
       </div>
+      <div class="exp-progress" id="expProgress"><strong>0 von 2</strong> Vorgängen untersucht</div>
       <div class="experiment">
         <div class="exp-head"><h3 id="expTitle"></h3><p id="expLead"></p></div>
         <div class="exp-stage" id="expStage">
@@ -221,12 +365,11 @@ button{font:inherit} button:focus-visible,[tabindex]:focus-visible{outline:4px s
             <div class="station" id="inputStation"><span class="stage-number">1</span><span class="stage-caption">Zuerst</span><div id="inputDemo"></div><div class="observed-text" id="inputObserved"></div></div>
             <div class="arrow">→</div>
             <div class="station" id="processStation"><span class="stage-number">2</span><span class="stage-caption">Im Gerät</span><div id="processDemo"></div><div class="observed-text" id="processObserved"></div></div>
-            <div class="arrow">→</div>
+            <div class="arrow route-arrow" id="outputArrow"><span>→</span><i aria-hidden="true"></i></div>
             <div class="station" id="outputStation"><span class="stage-number">3</span><span class="stage-caption">Am Ende</span><div id="outputDemo"></div><div class="observed-text" id="outputObserved"></div></div>
           </div>
         </div>
         <div class="eva-below">
-          <div class="lumi-question" id="lumiQuestion"><div class="lumi-avatar" aria-hidden="true">🧑‍🔬</div><p><strong>Lumi fragt:</strong> Die drei Schritte sehen bei verschiedenen Geräten unterschiedlich aus. Welche Fachbegriffe könnten zu den drei Schritten passen?</p></div>
           <div class="concept-task" id="conceptTask">
             <h4>Ordne die Fachbegriffe zu.</h4>
             <p>Ziehe die drei Begriffe zu den passenden Schritten. Du kannst einen Begriff auch anklicken und anschließend das passende Feld auswählen.</p>
@@ -237,7 +380,7 @@ button{font:inherit} button:focus-visible,[tabindex]:focus-visible{outline:4px s
               <div class="drop-zone" data-answer="Ausgabe" data-slot="2">Begriff für Schritt 3</div>
             </div>
             <div class="concept-feedback" id="conceptFeedback"></div>
-            <div class="eva-reveal" id="evaReveal"><strong>EVA</strong> steht für <strong>Eingabe – Verarbeitung – Ausgabe</strong>. Viele Vorgänge in Informatiksystemen lassen sich mit diesen drei Schritten beschreiben.</div>
+            <div class="eva-reveal" id="evaReveal"><strong>Das EVA-Prinzip:</strong> EVA steht für <strong>Eingabe – Verarbeitung – Ausgabe</strong>. Viele Vorgänge in Informatiksystemen lassen sich mit diesen drei Schritten beschreiben.</div>
           </div>
           <div class="eva-actions"><button class="secondary" id="resetExp" type="button">Vorgang noch einmal</button></div>
         </div>
@@ -370,69 +513,217 @@ const inputDemo=document.getElementById('inputDemo'),processDemo=document.getEle
 const inputStation=document.getElementById('inputStation'),processStation=document.getElementById('processStation'),outputStation=document.getElementById('outputStation');
 const inputObserved=document.getElementById('inputObserved'),processObserved=document.getElementById('processObserved'),outputObserved=document.getElementById('outputObserved');
 const expTitle=document.getElementById('expTitle'),expLead=document.getElementById('expLead'),resetExp=document.getElementById('resetExp');
-const lumiQuestion=document.getElementById('lumiQuestion'),conceptTask=document.getElementById('conceptTask'),termBank=document.getElementById('termBank'),conceptFeedback=document.getElementById('conceptFeedback'),evaReveal=document.getElementById('evaReveal');
+const conceptTask=document.getElementById('conceptTask'),termBank=document.getElementById('termBank'),conceptFeedback=document.getElementById('conceptFeedback'),evaReveal=document.getElementById('evaReveal'),expProgress=document.getElementById('expProgress');
 let exp='text',running=false,selectedTerm=null,runToken=0;
+const completedExperiments=new Set();
+function processingVisual(kind){
+  const card=(id,title,cls)=>`
+    <div class="process-card ${cls}">
+      <div class="process-icon">${svg[id]}</div>
+      <b>${title}</b>
+    </div>`;
+
+  return `<div class="processing-board" id="processingBoard">
+    <div class="processing-note">Im Gerät arbeiten mehrere Bauteile zusammen.</div>
+
+    <div class="processing-map">
+      <svg class="process-flow-svg" viewBox="0 0 292 210" preserveAspectRatio="none" aria-hidden="true">
+        <!-- Eingabe gelangt in den Verarbeitungsbereich -->
+        <path class="flow-base" d="M0 106 H98"></path>
+
+        <!-- Prozessor als zentrale, koordinierende Einheit -->
+        <path class="flow-base" d="M146 68 V62"></path>
+        <path class="flow-base" d="M146 144 V151"></path>
+        <path class="flow-base" d="M194 106 H200"></path>
+
+        <!-- Bei visueller Ausgabe führt der Weg von der Grafikeinheit weiter -->
+        <path class="flow-base" d="M282 106 H292"></path>
+
+        <!-- dieselben Verbindungen werden erst nach Buttonklick blau -->
+        <path class="flow-active" d="M0 106 H98"></path>
+        <path class="flow-active" d="M146 68 V62"></path>
+        <path class="flow-active" d="M146 144 V151"></path>
+        <path class="flow-active" d="M194 106 H200"></path>
+        <path class="flow-active" d="M282 106 H292"></path>
+
+        <!-- sichtbarer Informationspunkt: Eingabe -> CPU -> GPU -> Ausgabe -->
+        <circle class="flow-dot" r="5">
+          <animateMotion id="flowMotion" dur="2.55s" begin="indefinite" fill="freeze"
+            path="M0 106 H146 H241 H292"></animateMotion>
+        </circle>
+      </svg>
+
+      <div class="processing-team">
+        ${card('ram','Arbeitsspeicher','ram')}
+        ${card('cpu','Prozessor','cpu')}
+        ${card('gpu','Grafikeinheit','gpu')}
+        ${card('storage','Datenspeicher','storage')}
+      </div>
+    </div>
+
+    <button type="button" class="process-start" id="processStart">Vorgang weiterverfolgen</button>
+
+    <div class="processing-legend">
+      Vereinfacht: Der Prozessor koordiniert viele Abläufe. Für die Ausgabe auf dem Bildschirm arbeitet die Grafikeinheit mit.
+    </div>
+  </div>`;
+}
+
+function prepareProcessingButton(token){
+  return new Promise(resolve=>{
+    const btn=document.getElementById('processStart');
+    if(!btn){resolve();return;}
+    btn.disabled=false;
+    btn.textContent='Vorgang weiterverfolgen';
+    btn.onclick=()=>{
+      if(token!==runToken)return;
+      btn.disabled=true;
+      btn.textContent='Vorgang läuft …';
+      const board=document.getElementById('processingBoard');
+      if(board)board.classList.add('running');
+      const motion=document.getElementById('flowMotion');
+      if(motion&&typeof motion.beginElement==='function')motion.beginElement();
+      resolve();
+    };
+  });
+}
+function animateToOutput(){
+  const a=document.getElementById('outputArrow');
+  if(!a)return Promise.resolve();
+  a.classList.remove('to-output');
+  void a.offsetWidth;
+  a.classList.add('to-output');
+  return delay(720);
+}
 const expData={
  text:{
    title:'Was passiert, wenn du eine Taste drückst?',
    lead:'Klicke auf die Taste A in der Tastatur.',
    input:`<div><div class="eva-keyboard-wrap"><div class="ext-keyboard"></div><button type="button" class="eva-key-a" id="triggerControl" aria-label="Taste A drücken">A</button></div><div class="eva-input-hint">Klicke auf A.</div></div>`,
-   process:`<div class="process-shell"><div class="process-glow"></div><div class="process-pc"></div></div>`,
+   process:processingVisual('text'),
    output:`<div class="monitor-demo"><div class="screen" id="textScreen">|</div></div>`,
-   texts:['Du drückst die Taste A.','Im Computer wird die Eingabe verarbeitet.','Auf dem Bildschirm erscheint der Buchstabe A.']
+   texts:['Du drückst die Taste A.','Im Computer arbeiten mehrere Bauteile zusammen.','Auf dem Bildschirm erscheint der Buchstabe A.'],processMs:2750
  },
  game:{
    title:'Was passiert, wenn du den Controller benutzt?',
    lead:'Klicke auf die rote Taste des Controllers.',
    input:`<div><div class="eva-controller-wrap"><div class="controller"></div><button type="button" class="eva-controller-button" id="triggerControl" aria-label="Controllertaste drücken">A</button></div><div class="eva-input-hint">Klicke auf die rote Taste.</div></div>`,
-   process:`<div class="process-shell"><div class="process-glow"></div><div class="process-console"></div></div>`,
+   process:processingVisual('game'),
    output:`<div class="game-screen"><div class="hero-figure" id="heroFigure"></div></div>`,
-   texts:['Du drückst eine Taste am Controller.','Die Eingabe wird in der Spielekonsole verarbeitet.','Die Spielfigur springt auf dem Bildschirm.']
+   texts:['Du drückst eine Taste am Controller.','In der Spielekonsole arbeiten mehrere Bauteile zusammen.','Die Spielfigur springt und landet wieder auf dem Boden.'],processMs:2750
  },
  camera:{
    title:'Was passiert, wenn du ein Foto aufnimmst?',
    lead:'Klicke in der Kamera-App auf den Auslöser.',
    input:`<div><div class="eva-phone-camera"><div class="ext-phone"></div><div class="camera-app-lens"></div><button type="button" class="eva-shutter" id="triggerControl" aria-label="Foto auslösen"></button></div><div class="eva-input-hint">Klicke auf den Auslöser.</div></div>`,
-   process:`<div class="process-shell"><div class="process-glow"></div><div class="process-phone"></div></div>`,
+   process:processingVisual('camera'),
    output:`<div class="photo-screen"><div class="photo-thumb" id="photoThumb"></div></div>`,
-   texts:['Du drückst den Auslöser. Die Kamera nimmt Bilddaten auf.','Das Smartphone verarbeitet die Bilddaten und speichert das Foto.','Das aufgenommene Foto wird auf dem Bildschirm angezeigt.']
+   texts:['Du drückst den Auslöser. Die Kamera nimmt Bilddaten auf.','Im Smartphone arbeiten mehrere Bauteile zusammen. Das Foto wird dabei auch dauerhaft gespeichert.','Das aufgenommene Foto wird auf dem Bildschirm angezeigt.'],processMs:3050
  }
 };
 function delay(ms){return new Promise(resolve=>setTimeout(resolve,ms));}
 function setExp(id){
   runToken++;
   exp=id;running=false;
-  document.querySelectorAll('.exp-tab').forEach(b=>b.classList.toggle('active',b.dataset.exp===id));
+  document.querySelectorAll('.exp-tab').forEach(b=>{
+    b.classList.toggle('active',b.dataset.exp===id);
+    b.classList.toggle('completed',completedExperiments.has(b.dataset.exp));
+  });
   const d=expData[id];expTitle.textContent=d.title;expLead.textContent=d.lead;inputDemo.innerHTML=d.input;processDemo.innerHTML=d.process;outputDemo.innerHTML=d.output;
   resetExperiment(false);
+  updateDiscoveryState();
   const ctl=document.getElementById('triggerControl');if(ctl)ctl.addEventListener('click',startExperiment);
 }
 function clearStage(st){st.classList.remove('active','done','revealed');}
 function resetConceptTask(){
-  selectedTerm=null;conceptTask.classList.remove('show');lumiQuestion.classList.remove('show');evaReveal.classList.remove('show');conceptFeedback.textContent='';conceptFeedback.className='concept-feedback';
+  selectedTerm=null;conceptTask.classList.remove('show');evaReveal.classList.remove('show');conceptFeedback.textContent='';conceptFeedback.className='concept-feedback';
   document.querySelectorAll('.drop-zone').forEach(z=>{z.classList.remove('correct','wrong','over');z.textContent=`Begriff für Schritt ${Number(z.dataset.slot)+1}`;delete z.dataset.placed;});
   const terms=['Verarbeitung','Ausgabe','Eingabe'];
   termBank.innerHTML=terms.map(t=>`<button class="term-chip" draggable="true" type="button" data-term="${t}">${t}</button>`).join('');
   bindTermEvents();
 }
+function updateDiscoveryState(){
+  const count=completedExperiments.size;
+  if(expProgress)expProgress.innerHTML=`<strong>${Math.min(count,2)} von 2</strong> Vorgängen untersucht`;
+  document.querySelectorAll('.exp-tab').forEach(b=>b.classList.toggle('completed',completedExperiments.has(b.dataset.exp)));
+  conceptTask.classList.toggle('show',count>=2);
+}
 function resetExperiment(rebind=true){
-  runToken++;running=false;[inputStation,processStation,outputStation].forEach(clearStage);inputObserved.textContent='';processObserved.textContent='';outputObserved.textContent='';
+  runToken++;running=false;[inputStation,processStation,outputStation].forEach(clearStage);const oa=document.getElementById('outputArrow');if(oa)oa.classList.remove('to-output');inputObserved.textContent='';processObserved.textContent='';outputObserved.textContent='';
   const k=document.querySelector('.eva-key-a');if(k)k.classList.remove('pressed');const c=document.querySelector('.eva-controller-button');if(c)c.classList.remove('pressed');const s=document.querySelector('.eva-shutter');if(s)s.classList.remove('pressed');
   const t=document.getElementById('textScreen');if(t)t.textContent='|';const h=document.getElementById('heroFigure');if(h)h.classList.remove('jump');const p=document.getElementById('photoThumb');if(p)p.classList.remove('show');
   resetConceptTask();
+  updateDiscoveryState();
   if(rebind){const ctl=document.getElementById('triggerControl');if(ctl){const clone=ctl.cloneNode(true);ctl.replaceWith(clone);clone.addEventListener('click',startExperiment);}}
 }
 async function startExperiment(){
-  if(running)return;running=true;const token=++runToken;resetConceptTask();[inputStation,processStation,outputStation].forEach(clearStage);
-  const ctl=document.getElementById('triggerControl');if(ctl)ctl.classList.add('pressed');
+  if(running)return;
+  running=true;
+  const token=++runToken;
+  resetConceptTask();
+  [inputStation,processStation,outputStation].forEach(clearStage);
+  const oa=document.getElementById('outputArrow');
+  if(oa)oa.classList.remove('to-output');
+
+  const ctl=document.getElementById('triggerControl');
+  if(ctl)ctl.classList.add('pressed');
+
   const d=expData[exp];
-  inputStation.classList.add('active','revealed');inputObserved.textContent=d.texts[0];await delay(750);if(token!==runToken)return;
-  inputStation.classList.remove('active');inputStation.classList.add('done');processStation.classList.add('active','revealed');processObserved.textContent=d.texts[1];await delay(900);if(token!==runToken)return;
-  processStation.classList.remove('active');processStation.classList.add('done');outputStation.classList.add('active','revealed');outputObserved.textContent=d.texts[2];
-  if(exp==='text'){const t=document.getElementById('textScreen');if(t)t.textContent='A|';}
-  if(exp==='game'){const h=document.getElementById('heroFigure');if(h)h.classList.add('jump');}
-  if(exp==='camera'){const p=document.getElementById('photoThumb');if(p)p.classList.add('show');}
-  await delay(650);if(token!==runToken)return;outputStation.classList.remove('active');outputStation.classList.add('done');if(ctl)ctl.classList.remove('pressed');running=false;lumiQuestion.classList.add('show');conceptTask.classList.add('show');
+
+  /* Schritt 1: konkrete Handlung */
+  inputStation.classList.add('active','revealed');
+  inputObserved.textContent=d.texts[0];
+  await delay(700);
+  if(token!==runToken)return;
+
+  /* Schritt 2: erscheint zunächst OHNE blaue Animation.
+     Erst der Button setzt den inneren Vorgang in Gang. */
+  inputStation.classList.remove('active');
+  inputStation.classList.add('done');
+  processStation.classList.add('active','revealed');
+  processObserved.textContent='';
+
+  await prepareProcessingButton(token);
+  if(token!==runToken)return;
+
+  await delay(d.processMs||2750);
+  if(token!==runToken)return;
+
+  /* Nach der Verarbeitung führt der vereinfachte Weg über die Grafikeinheit zur sichtbaren Ausgabe. */
+  await animateToOutput();
+  if(token!==runToken)return;
+
+  processStation.classList.remove('active');
+  processStation.classList.add('done');
+  outputStation.classList.add('active','revealed');
+  outputObserved.textContent=d.texts[2];
+
+  if(exp==='text'){
+    const t=document.getElementById('textScreen');
+    if(t)t.textContent='A|';
+  }
+  if(exp==='game'){
+    const h=document.getElementById('heroFigure');
+    if(h){
+      h.classList.remove('jump');
+      void h.offsetWidth;
+      h.classList.add('jump');
+      setTimeout(()=>h.classList.remove('jump'),860);
+    }
+  }
+  if(exp==='camera'){
+    const p=document.getElementById('photoThumb');
+    if(p)p.classList.add('show');
+  }
+
+  await delay(650);
+  if(token!==runToken)return;
+  outputStation.classList.remove('active');
+  outputStation.classList.add('done');
+  if(ctl)ctl.classList.remove('pressed');
+  running=false;
+  completedExperiments.add(exp);
+  updateDiscoveryState();
 }
 function bindTermEvents(){
   document.querySelectorAll('.term-chip').forEach(chip=>{
