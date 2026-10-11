@@ -154,13 +154,13 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 (function(){
 const data=[
  {id:"proz",name:"Der Prozessor",folder:"teile",fileName:"Prozessor.docx",type:"word"},
- {id:"evaSmart",name:"EVA beim Smartphone",folder:"eva",fileName:"EVA-Smartphone.png",type:"image"},
+ {id:"evaSmart",name:"Ein Foto aufnehmen",folder:"eva",fileName:"Foto_aufnehmen.png",type:"image"},
  {id:"tast",name:"Die Tastatur",folder:"teile",fileName:"Tastatur.jpg",type:"image"},
- {id:"evaGrund",name:"Das EVA-Prinzip",folder:"eva",fileName:"EVA-Prinzip.docx",type:"word"},
+ {id:"evaGrund",name:"Einen Text ausdrucken",folder:"eva",fileName:"Text_ausdrucken.docx",type:"word"},
  {id:"speicher",name:"Der Arbeitsspeicher",folder:"teile",fileName:"Arbeitsspeicher.txt",type:"text"},
- {id:"evaComputer",name:"EVA am Computer",folder:"eva",fileName:"EVA-Computer.txt",type:"text"},
+ {id:"evaComputer",name:"Einen Buchstaben tippen",folder:"eva",fileName:"Buchstaben_tippen.txt",type:"text"},
  {id:"bildschirm",name:"Der Bildschirm",folder:"teile",fileName:"Bildschirm.jpg",type:"image"},
- {id:"evaKonsole",name:"EVA bei der Konsole",folder:"eva",fileName:"EVA-Konsole.docx",type:"word"}
+ {id:"evaKonsole",name:"Eine Spielfigur steuern",folder:"eva",fileName:"Spielfigur_steuern.docx",type:"word"}
 ];
 const sectionInfo={
  teile:{label:"Geräte und Bauteile", short:"Bauteile", color:"red"},
@@ -253,7 +253,7 @@ function renderPaperStage(){
 }
 function renderDigitalStage(){
   screen.innerHTML='<div class="board">'
-   + '<section class="panel"><h2 class="panel-title">📄 Dateien</h2><div class="papers" id="stack"></div></section>'
+   + '<section class="panel"><h2 class="panel-title">📄 Dateien zu denselben Themen</h2><div class="papers" id="stack"></div></section>'
    + '<section class="panel"><h2 class="panel-title">💻 Am Computer</h2>'
    +   '<div class="explorer"><div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><div class="address">📁 Schule › Informatik</div><div class="tree-root">📁 Informatik</div><div class="digital-grid"><div class="digital-folder" data-drop="teile"><div class="folder-tab">Geräte und Bauteile</div><div class="sheet-zone" id="teile-zone" style="margin-top:0;min-height:235px"></div></div><div class="digital-folder" data-drop="eva"><div class="folder-tab">EVA-Prinzip</div><div class="sheet-zone" id="eva-zone" style="margin-top:0;min-height:235px"></div></div></div></div>'
    + '</section></div>';
