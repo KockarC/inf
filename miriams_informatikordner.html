@@ -77,6 +77,47 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 @keyframes wobble{0%,100%{transform:translateX(0)}50%{transform:translateX(-2px)}}
 @media (max-width:830px){.board{grid-template-columns:1fr}.real-binder{padding-right:78px;min-height:430px}.papers{min-height:0}}
 @media (max-width:520px){.app{padding:14px 10px 24px}.panel{padding:14px}.papers{grid-template-columns:1fr}.real-binder{padding:18px 66px 18px 18px}.ring{left:20px;width:28px;height:28px}.ring.top{top:130px}.ring.bottom{top:270px}.binder-page{padding:18px 14px 14px}.side-tabs{width:58px;right:6px}.side-tab{min-height:94px;font-size:.82rem;padding-left:10px}.side-tab .count{left:-8px}}
+/* Printed sheets: flat A4-style paper, not rounded UI pills. */
+.papers .paper:not(.digital){position:relative;display:block;overflow:hidden;min-height:151px;padding:18px 14px 15px 21px;border:1px solid #d1d9df;border-radius:2px;background:#fffefa;box-shadow:2px 4px 0 rgba(202,213,222,.32),0 7px 12px rgba(65,81,102,.09);transform:none;isolation:isolate}
+.papers .paper:not(.digital)::before{content:"";position:absolute;inset:0 auto 0 10px;width:1px;background:#ecd6cd}
+.papers .paper:not(.digital)::after{content:"";position:absolute;right:0;top:0;border-style:solid;border-width:0 15px 15px 0;border-color:transparent #f0f3f5 transparent transparent}
+.papers .paper:not(.digital):hover{transform:translateY(-3px) rotate(-.6deg);box-shadow:2px 7px 0 #e6ebef,0 12px 21px rgba(65,81,102,.15);z-index:2}
+.papers .paper:not(.digital).selected{background:#f5faff;border-color:#6099d0;box-shadow:0 0 0 3px #c9e4fc,0 8px 18px rgba(60,95,135,.15)}
+.paper:not(.digital) .icon-sheet{display:none}
+.paper:not(.digital) .paper-content{position:relative;display:flex;flex-direction:column;width:100%;min-width:0}
+.paper:not(.digital) .paper-kicker{color:#8291a0;font-size:.59rem;line-height:1.4;font-weight:800;letter-spacing:.10em}
+.paper:not(.digital) .label{margin-top:10px;color:#2a3c52;font-size:.92rem;line-height:1.28;font-weight:780}
+.paper-lines{display:none}
+.papers .paper:not(.digital) .paper-lines{display:block;height:31px;margin-top:14px;background:repeating-linear-gradient(to bottom,transparent 0 11px,#e3eaf0 11px 12px)}
+.paper.digital .paper-kicker,.paper.digital .paper-lines{display:none}
+.paper.digital .paper-content{flex:1;min-width:0}.paper.digital .label{font-weight:680}
+.real-binder{padding-left:34px;padding-right:76px}.real-binder:before{left:20px;width:9px}
+.ring{z-index:3;left:19px;width:39px;height:39px;background:#e5d4a3;border:7px solid #9aa8b5;box-shadow:inset 1px 2px 2px #b9c7ce,1px 2px 3px rgba(80,78,61,.16)}.ring.top{top:137px}.ring.bottom{top:335px}
+.binder-page{min-height:544px;padding:25px 15px 18px 24px;border-radius:15px;background:#fbfbf7;border:1px solid #dedcd2;box-shadow:0 6px 14px rgba(123,100,59,.12)}
+.binder-head{align-items:center;flex-wrap:wrap;padding:0 8px 0 4px;margin-bottom:7px}.binder-head h3{font-size:1.08rem;letter-spacing:-.01em}.section-note{font-size:.78rem}
+.section-badge{font-size:.83rem;margin:0;padding:6px 9px;border-radius:8px}.section-badge:before{width:11px!important;height:9px!important}
+.sheet-zone#active-zone{min-height:450px;margin:0;border:0;border-radius:10px;padding:12px 7px 5px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:transparent;cursor:default;transition:background .15s ease}
+.sheet-zone#active-zone.over{background:#eaf5ff;outline:2px dashed #8bbce8;outline-offset:-3px;transform:none}
+.paper-deck{position:relative;width:min(100%,280px);height:364px;isolation:isolate}
+.paper-deck::before,.paper-deck::after{content:"";position:absolute;inset:6px 2px 8px;background:white;border:1px solid #cbd5dc;border-radius:2px;box-shadow:0 9px 18px rgba(54,71,85,.11);pointer-events:none}
+.paper-deck::before{transform:translate(8px,-7px) rotate(2.2deg)}.paper-deck::after{transform:translate(3px,-3px) rotate(1deg)}
+.sheet-zone .paper.binder-sheet{z-index:1;position:absolute;inset:0 4px 7px 0;display:block;width:auto;min-height:0;height:auto;margin:0;padding:48px 24px 28px 46px;background:#fff;border:1px solid #c8d2d8;border-radius:2px;box-shadow:0 12px 25px rgba(43,64,81,.18);overflow:hidden;transform:rotate(-.3deg);cursor:grab}
+.sheet-zone .paper.binder-sheet:hover{z-index:2;transform:translateY(-3px) rotate(0deg)}
+.sheet-zone .paper.binder-sheet.selected{background:#f6fbff;border-color:#5e99cc;box-shadow:0 0 0 3px #bde0fb,0 14px 24px rgba(43,64,81,.18)}
+.sheet-zone .paper.binder-sheet::before{content:"";position:absolute;left:11px;top:76px;width:16px;height:16px;border-radius:50%;background:#e3e9eb;box-shadow:0 194px 0 #e3e9eb;border:1px solid #d2dbdf}
+.sheet-zone .paper.binder-sheet::after{content:"";position:absolute;left:36px;top:25px;bottom:23px;width:1px;background:#f1d9d6}
+.sheet-zone .paper.binder-sheet .paper-content{height:100%;display:flex;flex-direction:column}.sheet-zone .paper.binder-sheet .paper-kicker{font-size:.65rem;letter-spacing:.13em}
+.sheet-zone .paper.binder-sheet .label{color:#25384a;font-size:1.24rem;margin-top:23px;line-height:1.24;font-weight:800;border-bottom:1px solid #dfe7ec;padding-bottom:19px}
+.sheet-zone .paper.binder-sheet .paper-lines{display:block;flex:1;min-height:114px;margin-top:17px;background:repeating-linear-gradient(to bottom,transparent 0 24px,#e6edf2 24px 25px)}
+.deck-controls{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:13px}
+.deck-arrow{padding:5px;min-width:34px;min-height:32px;border:1px solid #d2dfe9;background:white;border-radius:10px;font-weight:800;color:#4c779b;box-shadow:0 2px 5px rgba(42,72,98,.06)}.deck-arrow:hover{background:#eaf4fd}
+.deck-counter{font-size:.83rem;font-weight:700;color:#667c8e;min-width:35px;text-align:center}
+.sheet-zone#active-zone .empty{padding:24px 30px;border-radius:8px;cursor:pointer}
+.side-tab.has-items:not(.active) .count{animation:subtleBreathe 2.2s ease-in-out infinite}@keyframes subtleBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@media(max-width:830px){.binder-page{min-height:540px}}
+@media(max-width:520px){.papers{grid-template-columns:repeat(2,minmax(0,1fr))}.papers .paper:not(.digital){min-height:123px;padding:12px 9px 10px 15px}.papers .paper:not(.digital) .label{font-size:.78rem;margin-top:7px}.papers .paper:not(.digital) .paper-lines{height:20px;margin-top:9px}.real-binder{padding-left:23px;padding-right:65px}.ring{left:10px;width:32px;height:32px}.ring.top{top:145px}.ring.bottom{top:310px}.binder-page{padding-left:15px;padding-right:8px;min-height:505px}.binder-head{padding:0 4px}.section-badge{font-size:.74rem}.paper-deck{height:325px;width:min(100%,230px)}.sheet-zone#active-zone{min-height:408px;padding-left:3px;padding-right:3px}.sheet-zone .paper.binder-sheet{padding:38px 14px 17px 35px}.sheet-zone .paper.binder-sheet .label{font-size:1rem}.sheet-zone .paper.binder-sheet::before{top:62px;box-shadow:0 177px 0 #e3e9eb}}
+@media(prefers-reduced-motion:reduce){.paper,.paper-deck,.side-tab{transition:none!important;animation:none!important}}
+
 </style>
 </head>
 <body>
@@ -110,10 +151,10 @@ const sectionInfo={
  teile:{label:"Geräte und Bauteile", short:"Bauteile", color:"red"},
  eva:{label:"EVA-Prinzip", short:"EVA-Prinzip", color:"blue"}
 };
-let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[], activeSection="teile";
+let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[], activeSection="teile", pageIndex=0;
 const screen=document.getElementById("screen"); const actions=document.getElementById("actions");
 function shuffle(){ randomized=data.slice(); for(let i=randomized.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [randomized[i],randomized[j]]=[randomized[j],randomized[i]];} }
-function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; activeSection="teile"; shuffle(); }
+function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; activeSection="teile"; pageIndex=0; shuffle(); }
 function start(){ phase=0; resetLocations(); draw(); }
 document.getElementById("restart").addEventListener("click", start);
 function itemsIn(place){ return randomized.filter(item=>locations[item.id]===place); }
@@ -121,14 +162,14 @@ function paper(item){
   const card=document.createElement("div");
   card.className="paper"+(phase===1?" digital":"")+(selected===item.id?" selected":"");
   card.tabIndex=0; card.draggable=true; card.setAttribute("role","button");
-  card.innerHTML='<div class="icon-sheet" aria-hidden="true"></div><div class="label">'+item.name+'</div>';
+  card.innerHTML='<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><div class="label">'+item.name+'</div><div class="paper-lines" aria-hidden="true"></div></div>';
   card.addEventListener("click", e=>{e.stopPropagation(); selected=selected===item.id?null:item.id; draw();});
   card.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); selected=selected===item.id?null:item.id; draw(); } });
   card.addEventListener("dragstart", e=>{ dragging=item.id; e.dataTransfer.setData("text/plain", item.id); e.dataTransfer.effectAllowed="move"; });
   card.addEventListener("dragend", ()=> dragging=null);
   return card;
 }
-function move(id,place){ if(phase>1) return; locations[id]=place; selected=null; valid=false; message=""; draw(); }
+function move(id,place){ if(phase>1) return; locations[id]=place; selected=null; valid=false; message=""; pageIndex=0; draw(); }
 function setupDrop(target,place){
   target.addEventListener("dragover", e=>{ e.preventDefault(); target.classList.add("over"); });
   target.addEventListener("dragleave", e=>{ if(!target.contains(e.relatedTarget)) target.classList.remove("over"); });
@@ -161,8 +202,23 @@ function renderPaperStage(){
   renderStack();
   const zone=document.getElementById("active-zone"); setupDrop(zone, activeSection);
   const activeItems=itemsIn(activeSection);
-  if(activeItems.length===0){ const hint=document.createElement("div"); hint.className="empty"; hint.textContent="Hier ablegen"; zone.appendChild(hint); }
-  activeItems.forEach(item=>zone.appendChild(paper(item)));
+  if(activeItems.length===0){
+    const hint=document.createElement("div"); hint.className="empty"; hint.textContent="Hier ablegen"; zone.appendChild(hint);
+  } else {
+    pageIndex=((pageIndex%activeItems.length)+activeItems.length)%activeItems.length;
+    const deck=document.createElement("div"); deck.className="paper-deck";
+    const sheet=paper(activeItems[pageIndex]); sheet.classList.add("binder-sheet");
+    deck.appendChild(sheet); zone.appendChild(deck);
+    if(activeItems.length>1){
+      const nav=document.createElement("div"); nav.className="deck-controls";
+      const prev=document.createElement("button"); prev.type="button"; prev.className="deck-arrow"; prev.textContent="‹"; prev.setAttribute("aria-label","Vorheriges Arbeitsblatt");
+      const counter=document.createElement("span"); counter.className="deck-counter"; counter.textContent=(pageIndex+1)+" / "+activeItems.length;
+      const next=document.createElement("button"); next.type="button"; next.className="deck-arrow"; next.textContent="›"; next.setAttribute("aria-label","Nächstes Arbeitsblatt");
+      prev.addEventListener("click",e=>{e.stopPropagation();pageIndex=(pageIndex-1+activeItems.length)%activeItems.length; selected=null;draw();});
+      next.addEventListener("click",e=>{e.stopPropagation();pageIndex=(pageIndex+1)%activeItems.length; selected=null;draw();});
+      nav.appendChild(prev);nav.appendChild(counter);nav.appendChild(next);zone.appendChild(nav);
+    }
+  }
   const tabBox=document.getElementById("side-tabs");
   ["teile","eva"].forEach(key=>{
     const sec=sectionInfo[key], count=itemsIn(key).length;
@@ -170,9 +226,11 @@ function renderPaperStage(){
     tab.className='side-tab '+sec.color+(activeSection===key?' active':'')+(count>0?' has-items':'');
     tab.tabIndex=0;
     tab.innerHTML='<span>'+sec.short+'</span><span class="count">'+count+'</span><div class="peek-stack"><span></span><span></span><span></span></div>';
-    tab.addEventListener('click', e=>{ e.stopPropagation(); if(selected){ move(selected,key); } else { activeSection=key; draw(); } });
-    tab.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(selected){ move(selected,key); } else { activeSection=key; draw(); } } });
-    setupDrop(tab,key);
+    tab.addEventListener('click', e=>{ e.stopPropagation(); if(selected){ move(selected,key); } else { activeSection=key; pageIndex=0; draw(); } });
+    tab.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(selected){ move(selected,key); } else { activeSection=key; pageIndex=0; draw(); } } });
+    tab.addEventListener("dragover",e=>{e.preventDefault();tab.classList.add("over");});
+    tab.addEventListener("dragleave",()=>tab.classList.remove("over"));
+    tab.addEventListener("drop",e=>{e.preventDefault();e.stopPropagation();tab.classList.remove("over");const id=e.dataTransfer.getData("text/plain")||dragging;if(id)move(id,key);});
     tabBox.appendChild(tab);
   });
 }
