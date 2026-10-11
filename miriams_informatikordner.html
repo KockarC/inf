@@ -72,8 +72,31 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{colo
 .notes{max-width:700px;margin:28px auto 0;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(49,89,121,.10);padding:26px 24px}
 .notes-title{margin:0 0 22px;font-size:1.4rem;font-weight:850;display:flex;align-items:center;gap:10px}
 .note-card{border-left:4px solid #7ab2e0;padding:6px 0 6px 15px;margin-bottom:20px;line-height:1.6;font-size:1.07rem}.note-card:last-child{margin-bottom:0;border-left-color:#e1b55f}.note-card strong{display:block;font-size:1.15rem}.note-card p{margin:6px 0 0}
+/* A real ring binder: one visible sheet, side tabs for sections. */
+.real-binder{position:relative;min-height:446px;margin:9px 5px 8px 0;padding:32px 48px 26px 65px;border-radius:24px 28px 28px 24px;background:linear-gradient(105deg,#b8d2e6 0 7%,#d8e8f4 7.2% 12%,#a5c7df 12.2% 13%,#dbecf7 13.2% 100%);border:2px solid #9dbfd6;box-shadow:0 15px 24px #45789d2a,inset 0 2px 2px #fff9;overflow:visible}
+.real-binder:before{content:"";position:absolute;left:27px;top:15px;bottom:18px;width:5px;border-radius:8px;background:#88a9bd;box-shadow:2px 0 3px #e3f4ff}
+.real-binder:after{content:"";position:absolute;left:16px;right:32px;bottom:12px;height:9px;border-radius:10px;background:repeating-linear-gradient(180deg,#fffef9 0px,#fffef9 2px,#dce2e5 3px);border:1px solid #c0d3e0}
+.real-rings{position:absolute;top:69px;bottom:73px;left:13px;display:flex;flex-direction:column;justify-content:space-between;z-index:5;pointer-events:none}
+.real-ring{display:block;width:34px;height:33px;border:6px solid #98a5af;background:transparent;border-radius:50%;box-shadow:inset 0 0 0 1px #fff8,0 3px 4px #668ca733}
+.real-page{position:relative;z-index:2;background:repeating-linear-gradient(180deg,#fffef9 0px,#fffef9 35px,#ebeff0 36px);border:1px solid #cad8e2;border-radius:3px 18px 18px 3px;min-height:377px;padding:23px 21px 17px;box-shadow:6px 5px 0 #f8f7ee,8px 7px 0 #d1dde2,10px 10px 14px #6895b130;cursor:pointer;transition:border-color .15s}
+.real-page.over,.real-page:hover{border-color:#4999db}
+.real-page:before{content:"";position:absolute;top:19px;bottom:16px;left:14px;width:2px;background:#e9d8d4}
+.real-page-header{font-size:1.12rem;line-height:1.2;font-weight:850;margin:0 0 20px;padding:0 0 12px 4px;border-bottom:2px solid #d6e7f2;color:#365a75}
+.real-page .slot-contents{padding-left:5px;grid-template-columns:1fr;gap:8px;max-width:90%}
+.real-page .paper{min-height:55px;padding:8px 12px;background:#fffefb}
+.real-page .label{font-size:.83rem}
+.real-page .icon-sheet{transform:scale(.84);transform-origin:center}
+.real-page .empty{max-width:280px;background:#fffdf9}
+.side-tabs{position:absolute;z-index:3;top:75px;right:-15px;display:flex;flex-direction:column;gap:13px;align-items:stretch;width:105px}
+.side-tab{position:relative;display:flex;align-items:center;justify-content:flex-start;text-align:left;min-height:79px;border:1px solid #d4b2ae;border-radius:0 13px 13px 0;padding:9px 8px 9px 13px;font-weight:800;font-size:.82rem;line-height:1.2;box-shadow:4px 5px 9px #456f8629;color:#764b4a;cursor:pointer;transform:translateX(0);transition:transform .15s ease,box-shadow .15s ease}
+.side-tab.rose{background:#f4d7d1;border-color:#d7aca4;color:#854a46}
+.side-tab.blue{background:#c6e1f6;border-color:#9bbfdd;color:#255b86}
+.side-tab.active{transform:translateX(12px);box-shadow:6px 7px 12px #456f863b}
+.side-tab.over{outline:3px solid #86b6e4}
+.real-page .paper.selected{background:#e7f4ff}
 @media (max-width:780px){.board{grid-template-columns:1fr}.binder{min-height:390px}.divider-grid,.digital-grid{grid-template-columns:1fr}.papers{min-height:0}.binder:before{right:80px}}
 @media (max-width:450px){.app{padding:14px 10px 24px}.panel{padding:14px}.papers{gap:8px}.paper{padding:8px;min-height:64px}.label{font-size:.84rem}.binder{padding:22px 12px 14px 28px}.binder-title{margin-left:8px}.binder-content{margin-left:8px;padding:16px 10px 10px}.divider-section{padding-left:8px;padding-right:8px}.tab-card{left:10px;right:14px;font-size:.9rem}.digital-folder{padding-left:8px;padding-right:8px}.folder-tab{left:10px;right:20px;font-size:.9rem}}
+@media(max-width:550px){.real-binder{padding:21px 31px 17px 48px;margin-right:16px;min-height:385px}.real-page{padding:20px 12px;min-height:330px}.real-page-header{font-size:.93rem}.side-tabs{right:-20px;width:81px;top:72px;gap:8px}.side-tab{min-height:68px;padding:6px 6px;font-size:.68rem}.real-rings{left:6px;top:62px;bottom:65px}.real-ring{width:28px;height:28px;border-width:5px}}
 </style>
 </head>
 <body>
@@ -104,11 +127,11 @@ const data=[
  {id:"bildschirm",name:"Der Bildschirm",folder:"teile"},
  {id:"evaKonsole",name:"EVA bei der Konsole",folder:"eva"}
 ];
-let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[];
+let phase=0, activeTab="teile", locations={}, selected=null, dragging=null, valid=false, message="", randomized=[];
 const screen=document.getElementById("screen");
 const actions=document.getElementById("actions");
 function shuffle(){ randomized=data.slice(); for(let i=randomized.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [randomized[i],randomized[j]]=[randomized[j],randomized[i]]; } }
-function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; shuffle(); }
+function resetLocations(){ activeTab="teile"; locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; shuffle(); }
 function start(){ phase=0; resetLocations(); draw(); }
 document.getElementById("restart").addEventListener("click", start);
 function paper(item){
@@ -137,20 +160,29 @@ function fill(container,place){
  }
  items.forEach(item=>container.appendChild(paper(item)));
 }
-function move(id,place){ if(phase>1) return; locations[id]=place; selected=null; valid=false; message=""; draw(); }
+function move(id,place){ if(phase>1) return; if(phase===0 && place!=="stack")activeTab=place; locations[id]=place; selected=null; valid=false; message=""; draw(); }
 function renderLearningArea(){
  const physical = phase===0;
  screen.innerHTML = '<div class="board">'
    + '<section class="panel"><h2 class="panel-title">'+(physical?'📄 Arbeitsblätter':'📄 Dateien')+'</h2><div class="papers" id="stack"></div></section>'
    + '<section class="panel"><h2 class="panel-title">'+(physical?'📒 Schulordner':'💻 Am Computer')+'</h2>'
    + (physical
-      ? '<div class="binder-shell"><div class="binder"><div class="rings"><span class="ring"></span><span class="ring"></span><span class="ring"></span><span class="ring"></span></div><div class="binder-title">Informatik</div><div class="binder-content"><div class="divider-grid"><div class="divider-section" data-drop="teile"><div class="tab-card rose">Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="divider-section" data-drop="eva"><div class="tab-card blue">EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div></div></div>'
+      ? '<div class="real-binder"><div class="real-rings"><span class="real-ring"></span><span class="real-ring"></span><span class="real-ring"></span></div><div class="real-page" data-drop="' + activeTab + '"><div class="real-page-header">📒 Informatik · ' + (activeTab==='teile'?'Geräte und Bauteile':'EVA-Prinzip') + ' </div><div class="slot-contents" id="' + activeTab + '"></div></div><div class="side-tabs"><button type="button" data-tab="teile" class="side-tab rose' + (activeTab==='teile'?' active':'') + '">Geräte und Bauteile</button><button type="button" data-tab="eva" class="side-tab blue' + (activeTab==='eva'?' active':'') + '">EVA-Prinzip</button></div></div>'
       : '<div class="explorer"><div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><div class="address">📁 Schule › Informatik</div><div class="tree-root">📁 Informatik</div><div class="digital-grid"><div class="digital-folder" data-drop="teile"><div class="folder-tab">Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="digital-folder" data-drop="eva"><div class="folder-tab">EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div>')
    + '</section></div>';
  const stack=document.getElementById('stack');
  setupDrop(stack,'stack');
  fill(stack,'stack');
- ['teile','eva'].forEach(place=>{ const zone=screen.querySelector('[data-drop="'+place+'"]'); setupDrop(zone,place); fill(document.getElementById(place),place); });
+ (physical ? [activeTab] : ['teile','eva']).forEach(place=>{ const zone=screen.querySelector('[data-drop="'+place+'"]'); setupDrop(zone,place); fill(document.getElementById(place),place); });
+ if(physical){
+   screen.querySelectorAll('[data-tab]').forEach(tab=>{
+     const place=tab.dataset.tab;
+     tab.addEventListener('click',e=>{e.stopPropagation(); if(selected)move(selected,place);else{activeTab=place;draw();}});
+     tab.addEventListener('dragover',e=>{e.preventDefault();tab.classList.add('over');});
+     tab.addEventListener('dragleave',()=>tab.classList.remove('over'));
+     tab.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();const id=e.dataTransfer.getData('text/plain')||dragging;if(id)move(id,place);dragging=null;});
+   });
+ }
  actions.innerHTML='';
  if(message){ const f=document.createElement('span'); f.className='feedback'+(valid?' good':''); f.textContent=message; actions.appendChild(f); }
  const btn=document.createElement('button'); btn.type='button'; btn.className='primary';
