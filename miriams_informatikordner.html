@@ -1,733 +1,176 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Miriams Informatikordner</title>
-  <style>
-    :root {
-      --bg: #f5fbff;
-      --panel: #ffffff;
-      --line: #d7e6f2;
-      --text: #234;
-      --muted: #6b7a88;
-      --blue: #5fb5ff;
-      --blue-soft: #e7f4ff;
-      --yellow: #ffd45f;
-      --yellow-soft: #fff7da;
-      --green: #7bd7a5;
-      --shadow: 0 10px 28px rgba(44, 87, 124, 0.14);
-      --radius: 18px;
-    }
-
-    * { box-sizing: border-box; }
-
-    body {
-      margin: 0;
-      font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: linear-gradient(180deg, #f8fcff 0%, #eef7ff 100%);
-      color: var(--text);
-    }
-
-    .page {
-      min-height: 100vh;
-      max-width: 1180px;
-      margin: 0 auto;
-      padding: 22px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
-    }
-
-    .topbar {
-      background: rgba(255,255,255,0.82);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(215, 230, 242, 0.9);
-      border-radius: 20px;
-      box-shadow: var(--shadow);
-      padding: 18px 20px;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-    }
-
-    .title-wrap {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .title-icon {
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
-      background: linear-gradient(145deg, #ffef9d, #ffd45f);
-      display: grid;
-      place-items: center;
-      font-size: 28px;
-      box-shadow: inset 0 -6px 0 rgba(0,0,0,0.05);
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 1.5rem;
-      line-height: 1.1;
-    }
-
-    .mini-note {
-      margin: 4px 0 0;
-      color: var(--muted);
-      font-size: 0.95rem;
-    }
-
-    .controls {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-    }
-
-    button {
-      appearance: none;
-      border: 0;
-      border-radius: 14px;
-      padding: 11px 15px;
-      background: var(--panel);
-      color: var(--text);
-      font-weight: 600;
-      font-size: 0.95rem;
-      box-shadow: 0 4px 14px rgba(44, 87, 124, 0.10);
-      border: 1px solid var(--line);
-      cursor: pointer;
-      transition: transform 0.14s ease, box-shadow 0.14s ease, background 0.14s ease;
-    }
-
-    button:hover,
-    button:focus-visible {
-      transform: translateY(-1px);
-      box-shadow: 0 8px 18px rgba(44, 87, 124, 0.14);
-      outline: none;
-      background: #fbfdff;
-    }
-
-    .layout {
-      display: grid;
-      grid-template-columns: 1fr 1.25fr;
-      gap: 18px;
-      align-items: start;
-    }
-
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      box-shadow: var(--shadow);
-      overflow: hidden;
-    }
-
-    .panel-head {
-      padding: 16px 18px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .panel-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 1.06rem;
-      font-weight: 700;
-    }
-
-    .pill {
-      padding: 5px 10px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      background: var(--blue-soft);
-      color: #245a8d;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .tray {
-      min-height: 500px;
-      padding: 0 16px 18px;
-      display: grid;
-      gap: 12px;
-      align-content: start;
-    }
-
-    .sheet-card {
-      background: linear-gradient(180deg, #ffffff 0%, #f8fbff 100%);
-      border: 1px solid #dce9f5;
-      border-radius: 18px;
-      box-shadow: 0 8px 16px rgba(49, 92, 133, 0.08);
-      padding: 12px 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      cursor: grab;
-      transition: transform 0.14s ease, box-shadow 0.14s ease, border-color 0.14s ease;
-      user-select: none;
-      touch-action: none;
-    }
-
-    .sheet-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 12px 22px rgba(49, 92, 133, 0.12);
-      border-color: #c7ddf1;
-    }
-
-    .sheet-card.dragging {
-      opacity: 0.86;
-      transform: rotate(1.5deg) scale(1.02);
-      cursor: grabbing;
-    }
-
-    .sheet-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 14px;
-      background: linear-gradient(180deg, #fefefe, #f2f7fb);
-      border: 1px solid #d9e5ef;
-      position: relative;
-      flex: 0 0 auto;
-      box-shadow: inset 0 -3px 0 rgba(78, 120, 156, 0.06);
-    }
-
-    .sheet-icon::before {
-      content: "";
-      position: absolute;
-      inset: 10px 10px auto 10px;
-      height: 2px;
-      background: #b8cddd;
-      box-shadow: 0 8px 0 #b8cddd, 0 16px 0 #b8cddd;
-      border-radius: 2px;
-    }
-
-    .sheet-icon::after {
-      content: "";
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 14px;
-      height: 14px;
-      background: #eaf3fb;
-      clip-path: polygon(0 0, 100% 0, 100% 100%);
-      border-top-right-radius: 14px;
-    }
-
-    .sheet-text {
-      min-width: 0;
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .sheet-name {
-      font-weight: 700;
-      font-size: 0.98rem;
-      line-height: 1.2;
-    }
-
-    .sheet-sub {
-      color: var(--muted);
-      font-size: 0.82rem;
-      line-height: 1.1;
-    }
-
-    .folders-wrap {
-      padding: 0 16px 18px;
-      display: grid;
-      gap: 16px;
-    }
-
-    .big-folder {
-      border: 1px solid #dbe7f0;
-      background: linear-gradient(180deg, #fffdf6 0%, #fffaf0 100%);
-      border-radius: 24px;
-      padding: 14px;
-      box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
-    }
-
-    .big-folder-head {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 4px 4px 10px;
-      margin-bottom: 2px;
-    }
-
-    .folder-icon {
-      width: 56px;
-      height: 44px;
-      position: relative;
-      flex: 0 0 auto;
-      filter: drop-shadow(0 5px 8px rgba(216, 171, 50, 0.18));
-    }
-
-    .folder-icon::before,
-    .folder-icon::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      border-radius: 10px;
-      background: linear-gradient(180deg, #ffe58b 0%, #ffd45f 100%);
-      border: 1px solid #f0c84e;
-    }
-
-    .folder-icon::before {
-      top: 0;
-      width: 26px;
-      height: 12px;
-      border-bottom: none;
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-      left: 6px;
-    }
-
-    .folder-icon::after {
-      top: 8px;
-      width: 56px;
-      height: 36px;
-      box-shadow: inset 0 -5px 0 rgba(0,0,0,0.04);
-    }
-
-    .folder-title {
-      font-size: 1.12rem;
-      font-weight: 800;
-    }
-
-    .folder-sub {
-      color: var(--muted);
-      font-size: 0.88rem;
-      margin-top: 2px;
-    }
-
-    .subfolder-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 14px;
-      margin-top: 6px;
-    }
-
-    .dropzone {
-      min-height: 250px;
-      background: linear-gradient(180deg, #fafdff, #f5fbff);
-      border: 2px dashed #cfe0ec;
-      border-radius: 20px;
-      padding: 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      transition: background 0.14s ease, border-color 0.14s ease, transform 0.14s ease;
-    }
-
-    .dropzone.over {
-      background: #eef8ff;
-      border-color: #8bc5ff;
-      transform: translateY(-1px);
-    }
-
-    .dropzone.correct-glow {
-      box-shadow: 0 0 0 4px rgba(123, 215, 165, 0.24) inset;
-    }
-
-    .subfolder-head {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 2px 4px 4px;
-    }
-
-    .subfolder-head .folder-icon {
-      width: 42px;
-      height: 34px;
-    }
-
-    .subfolder-head .folder-icon::before {
-      width: 18px;
-      height: 9px;
-      left: 5px;
-    }
-
-    .subfolder-head .folder-icon::after {
-      width: 42px;
-      height: 28px;
-      top: 6px;
-    }
-
-    .subfolder-name {
-      font-weight: 800;
-      font-size: 1rem;
-      line-height: 1.1;
-    }
-
-    .subfolder-mini {
-      color: var(--muted);
-      font-size: 0.8rem;
-      line-height: 1.1;
-    }
-
-    .droparea {
-      flex: 1;
-      display: grid;
-      gap: 9px;
-      align-content: start;
-      min-height: 155px;
-      padding-top: 2px;
-    }
-
-    .droparea .sheet-card {
-      padding: 10px 12px;
-    }
-
-    .droparea .sheet-icon {
-      width: 42px;
-      height: 42px;
-      border-radius: 12px;
-    }
-
-    .droparea .sheet-name {
-      font-size: 0.93rem;
-    }
-
-    .droparea .sheet-sub {
-      display: none;
-    }
-
-    .drop-hint {
-      color: #8ca0b2;
-      font-size: 0.87rem;
-      border: 1px dashed #d7e4ee;
-      border-radius: 14px;
-      text-align: center;
-      padding: 14px 10px;
-      background: rgba(255,255,255,0.65);
-    }
-
-    .sheet-card.correct {
-      border-color: #8cdeb1;
-      background: linear-gradient(180deg, #ffffff 0%, #f1fff7 100%);
-    }
-
-    .check {
-      margin-left: auto;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: #7bd7a5;
-      color: white;
-      display: grid;
-      place-items: center;
-      font-size: 0.85rem;
-      font-weight: 900;
-      box-shadow: 0 4px 10px rgba(62, 173, 110, 0.28);
-    }
-
-    .status {
-      background: rgba(255,255,255,0.82);
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      box-shadow: var(--shadow);
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      justify-content: space-between;
-      flex-wrap: wrap;
-    }
-
-    .progress {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .progress-bar {
-      width: 220px;
-      max-width: 50vw;
-      height: 12px;
-      border-radius: 999px;
-      background: #edf4f9;
-      overflow: hidden;
-      border: 1px solid #dde9f2;
-    }
-
-    .progress-fill {
-      height: 100%;
-      width: 0%;
-      border-radius: 999px;
-      background: linear-gradient(90deg, #8bc5ff, #7bd7a5);
-      transition: width 0.2s ease;
-    }
-
-    .status-text {
-      font-weight: 700;
-    }
-
-    .done-badge {
-      display: none;
-      padding: 7px 12px;
-      border-radius: 999px;
-      background: #eefcf3;
-      color: #25724b;
-      border: 1px solid #bde7ce;
-      font-weight: 800;
-    }
-
-    .done-badge.show { display: inline-flex; align-items: center; gap: 8px; }
-
-    @media (max-width: 900px) {
-      .layout {
-        grid-template-columns: 1fr;
-      }
-      .tray {
-        min-height: auto;
-      }
-      .subfolder-grid {
-        grid-template-columns: 1fr;
-      }
-      .progress-bar { max-width: 100%; width: 180px; }
-    }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miriams Informatikordner</title>
+<style>
+:root{--ink:#2b384a;--muted:#758599;--line:#dfe9f2;--blue:#3989d9;--paper:#fff;--gold:#f8c85b}
+*{box-sizing:border-box}
+html{background:#f5f9fc}
+body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;color:var(--ink);background:linear-gradient(150deg,#f7fbff,#eef6fb);min-height:100vh}
+button{font:inherit;cursor:pointer}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid #489fe5;outline-offset:3px}
+.app{max-width:1110px;margin:auto;padding:22px 20px 32px}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
+.identity{display:flex;align-items:center;gap:12px}
+.logo{width:55px;height:55px;border-radius:18px;background:#fff1b9;display:grid;place-items:center;font-size:32px;box-shadow:0 6px 15px #ab8e5424}
+h1{font-size:clamp(1.35rem,3vw,1.9rem);margin:0;letter-spacing:-.04em}
+.step{color:var(--muted);font-size:.91rem;margin-top:3px}
+.restart{border:1px solid var(--line);background:white;border-radius:13px;padding:9px 13px;color:#617287;font-weight:650}
+.restart:hover{background:#f0f7fd}
+main{min-height:430px}
+.board{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.12fr);gap:18px;align-items:start}
+.panel{background:#fff;border:1px solid var(--line);border-radius:23px;box-shadow:0 13px 32px #385a7a13;padding:18px}
+.panel-title{font-weight:800;font-size:1.04rem;display:flex;align-items:center;gap:8px;margin:0 0 17px}
+.papers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-height:390px;align-content:start}
+.paper{border:1px solid #dce7ef;border-radius:13px;background:#fff;box-shadow:0 4px 9px #4d769815;display:flex;align-items:center;gap:9px;min-height:69px;padding:10px;cursor:grab;user-select:none;transition:.13s ease}
+.paper:hover{border-color:#86bde8;transform:translateY(-1px)}
+.paper.selected{background:#e9f5ff;border-color:#489fe5;box-shadow:0 0 0 2px #b4dcfc}
+.paper:active{cursor:grabbing}
+.sheet-icon{position:relative;flex:0 0 29px;height:37px;border-radius:3px;background:#fff;border:1px solid #b7cce0;box-shadow:2px 3px 0 #edf3f8}
+.sheet-icon:before{content:"";position:absolute;width:17px;height:2px;top:13px;left:5px;background:#99b7d1;box-shadow:0 6px #99b7d1,0 12px #c5d8e7}
+.paper-label{font-weight:650;font-size:.91rem;line-height:1.25;overflow-wrap:anywhere}
+.paper.digital .sheet-icon{background:#ebf5ff;border-color:#9dc8ec;border-radius:5px}
+.paper.digital .sheet-icon:after{content:".pdf";position:absolute;bottom:1px;left:4px;font-size:8px;font-weight:800;color:#3778b6}
+.paper.digital .sheet-icon:before{top:9px;box-shadow:0 5px #99b7d1}
+.empty{color:#a1acb9;border:1px dashed #d7e2e9;border-radius:12px;text-align:center;padding:23px 8px;font-size:.87rem;background:#ffffff95}
+.binder{position:relative;background:linear-gradient(140deg,#ffebba,#ffe5a1);border:1px solid #f0d28a;border-radius:22px;padding:17px 16px 19px 38px;box-shadow:inset 8px 0 0 #eac36e,0 9px 19px #bf944f20;min-height:415px}
+.binder:before{content:"";position:absolute;top:34px;bottom:26px;left:18px;width:4px;background:repeating-linear-gradient(to bottom,#8795a2 0 7px,transparent 7px 49px);border-radius:3px}
+.binder:after{content:"";position:absolute;top:30px;left:13px;width:14px;height:14px;border:3px solid #a8b1b9;border-radius:50%;box-shadow:0 75px 0 -1px #f9ebc6,0 75px 0 2px #a8b1b9,0 150px 0 -1px #f9ebc6,0 150px 0 2px #a8b1b9,0 225px 0 -1px #f9ebc6,0 225px 0 2px #a8b1b9}
+.binder-title{font-size:1.06rem;font-weight:850;margin:2px 0 16px}
+.slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.slot{border:2px dashed #e4d39f;background:#fffdf6;border-radius:16px;min-height:318px;padding:10px;transition:.14s ease;cursor:pointer}
+.slot:hover,.slot.over{border-color:#7db6e8;background:#f7fbff}
+.tab{display:flex;align-items:center;gap:6px;font-size:.92rem;font-weight:850;margin-bottom:13px;padding:8px 8px;border-radius:10px}
+.tab.coral{background:#ffe2dc;color:#9e5350}
+.tab.blue{background:#dfeeff;color:#356da4}
+.slot-contents{display:grid;gap:8px;align-content:start}
+.slot .paper{padding:7px;min-height:56px}
+.slot .paper-label{font-size:.79rem}
+.slot .sheet-icon{transform:scale(.82);transform-origin:center;flex-basis:25px}
+.explorer{background:#f3f8fc;border:1px solid #d4e3f0;border-radius:18px;padding:12px;min-height:400px}
+.address{background:white;border:1px solid #dde8f0;border-radius:10px;padding:10px 11px;font-size:.88rem;color:#6c7e90;margin-bottom:13px}
+.tree-root{display:flex;align-items:center;gap:8px;font-size:1.01rem;font-weight:800;margin:0 0 10px 4px}
+.digital-slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.digital-folder{background:white;border:2px dashed #c5d8e7;border-radius:16px;min-height:305px;padding:11px;cursor:pointer;transition:.14s ease}
+.digital-folder:hover,.digital-folder.over{border-color:#73ade1;background:#f8fcff}
+.digital-folder .tab{background:#e8f3fc;color:#3b6e99}
+.digital-folder .paper{min-height:55px;padding:8px}
+.digital-folder .paper-label{font-size:.79rem}
+.digital-folder .sheet-icon{transform:scale(.83);transform-origin:center;flex-basis:25px}
+.emptyspace{min-height:55px}
+.actions{display:flex;justify-content:center;align-items:center;gap:14px;min-height:71px;margin-top:12px;flex-wrap:wrap}
+.primary{border:0;border-radius:14px;background:#318add;color:white;font-weight:800;font-size:1rem;padding:12px 28px;box-shadow:0 7px 14px #2888d533}
+.primary:hover{background:#237bcc}
+.feedback{font-weight:750;color:#a16f35;font-size:.97rem}
+.feedback.good{color:#288158}
+.notes{max-width:680px;margin:32px auto 20px;background:white;border:1px solid #dae6f1;border-radius:23px;box-shadow:0 14px 34px #31597918;padding:clamp(22px,5vw,40px)}
+.notes-title{font-weight:850;font-size:1.45rem;display:flex;align-items:center;gap:12px;margin:0 0 26px}
+.note-card{border-left:4px solid #78b6e9;padding:7px 15px;margin:0 0 25px;line-height:1.6;font-size:1.08rem}
+.note-card strong{font-size:1.16rem}
+.note-card p{margin:7px 0 0}
+.note-card:last-child{margin-bottom:0;border-left-color:#e9b75a}
+.sr-only{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}
+@media(max-width:760px){.app{padding:14px 11px}.board{grid-template-columns:1fr}.panel{padding:13px}.papers{min-height:0}.binder{min-height:350px}.slot{min-height:260px}.digital-folder{min-height:260px}}
+@media(max-width:420px){.slots,.digital-slots{gap:6px}.slot,.digital-folder{padding:6px}.tab{font-size:.78rem;padding:6px 3px}.papers{gap:7px}.paper{padding:7px}.paper-label{font-size:.82rem}.slot .paper-label,.digital-folder .paper-label{font-size:.75rem}.binder{padding-left:30px;padding-right:7px}.logo{width:45px;height:45px;font-size:26px}}
+</style>
 </head>
 <body>
-  <div class="page">
-    <div class="topbar">
-      <div class="title-wrap">
-        <div class="title-icon" aria-hidden="true">📚</div>
-        <div>
-          <h1>Miriams Informatikordner</h1>
-          <div class="mini-note">Arbeitsblätter sortieren</div>
-        </div>
-      </div>
-      <div class="controls">
-        <button id="shuffleBtn" type="button">Neu mischen</button>
-        <button id="resetBtn" type="button">Zurücksetzen</button>
-      </div>
-    </div>
-
-    <div class="layout">
-      <section class="panel" aria-label="Arbeitsblätter">
-        <div class="panel-head">
-          <div class="panel-title">📝 Arbeitsblätter</div>
-          <div class="pill" id="leftCount">8</div>
-        </div>
-        <div class="tray" id="tray"></div>
-      </section>
-
-      <section class="panel" aria-label="Ordnerbereich">
-        <div class="panel-head">
-          <div class="panel-title">📁 Ordner</div>
-          <div class="pill">Informatik</div>
-        </div>
-        <div class="folders-wrap">
-          <div class="big-folder">
-            <div class="big-folder-head">
-              <div class="folder-icon" aria-hidden="true"></div>
-              <div>
-                <div class="folder-title">Informatik</div>
-                <div class="folder-sub">mit zwei Themenordnern</div>
-              </div>
-            </div>
-            <div class="subfolder-grid">
-              <div class="dropzone" data-folder="bauteile">
-                <div class="subfolder-head">
-                  <div class="folder-icon" aria-hidden="true"></div>
-                  <div>
-                    <div class="subfolder-name">Geräte und Bauteile</div>
-                    <div class="subfolder-mini">Ordner</div>
-                  </div>
-                </div>
-                <div class="droparea" id="bauteile-area">
-                  <div class="drop-hint">Blätter hier ablegen</div>
-                </div>
-              </div>
-
-              <div class="dropzone" data-folder="eva">
-                <div class="subfolder-head">
-                  <div class="folder-icon" aria-hidden="true"></div>
-                  <div>
-                    <div class="subfolder-name">EVA-Prinzip</div>
-                    <div class="subfolder-mini">Ordner</div>
-                  </div>
-                </div>
-                <div class="droparea" id="eva-area">
-                  <div class="drop-hint">Blätter hier ablegen</div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </div>
-
-    <div class="status" aria-live="polite">
-      <div class="progress">
-        <div class="status-text" id="statusText">0 von 8 sortiert</div>
-        <div class="progress-bar" aria-hidden="true">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-      </div>
-      <div class="done-badge" id="doneBadge">✨ Fertig sortiert</div>
-    </div>
-  </div>
-
-  <script>
-    const originalItems = [
-      { id: 'p1', title: 'Der Prozessor', subtitle: 'Arbeitsblatt', folder: 'bauteile' },
-      { id: 'p2', title: 'Die Tastatur', subtitle: 'Arbeitsblatt', folder: 'bauteile' },
-      { id: 'p3', title: 'Der Arbeitsspeicher', subtitle: 'Arbeitsblatt', folder: 'bauteile' },
-      { id: 'p4', title: 'Der Bildschirm', subtitle: 'Arbeitsblatt', folder: 'bauteile' },
-      { id: 'p5', title: 'Das EVA-Prinzip', subtitle: 'Arbeitsblatt', folder: 'eva' },
-      { id: 'p6', title: 'EVA beim Smartphone', subtitle: 'Arbeitsblatt', folder: 'eva' },
-      { id: 'p7', title: 'EVA am Computer', subtitle: 'Arbeitsblatt', folder: 'eva' },
-      { id: 'p8', title: 'EVA bei der Konsole', subtitle: 'Arbeitsblatt', folder: 'eva' }
-    ];
-
-    let items = [];
-    let dragId = null;
-
-    const tray = document.getElementById('tray');
-    const dropAreas = {
-      bauteile: document.getElementById('bauteile-area'),
-      eva: document.getElementById('eva-area')
-    };
-    const leftCount = document.getElementById('leftCount');
-    const statusText = document.getElementById('statusText');
-    const progressFill = document.getElementById('progressFill');
-    const doneBadge = document.getElementById('doneBadge');
-
-    function shuffled(array) {
-      const a = [...array];
-      for (let i = a.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [a[i], a[j]] = [a[j], a[i]];
-      }
-      return a;
-    }
-
-    function startState(doShuffle = true) {
-      const base = originalItems.map(item => ({ ...item, location: 'tray' }));
-      items = doShuffle ? shuffled(base) : base;
-      render();
-    }
-
-    function createCard(item) {
-      const card = document.createElement('div');
-      card.className = 'sheet-card';
-      card.draggable = true;
-      card.dataset.id = item.id;
-      card.setAttribute('role', 'button');
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('aria-label', item.title);
-      if (item.location === item.folder) card.classList.add('correct');
-
-      card.innerHTML = `
-        <div class="sheet-icon" aria-hidden="true"></div>
-        <div class="sheet-text">
-          <div class="sheet-name">${item.title}</div>
-          <div class="sheet-sub">${item.subtitle}</div>
-        </div>
-        ${item.location === item.folder ? '<div class="check" aria-hidden="true">✓</div>' : ''}
-      `;
-
-      card.addEventListener('dragstart', () => {
-        dragId = item.id;
-        card.classList.add('dragging');
-      });
-
-      card.addEventListener('dragend', () => {
-        dragId = null;
-        card.classList.remove('dragging');
-      });
-
-      card.addEventListener('keydown', (e) => {
-        const order = ['tray', 'bauteile', 'eva'];
-        const current = item.location;
-        if (e.key === 'ArrowRight') {
-          e.preventDefault();
-          const next = current === 'tray' ? item.folder : 'tray';
-          moveItem(item.id, next);
-        }
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          const next = current === 'tray' ? item.folder : 'tray';
-          moveItem(item.id, next);
-        }
-      });
-
-      return card;
-    }
-
-    function renderSection(container, filter) {
-      container.innerHTML = '';
-      const sectionItems = items.filter(filter);
-      if (sectionItems.length === 0 && container !== tray) {
-        const hint = document.createElement('div');
-        hint.className = 'drop-hint';
-        hint.textContent = 'Blätter hier ablegen';
-        container.appendChild(hint);
-      }
-      sectionItems.forEach(item => container.appendChild(createCard(item)));
-    }
-
-    function updateProgress() {
-      const sorted = items.filter(item => item.location === item.folder).length;
-      const left = items.filter(item => item.location === 'tray').length;
-      leftCount.textContent = left;
-      statusText.textContent = `${sorted} von ${items.length} sortiert`;
-      progressFill.style.width = `${(sorted / items.length) * 100}%`;
-      doneBadge.classList.toggle('show', sorted === items.length);
-
-      document.querySelectorAll('.dropzone').forEach(zone => {
-        const key = zone.dataset.folder;
-        const zoneItems = items.filter(item => item.location === key);
-        const allCorrect = zoneItems.length > 0 && zoneItems.every(item => item.folder === key);
-        zone.classList.toggle('correct-glow', allCorrect);
-      });
-    }
-
-    function render() {
-      renderSection(tray, item => item.location === 'tray');
-      renderSection(dropAreas.bauteile, item => item.location === 'bauteile');
-      renderSection(dropAreas.eva, item => item.location === 'eva');
-      updateProgress();
-    }
-
-    function moveItem(id, location) {
-      items = items.map(item => item.id === id ? { ...item, location } : item);
-      render();
-    }
-
-    document.querySelectorAll('.dropzone').forEach(zone => {
-      zone.addEventListener('dragover', e => {
-        e.preventDefault();
-        zone.classList.add('over');
-      });
-      zone.addEventListener('dragleave', () => zone.classList.remove('over'));
-      zone.addEventListener('drop', e => {
-        e.preventDefault();
-        zone.classList.remove('over');
-        if (dragId) moveItem(dragId, zone.dataset.folder);
-      });
-    });
-
-    tray.addEventListener('dragover', e => e.preventDefault());
-    tray.addEventListener('drop', e => {
-      e.preventDefault();
-      if (dragId) moveItem(dragId, 'tray');
-    });
-
-    document.getElementById('resetBtn').addEventListener('click', () => startState(false));
-    document.getElementById('shuffleBtn').addEventListener('click', () => startState(true));
-
-    startState(true);
-  </script>
+<div class="app">
+<header>
+ <div class="identity">
+  <div class="logo" aria-hidden="true">📒</div>
+  <div><h1>Miriams Informatikordner</h1><div class="step" id="step">1 von 3 · Auf Papier</div></div>
+ </div>
+ <button class="restart" id="restart" type="button" title="Neu beginnen" aria-label="Neu beginnen">↻ Neu beginnen</button>
+</header>
+<main id="screen"></main>
+<div class="actions" id="actions" aria-live="polite"></div>
+</div>
+<script>
+(function(){
+"use strict";
+var data=[
+ {id:"proz",name:"Der Prozessor",folder:"teile"},
+ {id:"evaSmart",name:"EVA beim Smartphone",folder:"eva"},
+ {id:"tast",name:"Die Tastatur",folder:"teile"},
+ {id:"evaGrund",name:"Das EVA-Prinzip",folder:"eva"},
+ {id:"speicher",name:"Der Arbeitsspeicher",folder:"teile"},
+ {id:"evaComputer",name:"EVA am Computer",folder:"eva"},
+ {id:"bildschirm",name:"Der Bildschirm",folder:"teile"},
+ {id:"evaKonsole",name:"EVA bei der Konsole",folder:"eva"}
+];
+var phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[];
+var screen=document.getElementById("screen"), actions=document.getElementById("actions");
+function shuffle(){
+ randomized=data.slice();
+ for(var i=randomized.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=randomized[i];randomized[i]=randomized[j];randomized[j]=t;}
+}
+function resetLocations(){locations={};data.forEach(function(item){locations[item.id]="stack";});selected=null;valid=false;message="";shuffle();}
+function start(){phase=0;resetLocations();draw();}
+document.getElementById("restart").addEventListener("click",start);
+function find(id){return data.find(function(x){return x.id===id;});}
+function move(id,place){if(phase>1||!find(id))return;locations[id]=place;selected=null;valid=false;message="";draw();}
+function paper(item){
+ var card=document.createElement("div");card.className="paper"+(phase===1?" digital":"")+(selected===item.id?" selected":"");
+ card.tabIndex=0;card.draggable=true;card.setAttribute("role","button");card.setAttribute("aria-label",item.name+", auswählen");
+ var icon=document.createElement("div");icon.className="sheet-icon";icon.setAttribute("aria-hidden","true");
+ var label=document.createElement("div");label.className="paper-label";label.textContent=item.name;
+ card.appendChild(icon);card.appendChild(label);
+ card.addEventListener("click",function(e){e.stopPropagation();selected=selected===item.id?null:item.id;draw();});
+ card.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();selected=selected===item.id?null:item.id;draw();}});
+ card.addEventListener("dragstart",function(e){dragging=item.id;e.dataTransfer.setData("text/plain",item.id);e.dataTransfer.effectAllowed="move";});
+ card.addEventListener("dragend",function(){dragging=null;});
+ return card;
+}
+function setupDrop(target,place){
+ target.addEventListener("dragover",function(e){e.preventDefault();target.classList.add("over");});
+ target.addEventListener("dragleave",function(e){if(!target.contains(e.relatedTarget))target.classList.remove("over");});
+ target.addEventListener("drop",function(e){e.preventDefault();target.classList.remove("over");var id=e.dataTransfer.getData("text/plain")||dragging;if(id)move(id,place);dragging=null;});
+ target.addEventListener("click",function(){if(selected)move(selected,place);});
+ target.addEventListener("keydown",function(e){if(selected&&(e.key==="Enter"||e.key===" ")){e.preventDefault();move(selected,place);}});
+ target.tabIndex=0;
+ target.setAttribute("role","button");
+ target.setAttribute("aria-label",(place==="stack"?"Nicht einsortierte Blätter":place==="teile"?"Geräte und Bauteile":"EVA-Prinzip")+", Ablage");
+}
+function fill(container,place){
+ var these=randomized.filter(function(item){return locations[item.id]===place;});
+ if(these.length===0&&place!=="stack"){var hint=document.createElement("div");hint.className="empty";hint.textContent="Hier ablegen";container.appendChild(hint);}
+ these.forEach(function(item){container.appendChild(paper(item));});
+}
+function draw(){
+ document.getElementById("step").textContent=(phase+1)+" von 3 · "+(["Auf Papier","Am Computer","Merksätze"][phase]);
+ if(phase===2){
+   screen.innerHTML='<div class="notes"><h2 class="notes-title">📒 Für dein Informatikheft</h2><div class="note-card"><strong>Datei</strong><p>Eine Datei speichert Daten, zum Beispiel einen Text oder ein Bild.</p></div><div class="note-card"><strong>Ordner</strong><p>In einem Ordner können Dateien und weitere Ordner liegen. Diese heißen Unterordner.</p></div></div>';
+   actions.innerHTML="";
+   return;
+ }
+ var physical=phase===0;
+ screen.innerHTML='<div class="board">'
+ +'<section class="panel"><h2 class="panel-title">'+(physical?'📄 Arbeitsblätter':'📄 Dateien')+'</h2><div class="papers" id="stack"></div></section>'
+ +'<section class="panel"><h2 class="panel-title">'+(physical?'📒 Schulordner':'💻 Am Computer')+'</h2>'
+ +(physical
+ ?'<div class="binder"><div class="binder-title">Informatik</div><div class="slots"><div class="slot" data-drop="teile"><div class="tab coral">▰ Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="slot" data-drop="eva"><div class="tab blue">▰ EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div>'
+ :'<div class="explorer"><div class="address">📁 Schule › Informatik</div><div class="tree-root">📁 Informatik</div><div class="digital-slots"><div class="digital-folder" data-drop="teile"><div class="tab">📁 Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="digital-folder" data-drop="eva"><div class="tab">📁 EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div>')
+ +'</section></div>';
+ var stack=document.getElementById("stack");
+ setupDrop(stack,"stack");
+ fill(stack,"stack");
+ ["teile","eva"].forEach(function(place){var zone=screen.querySelector('[data-drop="'+place+'"]');setupDrop(zone,place);fill(document.getElementById(place),place);});
+ actions.innerHTML="";
+ if(message){var feedback=document.createElement("span");feedback.className="feedback"+(valid?" good":"");feedback.textContent=message;actions.appendChild(feedback);}
+ var button=document.createElement("button");button.className="primary";button.type="button";
+ if(valid){button.textContent="Weiter →";button.addEventListener("click",function(){phase++;resetLocations();draw();});}
+ else{button.textContent="Prüfen";button.addEventListener("click",function(){
+    var sorted=data.every(function(item){return locations[item.id]===item.folder;});
+    valid=sorted;message=sorted?"✓ Alles richtig!":"Noch nicht ganz.";
+    draw();
+ });}
+ actions.appendChild(button);
+}
+start();
+})();
+</script>
 </body>
 </html>
