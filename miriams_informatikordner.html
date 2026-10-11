@@ -6,103 +6,83 @@
 <title>Miriams Informatikordner</title>
 <style>
 :root{
-  --bg:#eef5fb; --card:#ffffff; --line:#dce7f1; --ink:#26364b; --muted:#71839a;
-  --blue:#4a8fd3; --blue-soft:#dcecff; --rose:#c67a72; --rose-soft:#f3ddd9;
-  --folder:#f3dfaa; --folder-dark:#e5c87d; --paper:#fffef9; --paper-2:#f7f3ea;
+  --bg:#eef5fb; --card:#ffffff; --line:#dbe7f1; --ink:#26364b; --muted:#6d8096;
+  --blue:#4278b3; --blue-soft:#d7e7fb; --red:#b65a57; --red-soft:#efd3d1;
+  --paper:#fbfdff; --paper-line:#e8eff6; --binder:#efdba0; --binder-deep:#e0c16c;
 }
 *{box-sizing:border-box}
 body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f7fbff,#eef5fb);color:var(--ink)}
-button{font:inherit}
-button:focus-visible,[tabindex]:focus-visible{outline:3px solid #6fb1e6;outline-offset:3px}
-.app{max-width:1120px;margin:auto;padding:22px 18px 32px}
+button{font:inherit;cursor:pointer}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid #6cb0e7;outline-offset:3px}
+.app{max-width:1120px;margin:auto;padding:22px 18px 34px}
 header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
-.id{display:flex;align-items:center;gap:12px}
-.logo{width:54px;height:54px;border-radius:18px;background:#fff0b8;display:grid;place-items:center;font-size:30px;box-shadow:0 8px 18px rgba(158,133,65,.18)}
-h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{color:var(--muted);font-size:.93rem;margin-top:3px}
-.restart{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-weight:650;color:#5e6f83;cursor:pointer}.restart:hover{background:#f7fbff}
+.ident{display:flex;align-items:center;gap:12px}
+.logo{width:54px;height:54px;border-radius:18px;background:#fff0b9;display:grid;place-items:center;font-size:30px;box-shadow:0 8px 18px rgba(170,140,58,.18)}
+h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{margin-top:3px;color:var(--muted);font-size:.93rem}
+.restart{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-weight:650;color:#617286}.restart:hover{background:#f8fbff}
 .board{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:18px;align-items:start}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(53,90,124,.10);padding:18px}
 .panel-title{margin:0 0 14px;display:flex;align-items:center;gap:8px;font-size:1.03rem;font-weight:800}
 .papers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-height:390px;align-content:start}
 .paper{background:#fff;border:1px solid #d8e5ef;border-radius:13px;min-height:70px;padding:10px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 10px rgba(58,95,126,.08);cursor:grab;user-select:none;transition:.14s ease}
-.paper:hover{transform:translateY(-1px);border-color:#9fc5e6}
-.paper.selected{background:#edf7ff;border-color:#5da4df;box-shadow:0 0 0 2px #c6e4fb}
+.paper:hover{transform:translateY(-1px);border-color:#9fc5e6}.paper.selected{background:#edf7ff;border-color:#5da4df;box-shadow:0 0 0 2px #c6e4fb}
 .paper:active{cursor:grabbing}
 .icon-sheet{width:30px;height:38px;position:relative;flex:0 0 auto;border-radius:4px;background:#fff;border:1px solid #b9cfdf;box-shadow:2px 3px 0 #edf3f8}
 .icon-sheet:before{content:"";position:absolute;left:5px;right:5px;top:12px;height:2px;background:#a0bdd6;box-shadow:0 7px 0 #a0bdd6,0 14px 0 #d0dee9}
-.paper.digital .icon-sheet{background:#edf7ff;border-color:#9ec4e5}
-.paper.digital .icon-sheet:after{content:".pdf";position:absolute;left:4px;bottom:1px;font-size:8px;font-weight:800;color:#4a8fd3}
+.paper.digital .icon-sheet{background:#edf7ff;border-color:#9ec4e5}.paper.digital .icon-sheet:after{content:".pdf";position:absolute;left:4px;bottom:1px;font-size:8px;font-weight:800;color:#4a8fd3}
 .label{font-size:.91rem;line-height:1.24;font-weight:680;overflow-wrap:anywhere}
 .empty{border:1px dashed #cddbe8;border-radius:12px;background:rgba(255,255,255,.72);color:#98a8ba;text-align:center;padding:22px 8px;font-size:.88rem}
 
-/* Binder */
-.binder-shell{position:relative;padding-top:28px}
-.binder{position:relative;background:linear-gradient(180deg,var(--folder) 0%,#f0d99b 100%);border:1px solid #e4c678;border-radius:30px;padding:26px 18px 20px 34px;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 12px 22px rgba(179,145,65,.15);min-height:430px}
-.binder:before{content:"";position:absolute;top:-14px;left:28px;right:160px;height:34px;background:linear-gradient(180deg,#f6e6ba 0%,#efd899 100%);border:1px solid #e4c678;border-bottom:none;border-radius:18px 18px 0 0;box-shadow:0 -1px 0 rgba(255,255,255,.35) inset}
-.binder:after{content:"";position:absolute;left:14px;top:22px;bottom:22px;width:8px;border-radius:8px;background:linear-gradient(180deg,#dcc070,#f5e2aa);box-shadow:inset -2px 0 0 rgba(255,255,255,.38)}
-.rings{position:absolute;left:22px;top:68px;bottom:48px;width:24px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
-.ring{width:22px;height:22px;border-radius:50%;border:5px solid #94a2b1;background:#f8e9bd;box-shadow:0 2px 0 rgba(255,255,255,.25) inset}
-.binder-title{margin:0 0 18px 16px;font-size:1.1rem;font-weight:850;display:flex;align-items:center;gap:9px}
-.binder-content{position:relative;margin-left:16px;background:linear-gradient(180deg,#fffefb 0%,var(--paper-2) 100%);border:1px solid rgba(207,180,112,.65);border-radius:22px;padding:20px 16px 16px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.32);min-height:330px}
-.divider-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.divider-section{position:relative;background:var(--paper);border:2px dashed #e3d6ad;border-radius:22px;padding:54px 12px 12px;min-height:272px;transition:.14s ease;cursor:pointer;box-shadow:0 3px 10px rgba(101,92,68,.05)}
-.divider-section:hover,.divider-section.over{background:#fff;transform:translateY(-1px);border-color:#8fb6d8}
-.tab-card{position:absolute;left:14px;right:22px;top:-2px;height:54px;border-radius:0 0 18px 18px;border:1px solid transparent;border-top:none;display:flex;align-items:center;padding:0 16px;font-weight:850;font-size:1rem;box-shadow:0 6px 10px rgba(60,86,120,.08)}
-.tab-card:before{content:"";width:18px;height:14px;margin-right:10px;transform:skewX(-16deg)}
-.tab-card.rose{background:var(--rose-soft);color:#9b594f;border-color:#ecd0cb}.tab-card.rose:before{background:#a55d55}
-.tab-card.blue{background:var(--blue-soft);color:#346ea8;border-color:#c7def6}.tab-card.blue:before{background:#3e6fa5}
-.slot-contents{display:grid;gap:8px;align-content:start}
-.divider-section .paper{min-height:56px;padding:8px}.divider-section .label{font-size:.79rem}.divider-section .icon-sheet{transform:scale(.84);transform-origin:center}
+/* Real binder */
+.real-binder{position:relative;background:linear-gradient(180deg,var(--binder) 0%,#ecd495 100%);border:1px solid #dfc070;border-radius:34px;padding:22px 70px 22px 26px;min-height:465px;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 14px 30px rgba(171,136,51,.14)}
+.real-binder:before{content:"";position:absolute;top:26px;bottom:26px;left:18px;width:10px;border-radius:10px;background:linear-gradient(180deg,#ddc06e,#f4e0a6);box-shadow:inset -2px 0 0 rgba(255,255,255,.45)}
+.ring{position:absolute;left:29px;width:34px;height:34px;border:6px solid #8d9baa;border-radius:50%;background:#f7ebc4;box-shadow:0 2px 0 rgba(255,255,255,.34) inset}.ring.top{top:136px}.ring.bottom{top:286px}
+.binder-page{position:relative;background:
+  repeating-linear-gradient(180deg, transparent 0 31px, var(--paper-line) 31px 32px),
+  linear-gradient(90deg,#f1f6fa 0 92px, var(--paper) 92px 100%);
+  border:1px solid #d3dde6;border-radius:24px;padding:26px 22px 20px;min-height:420px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.42)}
+.binder-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.binder-head h3{margin:0;font-size:1.18rem;font-weight:850}.section-note{color:var(--muted);font-size:.9rem}
+.sheet-zone{margin-top:8px;border:2px dashed #d6e3ee;border-radius:18px;background:rgba(255,255,255,.58);padding:16px;min-height:295px;display:grid;gap:8px;align-content:start;transition:.14s ease;cursor:pointer}
+.sheet-zone.over{border-color:#79b1df;background:#fbfdff;transform:translateY(-1px)}
+.sheet-zone .paper{min-height:58px;padding:8px}.sheet-zone .label{font-size:.8rem}.sheet-zone .icon-sheet{transform:scale(.86);transform-origin:center}
+.side-tabs{position:absolute;top:78px;right:8px;display:flex;flex-direction:column;gap:12px;width:72px}
+.side-tab{position:relative;border-radius:0 14px 14px 0;padding:12px 8px 12px 12px;min-height:110px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:mixed;font-weight:800;letter-spacing:.02em;border:1px solid rgba(0,0,0,.05);box-shadow:-3px 5px 10px rgba(53,90,124,.12);cursor:pointer;transition:.15s ease;color:#fff}
+.side-tab.red{background:linear-gradient(180deg,#cf7268,#b75a57)}
+.side-tab.blue{background:linear-gradient(180deg,#4f85c1,#4173ab)}
+.side-tab.active{transform:translateX(-12px);box-shadow:-4px 8px 15px rgba(53,90,124,.18)}
+.side-tab .count{position:absolute;top:8px;left:-10px;min-width:24px;height:24px;border-radius:999px;background:#fff;color:#486177;font-size:.78rem;display:grid;place-items:center;font-weight:800;border:1px solid #d8e3eb;writing-mode:horizontal-tb}
+.side-tab.has-items:not(.active) .count{animation:pulse 1.6s ease-in-out infinite}
+.peek-stack{position:absolute;left:-7px;bottom:14px;width:18px;height:22px;display:none}
+.peek-stack span{position:absolute;inset:0;background:#fff;border:1px solid #cfdae3;border-radius:3px;box-shadow:1px 2px 0 #e9f0f5}
+.peek-stack span:nth-child(2){transform:translate(-3px,3px)}
+.peek-stack span:nth-child(3){transform:translate(-6px,6px)}
+.side-tab.has-items:not(.active) .peek-stack{display:block;animation:wobble 1.8s ease-in-out infinite}
+.section-badge{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:14px;font-weight:850;margin-bottom:8px}
+.section-badge.blue{background:var(--blue-soft);color:#376da5}.section-badge.blue:before{content:"";width:18px;height:12px;transform:skewX(-18deg);background:#4677b0;border-radius:2px}
+.section-badge.red{background:var(--red-soft);color:#9a5950}.section-badge.red:before{content:"";width:18px;height:12px;transform:skewX(-18deg);background:#af615b;border-radius:2px}
 
-/* Explorer */
+/* Digital stage */
 .explorer{background:linear-gradient(180deg,#f8fbfe,#eff5fb);border:1px solid #d7e4ef;border-radius:22px;padding:12px;min-height:430px}
 .windowbar{height:14px;display:flex;gap:6px;align-items:center;padding-left:4px;margin-bottom:10px}.dot{width:10px;height:10px;border-radius:50%}.r{background:#ff7f7f}.y{background:#ffd065}.g{background:#7ad992}
-.address{background:#fff;border:1px solid #dce6ef;border-radius:11px;padding:10px 12px;font-size:.9rem;color:#6b7c8f;margin-bottom:14px}
-.tree-root{margin:0 0 12px 4px;font-weight:820}
-.digital-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
-.digital-folder{position:relative;background:#fff;border:2px dashed #c7d9e7;border-radius:20px;padding:48px 12px 12px;min-height:305px;cursor:pointer;transition:.14s ease}
-.digital-folder:hover,.digital-folder.over{background:#fbfdff;border-color:#79b1df;transform:translateY(-1px)}
-.folder-tab{position:absolute;top:-2px;left:14px;right:40px;height:46px;border-radius:14px 14px 10px 10px;background:#e9f3fd;border:1px solid #c9def0;display:flex;align-items:center;padding:0 14px;font-weight:820;color:#3b6f9c;box-shadow:0 5px 10px rgba(72,117,162,.08)}
-.folder-tab:before{content:"📁";margin-right:8px}
+.address{background:#fff;border:1px solid #dce6ef;border-radius:11px;padding:10px 12px;font-size:.9rem;color:#6b7c8f;margin-bottom:14px}.tree-root{margin:0 0 12px 4px;font-weight:820}
+.digital-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.digital-folder{position:relative;background:#fff;border:2px dashed #c7d9e7;border-radius:20px;padding:48px 12px 12px;min-height:305px;cursor:pointer;transition:.14s ease}.digital-folder:hover,.digital-folder.over{background:#fbfdff;border-color:#79b1df;transform:translateY(-1px)}
+.folder-tab{position:absolute;top:-2px;left:14px;right:40px;height:46px;border-radius:14px 14px 10px 10px;background:#e9f3fd;border:1px solid #c9def0;display:flex;align-items:center;padding:0 14px;font-weight:820;color:#3b6f9c;box-shadow:0 5px 10px rgba(72,117,162,.08)}.folder-tab:before{content:"📁";margin-right:8px}
 .digital-folder .paper{min-height:55px;padding:8px}.digital-folder .label{font-size:.79rem}.digital-folder .icon-sheet{transform:scale(.84);transform-origin:center}
 
-.actions{display:flex;justify-content:center;align-items:center;gap:14px;min-height:72px;margin-top:14px;flex-wrap:wrap}
-.feedback{font-weight:760;color:#a46f34}.feedback.good{color:#2e8655}
+.actions{display:flex;justify-content:center;align-items:center;gap:14px;min-height:72px;margin-top:14px;flex-wrap:wrap}.feedback{font-weight:760;color:#a46f34}.feedback.good{color:#2e8655}
 .primary{border:0;border-radius:14px;background:#338ddd;color:#fff;padding:12px 28px;font-weight:820;font-size:1rem;box-shadow:0 8px 16px rgba(51,141,221,.25);cursor:pointer}.primary:hover{background:#247ecc}
-.notes{max-width:700px;margin:28px auto 0;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(49,89,121,.10);padding:26px 24px}
-.notes-title{margin:0 0 22px;font-size:1.4rem;font-weight:850;display:flex;align-items:center;gap:10px}
-.note-card{border-left:4px solid #7ab2e0;padding:6px 0 6px 15px;margin-bottom:20px;line-height:1.6;font-size:1.07rem}.note-card:last-child{margin-bottom:0;border-left-color:#e1b55f}.note-card strong{display:block;font-size:1.15rem}.note-card p{margin:6px 0 0}
-/* A real ring binder: one visible sheet, side tabs for sections. */
-.real-binder{position:relative;min-height:446px;margin:9px 5px 8px 0;padding:32px 48px 26px 65px;border-radius:24px 28px 28px 24px;background:linear-gradient(105deg,#b8d2e6 0 7%,#d8e8f4 7.2% 12%,#a5c7df 12.2% 13%,#dbecf7 13.2% 100%);border:2px solid #9dbfd6;box-shadow:0 15px 24px #45789d2a,inset 0 2px 2px #fff9;overflow:visible}
-.real-binder:before{content:"";position:absolute;left:27px;top:15px;bottom:18px;width:5px;border-radius:8px;background:#88a9bd;box-shadow:2px 0 3px #e3f4ff}
-.real-binder:after{content:"";position:absolute;left:16px;right:32px;bottom:12px;height:9px;border-radius:10px;background:repeating-linear-gradient(180deg,#fffef9 0px,#fffef9 2px,#dce2e5 3px);border:1px solid #c0d3e0}
-.real-rings{position:absolute;top:69px;bottom:73px;left:13px;display:flex;flex-direction:column;justify-content:space-between;z-index:5;pointer-events:none}
-.real-ring{display:block;width:34px;height:33px;border:6px solid #98a5af;background:transparent;border-radius:50%;box-shadow:inset 0 0 0 1px #fff8,0 3px 4px #668ca733}
-.real-page{position:relative;z-index:2;background:repeating-linear-gradient(180deg,#fffef9 0px,#fffef9 35px,#ebeff0 36px);border:1px solid #cad8e2;border-radius:3px 18px 18px 3px;min-height:377px;padding:23px 21px 17px;box-shadow:6px 5px 0 #f8f7ee,8px 7px 0 #d1dde2,10px 10px 14px #6895b130;cursor:pointer;transition:border-color .15s}
-.real-page.over,.real-page:hover{border-color:#4999db}
-.real-page:before{content:"";position:absolute;top:19px;bottom:16px;left:14px;width:2px;background:#e9d8d4}
-.real-page-header{font-size:1.12rem;line-height:1.2;font-weight:850;margin:0 0 20px;padding:0 0 12px 4px;border-bottom:2px solid #d6e7f2;color:#365a75}
-.real-page .slot-contents{padding-left:5px;grid-template-columns:1fr;gap:8px;max-width:90%}
-.real-page .paper{min-height:55px;padding:8px 12px;background:#fffefb}
-.real-page .label{font-size:.83rem}
-.real-page .icon-sheet{transform:scale(.84);transform-origin:center}
-.real-page .empty{max-width:280px;background:#fffdf9}
-.side-tabs{position:absolute;z-index:3;top:75px;right:-15px;display:flex;flex-direction:column;gap:13px;align-items:stretch;width:105px}
-.side-tab{position:relative;display:flex;align-items:center;justify-content:flex-start;text-align:left;min-height:79px;border:1px solid #d4b2ae;border-radius:0 13px 13px 0;padding:9px 8px 9px 13px;font-weight:800;font-size:.82rem;line-height:1.2;box-shadow:4px 5px 9px #456f8629;color:#764b4a;cursor:pointer;transform:translateX(0);transition:transform .15s ease,box-shadow .15s ease}
-.side-tab.rose{background:#f4d7d1;border-color:#d7aca4;color:#854a46}
-.side-tab.blue{background:#c6e1f6;border-color:#9bbfdd;color:#255b86}
-.side-tab.active{transform:translateX(12px);box-shadow:6px 7px 12px #456f863b}
-.side-tab.over{outline:3px solid #86b6e4}
-.real-page .paper.selected{background:#e7f4ff}
-@media (max-width:780px){.board{grid-template-columns:1fr}.binder{min-height:390px}.divider-grid,.digital-grid{grid-template-columns:1fr}.papers{min-height:0}.binder:before{right:80px}}
-@media (max-width:450px){.app{padding:14px 10px 24px}.panel{padding:14px}.papers{gap:8px}.paper{padding:8px;min-height:64px}.label{font-size:.84rem}.binder{padding:22px 12px 14px 28px}.binder-title{margin-left:8px}.binder-content{margin-left:8px;padding:16px 10px 10px}.divider-section{padding-left:8px;padding-right:8px}.tab-card{left:10px;right:14px;font-size:.9rem}.digital-folder{padding-left:8px;padding-right:8px}.folder-tab{left:10px;right:20px;font-size:.9rem}}
-@media(max-width:550px){.real-binder{padding:21px 31px 17px 48px;margin-right:16px;min-height:385px}.real-page{padding:20px 12px;min-height:330px}.real-page-header{font-size:.93rem}.side-tabs{right:-20px;width:81px;top:72px;gap:8px}.side-tab{min-height:68px;padding:6px 6px;font-size:.68rem}.real-rings{left:6px;top:62px;bottom:65px}.real-ring{width:28px;height:28px;border-width:5px}}
+.notes{max-width:700px;margin:28px auto 0;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(49,89,121,.10);padding:26px 24px}.notes-title{margin:0 0 22px;font-size:1.4rem;font-weight:850;display:flex;align-items:center;gap:10px}.note-card{border-left:4px solid #7ab2e0;padding:6px 0 6px 15px;margin-bottom:20px;line-height:1.6;font-size:1.07rem}.note-card:last-child{margin-bottom:0;border-left-color:#e1b55f}.note-card strong{display:block;font-size:1.15rem}.note-card p{margin:6px 0 0}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes wobble{0%,100%{transform:translateX(0)}50%{transform:translateX(-2px)}}
+@media (max-width:830px){.board{grid-template-columns:1fr}.real-binder{padding-right:78px;min-height:430px}.papers{min-height:0}}
+@media (max-width:520px){.app{padding:14px 10px 24px}.panel{padding:14px}.papers{grid-template-columns:1fr}.real-binder{padding:18px 66px 18px 18px}.ring{left:20px;width:28px;height:28px}.ring.top{top:130px}.ring.bottom{top:270px}.binder-page{padding:18px 14px 14px}.side-tabs{width:58px;right:6px}.side-tab{min-height:94px;font-size:.82rem;padding-left:10px}.side-tab .count{left:-8px}}
 </style>
 </head>
 <body>
 <div class="app">
   <header>
-    <div class="id">
+    <div class="ident">
       <div class="logo" aria-hidden="true">📒</div>
       <div>
         <h1>Miriams Informatikordner</h1>
@@ -116,7 +96,6 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{colo
 </div>
 <script>
 (function(){
-"use strict";
 const data=[
  {id:"proz",name:"Der Prozessor",folder:"teile"},
  {id:"evaSmart",name:"EVA beim Smartphone",folder:"eva"},
@@ -127,77 +106,102 @@ const data=[
  {id:"bildschirm",name:"Der Bildschirm",folder:"teile"},
  {id:"evaKonsole",name:"EVA bei der Konsole",folder:"eva"}
 ];
-let phase=0, activeTab="teile", locations={}, selected=null, dragging=null, valid=false, message="", randomized=[];
-const screen=document.getElementById("screen");
-const actions=document.getElementById("actions");
-function shuffle(){ randomized=data.slice(); for(let i=randomized.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [randomized[i],randomized[j]]=[randomized[j],randomized[i]]; } }
-function resetLocations(){ activeTab="teile"; locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; shuffle(); }
+const sectionInfo={
+ teile:{label:"Geräte und Bauteile", short:"Bauteile", color:"red"},
+ eva:{label:"EVA-Prinzip", short:"EVA-Prinzip", color:"blue"}
+};
+let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[], activeSection="teile";
+const screen=document.getElementById("screen"); const actions=document.getElementById("actions");
+function shuffle(){ randomized=data.slice(); for(let i=randomized.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [randomized[i],randomized[j]]=[randomized[j],randomized[i]];} }
+function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; activeSection="teile"; shuffle(); }
 function start(){ phase=0; resetLocations(); draw(); }
 document.getElementById("restart").addEventListener("click", start);
+function itemsIn(place){ return randomized.filter(item=>locations[item.id]===place); }
 function paper(item){
- const card=document.createElement("div");
- card.className="paper"+(phase===1?" digital":"")+(selected===item.id?" selected":"");
- card.tabIndex=0; card.draggable=true; card.setAttribute("role","button");
- card.innerHTML='<div class="icon-sheet" aria-hidden="true"></div><div class="label">'+item.name+'</div>';
- card.addEventListener("click", e=>{e.stopPropagation(); selected=selected===item.id?null:item.id; draw();});
- card.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); selected=selected===item.id?null:item.id; draw(); } });
- card.addEventListener("dragstart", e=>{ dragging=item.id; e.dataTransfer.setData("text/plain", item.id); e.dataTransfer.effectAllowed="move"; });
- card.addEventListener("dragend", ()=> dragging=null);
- return card;
+  const card=document.createElement("div");
+  card.className="paper"+(phase===1?" digital":"")+(selected===item.id?" selected":"");
+  card.tabIndex=0; card.draggable=true; card.setAttribute("role","button");
+  card.innerHTML='<div class="icon-sheet" aria-hidden="true"></div><div class="label">'+item.name+'</div>';
+  card.addEventListener("click", e=>{e.stopPropagation(); selected=selected===item.id?null:item.id; draw();});
+  card.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); selected=selected===item.id?null:item.id; draw(); } });
+  card.addEventListener("dragstart", e=>{ dragging=item.id; e.dataTransfer.setData("text/plain", item.id); e.dataTransfer.effectAllowed="move"; });
+  card.addEventListener("dragend", ()=> dragging=null);
+  return card;
 }
+function move(id,place){ if(phase>1) return; locations[id]=place; selected=null; valid=false; message=""; draw(); }
 function setupDrop(target,place){
- target.addEventListener("dragover", e=>{ e.preventDefault(); target.classList.add("over"); });
- target.addEventListener("dragleave", e=>{ if(!target.contains(e.relatedTarget)) target.classList.remove("over"); });
- target.addEventListener("drop", e=>{ e.preventDefault(); target.classList.remove("over"); const id=e.dataTransfer.getData("text/plain")||dragging; if(id) move(id,place); dragging=null; });
- target.addEventListener("click", ()=>{ if(selected) move(selected,place); });
- target.addEventListener("keydown", e=>{ if(selected&&(e.key==="Enter"||e.key===" ")){ e.preventDefault(); move(selected,place); } });
- target.tabIndex=0;
+  target.addEventListener("dragover", e=>{ e.preventDefault(); target.classList.add("over"); });
+  target.addEventListener("dragleave", e=>{ if(!target.contains(e.relatedTarget)) target.classList.remove("over"); });
+  target.addEventListener("drop", e=>{ e.preventDefault(); target.classList.remove("over"); const id=e.dataTransfer.getData("text/plain")||dragging; if(id) move(id,place); dragging=null; });
+  target.addEventListener("click", ()=>{ if(selected) move(selected,place); });
+  target.addEventListener("keydown", e=>{ if(selected&&(e.key==="Enter"||e.key===" ")){ e.preventDefault(); move(selected,place); } });
+  target.tabIndex=0;
 }
-function fill(container,place){
- const items=randomized.filter(item=>locations[item.id]===place);
- if(items.length===0 && place!=="stack"){
-   const hint=document.createElement("div"); hint.className="empty"; hint.textContent="Hier ablegen"; container.appendChild(hint);
- }
- items.forEach(item=>container.appendChild(paper(item)));
+function renderStack(){
+  const stack=document.getElementById("stack");
+  stack.innerHTML=""; setupDrop(stack,"stack");
+  const items=itemsIn("stack");
+  if(items.length===0){ const h=document.createElement("div"); h.className="empty"; h.textContent="Alle Blätter sind einsortiert"; stack.appendChild(h); return; }
+  items.forEach(item=>stack.appendChild(paper(item)));
 }
-function move(id,place){ if(phase>1) return; if(phase===0 && place!=="stack")activeTab=place; locations[id]=place; selected=null; valid=false; message=""; draw(); }
-function renderLearningArea(){
- const physical = phase===0;
- screen.innerHTML = '<div class="board">'
-   + '<section class="panel"><h2 class="panel-title">'+(physical?'📄 Arbeitsblätter':'📄 Dateien')+'</h2><div class="papers" id="stack"></div></section>'
-   + '<section class="panel"><h2 class="panel-title">'+(physical?'📒 Schulordner':'💻 Am Computer')+'</h2>'
-   + (physical
-      ? '<div class="real-binder"><div class="real-rings"><span class="real-ring"></span><span class="real-ring"></span><span class="real-ring"></span></div><div class="real-page" data-drop="' + activeTab + '"><div class="real-page-header">📒 Informatik · ' + (activeTab==='teile'?'Geräte und Bauteile':'EVA-Prinzip') + ' </div><div class="slot-contents" id="' + activeTab + '"></div></div><div class="side-tabs"><button type="button" data-tab="teile" class="side-tab rose' + (activeTab==='teile'?' active':'') + '">Geräte und Bauteile</button><button type="button" data-tab="eva" class="side-tab blue' + (activeTab==='eva'?' active':'') + '">EVA-Prinzip</button></div></div>'
-      : '<div class="explorer"><div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><div class="address">📁 Schule › Informatik</div><div class="tree-root">📁 Informatik</div><div class="digital-grid"><div class="digital-folder" data-drop="teile"><div class="folder-tab">Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="digital-folder" data-drop="eva"><div class="folder-tab">EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div>')
+function renderPaperStage(){
+  const info=sectionInfo[activeSection];
+  screen.innerHTML='<div class="board">'
+   + '<section class="panel"><h2 class="panel-title">📄 Arbeitsblätter</h2><div class="papers" id="stack"></div></section>'
+   + '<section class="panel"><h2 class="panel-title">📒 Schulordner</h2>'
+   +   '<div class="real-binder">'
+   +      '<span class="ring top"></span><span class="ring bottom"></span>'
+   +      '<div class="binder-page">'
+   +         '<div class="binder-head"><div><h3>Informatik</h3><div class="section-note">Register</div></div><div class="section-badge '+info.color+'">'+info.label+'</div></div>'
+   +         '<div class="sheet-zone" id="active-zone"></div>'
+   +      '</div>'
+   +      '<div class="side-tabs" id="side-tabs"></div>'
+   +   '</div>'
    + '</section></div>';
- const stack=document.getElementById('stack');
- setupDrop(stack,'stack');
- fill(stack,'stack');
- (physical ? [activeTab] : ['teile','eva']).forEach(place=>{ const zone=screen.querySelector('[data-drop="'+place+'"]'); setupDrop(zone,place); fill(document.getElementById(place),place); });
- if(physical){
-   screen.querySelectorAll('[data-tab]').forEach(tab=>{
-     const place=tab.dataset.tab;
-     tab.addEventListener('click',e=>{e.stopPropagation(); if(selected)move(selected,place);else{activeTab=place;draw();}});
-     tab.addEventListener('dragover',e=>{e.preventDefault();tab.classList.add('over');});
-     tab.addEventListener('dragleave',()=>tab.classList.remove('over'));
-     tab.addEventListener('drop',e=>{e.preventDefault();e.stopPropagation();const id=e.dataTransfer.getData('text/plain')||dragging;if(id)move(id,place);dragging=null;});
-   });
- }
- actions.innerHTML='';
- if(message){ const f=document.createElement('span'); f.className='feedback'+(valid?' good':''); f.textContent=message; actions.appendChild(f); }
- const btn=document.createElement('button'); btn.type='button'; btn.className='primary';
- if(valid){ btn.textContent='Weiter →'; btn.addEventListener('click', ()=>{ phase++; resetLocations(); draw(); }); }
- else { btn.textContent='Prüfen'; btn.addEventListener('click', ()=>{ const sorted=data.every(item=>locations[item.id]===item.folder); valid=sorted; message=sorted?'✓ Alles richtig!':'Noch nicht ganz.'; draw(); }); }
- actions.appendChild(btn);
+  renderStack();
+  const zone=document.getElementById("active-zone"); setupDrop(zone, activeSection);
+  const activeItems=itemsIn(activeSection);
+  if(activeItems.length===0){ const hint=document.createElement("div"); hint.className="empty"; hint.textContent="Hier ablegen"; zone.appendChild(hint); }
+  activeItems.forEach(item=>zone.appendChild(paper(item)));
+  const tabBox=document.getElementById("side-tabs");
+  ["teile","eva"].forEach(key=>{
+    const sec=sectionInfo[key], count=itemsIn(key).length;
+    const tab=document.createElement("div");
+    tab.className='side-tab '+sec.color+(activeSection===key?' active':'')+(count>0?' has-items':'');
+    tab.tabIndex=0;
+    tab.innerHTML='<span>'+sec.short+'</span><span class="count">'+count+'</span><div class="peek-stack"><span></span><span></span><span></span></div>';
+    tab.addEventListener('click', e=>{ e.stopPropagation(); if(selected){ move(selected,key); } else { activeSection=key; draw(); } });
+    tab.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(selected){ move(selected,key); } else { activeSection=key; draw(); } } });
+    setupDrop(tab,key);
+    tabBox.appendChild(tab);
+  });
+}
+function renderDigitalStage(){
+  screen.innerHTML='<div class="board">'
+   + '<section class="panel"><h2 class="panel-title">📄 Dateien</h2><div class="papers" id="stack"></div></section>'
+   + '<section class="panel"><h2 class="panel-title">💻 Am Computer</h2>'
+   +   '<div class="explorer"><div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><div class="address">📁 Schule › Informatik</div><div class="tree-root">📁 Informatik</div><div class="digital-grid"><div class="digital-folder" data-drop="teile"><div class="folder-tab">Geräte und Bauteile</div><div class="sheet-zone" id="teile-zone" style="margin-top:0;min-height:235px"></div></div><div class="digital-folder" data-drop="eva"><div class="folder-tab">EVA-Prinzip</div><div class="sheet-zone" id="eva-zone" style="margin-top:0;min-height:235px"></div></div></div></div>'
+   + '</section></div>';
+  renderStack();
+  ["teile","eva"].forEach(key=>{ const zone=document.getElementById(key+'-zone'); setupDrop(zone,key); const items=itemsIn(key); if(items.length===0){ const h=document.createElement('div'); h.className='empty'; h.textContent='Hier ablegen'; zone.appendChild(h);} items.forEach(item=>zone.appendChild(paper(item))); });
+}
+function drawActions(){
+  actions.innerHTML='';
+  if(message){ const f=document.createElement('span'); f.className='feedback'+(valid?' good':''); f.textContent=message; actions.appendChild(f); }
+  const btn=document.createElement('button'); btn.type='button'; btn.className='primary';
+  if(valid){ btn.textContent='Weiter →'; btn.addEventListener('click', ()=>{ phase++; resetLocations(); draw(); }); }
+  else { btn.textContent='Prüfen'; btn.addEventListener('click', ()=>{ const sorted=data.every(item=>locations[item.id]===item.folder); valid=sorted; message=sorted?'✓ Alles richtig!':'Noch nicht ganz.'; draw(); }); }
+  actions.appendChild(btn);
 }
 function draw(){
- document.getElementById('step').textContent=(phase+1)+' von 3 · '+(['Auf Papier','Am Computer','Merksätze'][phase]);
- if(phase===2){
-   screen.innerHTML='<div class="notes"><h2 class="notes-title">📒 Für dein Informatikheft</h2><div class="note-card"><strong>Datei</strong><p>Eine Datei speichert Daten, zum Beispiel einen Text oder ein Bild.</p></div><div class="note-card"><strong>Ordner</strong><p>In einem Ordner können Dateien und weitere Ordner liegen. Diese heißen Unterordner.</p></div></div>';
-   actions.innerHTML='';
-   return;
- }
- renderLearningArea();
+  document.getElementById('step').textContent=(phase+1)+' von 3 · '+(['Auf Papier','Am Computer','Merksätze'][phase]);
+  if(phase===2){
+    screen.innerHTML='<div class="notes"><h2 class="notes-title">📒 Für dein Merkheft</h2><div class="note-card"><strong>Datei</strong><p>Eine Datei speichert Daten, zum Beispiel einen Text oder ein Bild.</p></div><div class="note-card"><strong>Ordner</strong><p>In einem Ordner können Dateien und weitere Ordner liegen. Diese heißen Unterordner.</p></div></div>';
+    actions.innerHTML='';
+    return;
+  }
+  if(phase===0) renderPaperStage(); else renderDigitalStage();
+  drawActions();
 }
 start();
 })();
