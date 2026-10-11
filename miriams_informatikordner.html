@@ -5,93 +5,96 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Miriams Informatikordner</title>
 <style>
-:root{--ink:#2b384a;--muted:#758599;--line:#dfe9f2;--blue:#3989d9;--paper:#fff;--gold:#f8c85b}
+:root{
+  --bg:#eef5fb; --card:#ffffff; --line:#dce7f1; --ink:#26364b; --muted:#71839a;
+  --blue:#4a8fd3; --blue-soft:#dcecff; --rose:#c67a72; --rose-soft:#f3ddd9;
+  --folder:#f3dfaa; --folder-dark:#e5c87d; --paper:#fffef9; --paper-2:#f7f3ea;
+}
 *{box-sizing:border-box}
-html{background:#f5f9fc}
-body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;margin:0;color:var(--ink);background:linear-gradient(150deg,#f7fbff,#eef6fb);min-height:100vh}
-button{font:inherit;cursor:pointer}
-button:focus-visible,[tabindex]:focus-visible{outline:3px solid #489fe5;outline-offset:3px}
-.app{max-width:1110px;margin:auto;padding:22px 20px 32px}
-header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:20px}
-.identity{display:flex;align-items:center;gap:12px}
-.logo{width:55px;height:55px;border-radius:18px;background:#fff1b9;display:grid;place-items:center;font-size:32px;box-shadow:0 6px 15px #ab8e5424}
-h1{font-size:clamp(1.35rem,3vw,1.9rem);margin:0;letter-spacing:-.04em}
-.step{color:var(--muted);font-size:.91rem;margin-top:3px}
-.restart{border:1px solid var(--line);background:white;border-radius:13px;padding:9px 13px;color:#617287;font-weight:650}
-.restart:hover{background:#f0f7fd}
-main{min-height:430px}
-.board{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.12fr);gap:18px;align-items:start}
-.panel{background:#fff;border:1px solid var(--line);border-radius:23px;box-shadow:0 13px 32px #385a7a13;padding:18px}
-.panel-title{font-weight:800;font-size:1.04rem;display:flex;align-items:center;gap:8px;margin:0 0 17px}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f7fbff,#eef5fb);color:var(--ink)}
+button{font:inherit}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid #6fb1e6;outline-offset:3px}
+.app{max-width:1120px;margin:auto;padding:22px 18px 32px}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.id{display:flex;align-items:center;gap:12px}
+.logo{width:54px;height:54px;border-radius:18px;background:#fff0b8;display:grid;place-items:center;font-size:30px;box-shadow:0 8px 18px rgba(158,133,65,.18)}
+h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{color:var(--muted);font-size:.93rem;margin-top:3px}
+.restart{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-weight:650;color:#5e6f83;cursor:pointer}.restart:hover{background:#f7fbff}
+.board{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:18px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(53,90,124,.10);padding:18px}
+.panel-title{margin:0 0 14px;display:flex;align-items:center;gap:8px;font-size:1.03rem;font-weight:800}
 .papers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-height:390px;align-content:start}
-.paper{border:1px solid #dce7ef;border-radius:13px;background:#fff;box-shadow:0 4px 9px #4d769815;display:flex;align-items:center;gap:9px;min-height:69px;padding:10px;cursor:grab;user-select:none;transition:.13s ease}
-.paper:hover{border-color:#86bde8;transform:translateY(-1px)}
-.paper.selected{background:#e9f5ff;border-color:#489fe5;box-shadow:0 0 0 2px #b4dcfc}
+.paper{background:#fff;border:1px solid #d8e5ef;border-radius:13px;min-height:70px;padding:10px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 10px rgba(58,95,126,.08);cursor:grab;user-select:none;transition:.14s ease}
+.paper:hover{transform:translateY(-1px);border-color:#9fc5e6}
+.paper.selected{background:#edf7ff;border-color:#5da4df;box-shadow:0 0 0 2px #c6e4fb}
 .paper:active{cursor:grabbing}
-.sheet-icon{position:relative;flex:0 0 29px;height:37px;border-radius:3px;background:#fff;border:1px solid #b7cce0;box-shadow:2px 3px 0 #edf3f8}
-.sheet-icon:before{content:"";position:absolute;width:17px;height:2px;top:13px;left:5px;background:#99b7d1;box-shadow:0 6px #99b7d1,0 12px #c5d8e7}
-.paper-label{font-weight:650;font-size:.91rem;line-height:1.25;overflow-wrap:anywhere}
-.paper.digital .sheet-icon{background:#ebf5ff;border-color:#9dc8ec;border-radius:5px}
-.paper.digital .sheet-icon:after{content:".pdf";position:absolute;bottom:1px;left:4px;font-size:8px;font-weight:800;color:#3778b6}
-.paper.digital .sheet-icon:before{top:9px;box-shadow:0 5px #99b7d1}
-.empty{color:#a1acb9;border:1px dashed #d7e2e9;border-radius:12px;text-align:center;padding:23px 8px;font-size:.87rem;background:#ffffff95}
-.binder{position:relative;background:linear-gradient(140deg,#ffebba,#ffe5a1);border:1px solid #f0d28a;border-radius:22px;padding:17px 16px 19px 38px;box-shadow:inset 8px 0 0 #eac36e,0 9px 19px #bf944f20;min-height:415px}
-.binder:before{content:"";position:absolute;top:34px;bottom:26px;left:18px;width:4px;background:repeating-linear-gradient(to bottom,#8795a2 0 7px,transparent 7px 49px);border-radius:3px}
-.binder:after{content:"";position:absolute;top:30px;left:13px;width:14px;height:14px;border:3px solid #a8b1b9;border-radius:50%;box-shadow:0 75px 0 -1px #f9ebc6,0 75px 0 2px #a8b1b9,0 150px 0 -1px #f9ebc6,0 150px 0 2px #a8b1b9,0 225px 0 -1px #f9ebc6,0 225px 0 2px #a8b1b9}
-.binder-title{font-size:1.06rem;font-weight:850;margin:2px 0 16px}
-.slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.slot{border:2px dashed #e4d39f;background:#fffdf6;border-radius:16px;min-height:318px;padding:10px;transition:.14s ease;cursor:pointer}
-.slot:hover,.slot.over{border-color:#7db6e8;background:#f7fbff}
-.tab{display:flex;align-items:center;gap:6px;font-size:.92rem;font-weight:850;margin-bottom:13px;padding:8px 8px;border-radius:10px}
-.tab.coral{background:#ffe2dc;color:#9e5350}
-.tab.blue{background:#dfeeff;color:#356da4}
+.icon-sheet{width:30px;height:38px;position:relative;flex:0 0 auto;border-radius:4px;background:#fff;border:1px solid #b9cfdf;box-shadow:2px 3px 0 #edf3f8}
+.icon-sheet:before{content:"";position:absolute;left:5px;right:5px;top:12px;height:2px;background:#a0bdd6;box-shadow:0 7px 0 #a0bdd6,0 14px 0 #d0dee9}
+.paper.digital .icon-sheet{background:#edf7ff;border-color:#9ec4e5}
+.paper.digital .icon-sheet:after{content:".pdf";position:absolute;left:4px;bottom:1px;font-size:8px;font-weight:800;color:#4a8fd3}
+.label{font-size:.91rem;line-height:1.24;font-weight:680;overflow-wrap:anywhere}
+.empty{border:1px dashed #cddbe8;border-radius:12px;background:rgba(255,255,255,.72);color:#98a8ba;text-align:center;padding:22px 8px;font-size:.88rem}
+
+/* Binder */
+.binder-shell{position:relative;padding-top:28px}
+.binder{position:relative;background:linear-gradient(180deg,var(--folder) 0%,#f0d99b 100%);border:1px solid #e4c678;border-radius:30px;padding:26px 18px 20px 34px;box-shadow:inset 0 2px 0 rgba(255,255,255,.45),0 12px 22px rgba(179,145,65,.15);min-height:430px}
+.binder:before{content:"";position:absolute;top:-14px;left:28px;right:160px;height:34px;background:linear-gradient(180deg,#f6e6ba 0%,#efd899 100%);border:1px solid #e4c678;border-bottom:none;border-radius:18px 18px 0 0;box-shadow:0 -1px 0 rgba(255,255,255,.35) inset}
+.binder:after{content:"";position:absolute;left:14px;top:22px;bottom:22px;width:8px;border-radius:8px;background:linear-gradient(180deg,#dcc070,#f5e2aa);box-shadow:inset -2px 0 0 rgba(255,255,255,.38)}
+.rings{position:absolute;left:22px;top:68px;bottom:48px;width:24px;display:flex;flex-direction:column;justify-content:space-between;pointer-events:none}
+.ring{width:22px;height:22px;border-radius:50%;border:5px solid #94a2b1;background:#f8e9bd;box-shadow:0 2px 0 rgba(255,255,255,.25) inset}
+.binder-title{margin:0 0 18px 16px;font-size:1.1rem;font-weight:850;display:flex;align-items:center;gap:9px}
+.binder-content{position:relative;margin-left:16px;background:linear-gradient(180deg,#fffefb 0%,var(--paper-2) 100%);border:1px solid rgba(207,180,112,.65);border-radius:22px;padding:20px 16px 16px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.32);min-height:330px}
+.divider-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.divider-section{position:relative;background:var(--paper);border:2px dashed #e3d6ad;border-radius:22px;padding:54px 12px 12px;min-height:272px;transition:.14s ease;cursor:pointer;box-shadow:0 3px 10px rgba(101,92,68,.05)}
+.divider-section:hover,.divider-section.over{background:#fff;transform:translateY(-1px);border-color:#8fb6d8}
+.tab-card{position:absolute;left:14px;right:22px;top:-2px;height:54px;border-radius:0 0 18px 18px;border:1px solid transparent;border-top:none;display:flex;align-items:center;padding:0 16px;font-weight:850;font-size:1rem;box-shadow:0 6px 10px rgba(60,86,120,.08)}
+.tab-card:before{content:"";width:18px;height:14px;margin-right:10px;transform:skewX(-16deg)}
+.tab-card.rose{background:var(--rose-soft);color:#9b594f;border-color:#ecd0cb}.tab-card.rose:before{background:#a55d55}
+.tab-card.blue{background:var(--blue-soft);color:#346ea8;border-color:#c7def6}.tab-card.blue:before{background:#3e6fa5}
 .slot-contents{display:grid;gap:8px;align-content:start}
-.slot .paper{padding:7px;min-height:56px}
-.slot .paper-label{font-size:.79rem}
-.slot .sheet-icon{transform:scale(.82);transform-origin:center;flex-basis:25px}
-.explorer{background:#f3f8fc;border:1px solid #d4e3f0;border-radius:18px;padding:12px;min-height:400px}
-.address{background:white;border:1px solid #dde8f0;border-radius:10px;padding:10px 11px;font-size:.88rem;color:#6c7e90;margin-bottom:13px}
-.tree-root{display:flex;align-items:center;gap:8px;font-size:1.01rem;font-weight:800;margin:0 0 10px 4px}
-.digital-slots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-.digital-folder{background:white;border:2px dashed #c5d8e7;border-radius:16px;min-height:305px;padding:11px;cursor:pointer;transition:.14s ease}
-.digital-folder:hover,.digital-folder.over{border-color:#73ade1;background:#f8fcff}
-.digital-folder .tab{background:#e8f3fc;color:#3b6e99}
-.digital-folder .paper{min-height:55px;padding:8px}
-.digital-folder .paper-label{font-size:.79rem}
-.digital-folder .sheet-icon{transform:scale(.83);transform-origin:center;flex-basis:25px}
-.emptyspace{min-height:55px}
-.actions{display:flex;justify-content:center;align-items:center;gap:14px;min-height:71px;margin-top:12px;flex-wrap:wrap}
-.primary{border:0;border-radius:14px;background:#318add;color:white;font-weight:800;font-size:1rem;padding:12px 28px;box-shadow:0 7px 14px #2888d533}
-.primary:hover{background:#237bcc}
-.feedback{font-weight:750;color:#a16f35;font-size:.97rem}
-.feedback.good{color:#288158}
-.notes{max-width:680px;margin:32px auto 20px;background:white;border:1px solid #dae6f1;border-radius:23px;box-shadow:0 14px 34px #31597918;padding:clamp(22px,5vw,40px)}
-.notes-title{font-weight:850;font-size:1.45rem;display:flex;align-items:center;gap:12px;margin:0 0 26px}
-.note-card{border-left:4px solid #78b6e9;padding:7px 15px;margin:0 0 25px;line-height:1.6;font-size:1.08rem}
-.note-card strong{font-size:1.16rem}
-.note-card p{margin:7px 0 0}
-.note-card:last-child{margin-bottom:0;border-left-color:#e9b75a}
-.sr-only{position:absolute;clip:rect(0,0,0,0);width:1px;height:1px;overflow:hidden}
-@media(max-width:760px){.app{padding:14px 11px}.board{grid-template-columns:1fr}.panel{padding:13px}.papers{min-height:0}.binder{min-height:350px}.slot{min-height:260px}.digital-folder{min-height:260px}}
-@media(max-width:420px){.slots,.digital-slots{gap:6px}.slot,.digital-folder{padding:6px}.tab{font-size:.78rem;padding:6px 3px}.papers{gap:7px}.paper{padding:7px}.paper-label{font-size:.82rem}.slot .paper-label,.digital-folder .paper-label{font-size:.75rem}.binder{padding-left:30px;padding-right:7px}.logo{width:45px;height:45px;font-size:26px}}
+.divider-section .paper{min-height:56px;padding:8px}.divider-section .label{font-size:.79rem}.divider-section .icon-sheet{transform:scale(.84);transform-origin:center}
+
+/* Explorer */
+.explorer{background:linear-gradient(180deg,#f8fbfe,#eff5fb);border:1px solid #d7e4ef;border-radius:22px;padding:12px;min-height:430px}
+.windowbar{height:14px;display:flex;gap:6px;align-items:center;padding-left:4px;margin-bottom:10px}.dot{width:10px;height:10px;border-radius:50%}.r{background:#ff7f7f}.y{background:#ffd065}.g{background:#7ad992}
+.address{background:#fff;border:1px solid #dce6ef;border-radius:11px;padding:10px 12px;font-size:.9rem;color:#6b7c8f;margin-bottom:14px}
+.tree-root{margin:0 0 12px 4px;font-weight:820}
+.digital-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.digital-folder{position:relative;background:#fff;border:2px dashed #c7d9e7;border-radius:20px;padding:48px 12px 12px;min-height:305px;cursor:pointer;transition:.14s ease}
+.digital-folder:hover,.digital-folder.over{background:#fbfdff;border-color:#79b1df;transform:translateY(-1px)}
+.folder-tab{position:absolute;top:-2px;left:14px;right:40px;height:46px;border-radius:14px 14px 10px 10px;background:#e9f3fd;border:1px solid #c9def0;display:flex;align-items:center;padding:0 14px;font-weight:820;color:#3b6f9c;box-shadow:0 5px 10px rgba(72,117,162,.08)}
+.folder-tab:before{content:"📁";margin-right:8px}
+.digital-folder .paper{min-height:55px;padding:8px}.digital-folder .label{font-size:.79rem}.digital-folder .icon-sheet{transform:scale(.84);transform-origin:center}
+
+.actions{display:flex;justify-content:center;align-items:center;gap:14px;min-height:72px;margin-top:14px;flex-wrap:wrap}
+.feedback{font-weight:760;color:#a46f34}.feedback.good{color:#2e8655}
+.primary{border:0;border-radius:14px;background:#338ddd;color:#fff;padding:12px 28px;font-weight:820;font-size:1rem;box-shadow:0 8px 16px rgba(51,141,221,.25);cursor:pointer}.primary:hover{background:#247ecc}
+.notes{max-width:700px;margin:28px auto 0;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(49,89,121,.10);padding:26px 24px}
+.notes-title{margin:0 0 22px;font-size:1.4rem;font-weight:850;display:flex;align-items:center;gap:10px}
+.note-card{border-left:4px solid #7ab2e0;padding:6px 0 6px 15px;margin-bottom:20px;line-height:1.6;font-size:1.07rem}.note-card:last-child{margin-bottom:0;border-left-color:#e1b55f}.note-card strong{display:block;font-size:1.15rem}.note-card p{margin:6px 0 0}
+@media (max-width:780px){.board{grid-template-columns:1fr}.binder{min-height:390px}.divider-grid,.digital-grid{grid-template-columns:1fr}.papers{min-height:0}.binder:before{right:80px}}
+@media (max-width:450px){.app{padding:14px 10px 24px}.panel{padding:14px}.papers{gap:8px}.paper{padding:8px;min-height:64px}.label{font-size:.84rem}.binder{padding:22px 12px 14px 28px}.binder-title{margin-left:8px}.binder-content{margin-left:8px;padding:16px 10px 10px}.divider-section{padding-left:8px;padding-right:8px}.tab-card{left:10px;right:14px;font-size:.9rem}.digital-folder{padding-left:8px;padding-right:8px}.folder-tab{left:10px;right:20px;font-size:.9rem}}
 </style>
 </head>
 <body>
 <div class="app">
-<header>
- <div class="identity">
-  <div class="logo" aria-hidden="true">📒</div>
-  <div><h1>Miriams Informatikordner</h1><div class="step" id="step">1 von 3 · Auf Papier</div></div>
- </div>
- <button class="restart" id="restart" type="button" title="Neu beginnen" aria-label="Neu beginnen">↻ Neu beginnen</button>
-</header>
-<main id="screen"></main>
-<div class="actions" id="actions" aria-live="polite"></div>
+  <header>
+    <div class="id">
+      <div class="logo" aria-hidden="true">📒</div>
+      <div>
+        <h1>Miriams Informatikordner</h1>
+        <div class="step" id="step">1 von 3 · Auf Papier</div>
+      </div>
+    </div>
+    <button class="restart" id="restart" type="button">↻ Neu beginnen</button>
+  </header>
+  <main id="screen"></main>
+  <div class="actions" id="actions" aria-live="polite"></div>
 </div>
 <script>
 (function(){
 "use strict";
-var data=[
+const data=[
  {id:"proz",name:"Der Prozessor",folder:"teile"},
  {id:"evaSmart",name:"EVA beim Smartphone",folder:"eva"},
  {id:"tast",name:"Die Tastatur",folder:"teile"},
@@ -101,73 +104,68 @@ var data=[
  {id:"bildschirm",name:"Der Bildschirm",folder:"teile"},
  {id:"evaKonsole",name:"EVA bei der Konsole",folder:"eva"}
 ];
-var phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[];
-var screen=document.getElementById("screen"), actions=document.getElementById("actions");
-function shuffle(){
- randomized=data.slice();
- for(var i=randomized.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=randomized[i];randomized[i]=randomized[j];randomized[j]=t;}
-}
-function resetLocations(){locations={};data.forEach(function(item){locations[item.id]="stack";});selected=null;valid=false;message="";shuffle();}
-function start(){phase=0;resetLocations();draw();}
-document.getElementById("restart").addEventListener("click",start);
-function find(id){return data.find(function(x){return x.id===id;});}
-function move(id,place){if(phase>1||!find(id))return;locations[id]=place;selected=null;valid=false;message="";draw();}
+let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[];
+const screen=document.getElementById("screen");
+const actions=document.getElementById("actions");
+function shuffle(){ randomized=data.slice(); for(let i=randomized.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [randomized[i],randomized[j]]=[randomized[j],randomized[i]]; } }
+function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; shuffle(); }
+function start(){ phase=0; resetLocations(); draw(); }
+document.getElementById("restart").addEventListener("click", start);
 function paper(item){
- var card=document.createElement("div");card.className="paper"+(phase===1?" digital":"")+(selected===item.id?" selected":"");
- card.tabIndex=0;card.draggable=true;card.setAttribute("role","button");card.setAttribute("aria-label",item.name+", auswählen");
- var icon=document.createElement("div");icon.className="sheet-icon";icon.setAttribute("aria-hidden","true");
- var label=document.createElement("div");label.className="paper-label";label.textContent=item.name;
- card.appendChild(icon);card.appendChild(label);
- card.addEventListener("click",function(e){e.stopPropagation();selected=selected===item.id?null:item.id;draw();});
- card.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();selected=selected===item.id?null:item.id;draw();}});
- card.addEventListener("dragstart",function(e){dragging=item.id;e.dataTransfer.setData("text/plain",item.id);e.dataTransfer.effectAllowed="move";});
- card.addEventListener("dragend",function(){dragging=null;});
+ const card=document.createElement("div");
+ card.className="paper"+(phase===1?" digital":"")+(selected===item.id?" selected":"");
+ card.tabIndex=0; card.draggable=true; card.setAttribute("role","button");
+ card.innerHTML='<div class="icon-sheet" aria-hidden="true"></div><div class="label">'+item.name+'</div>';
+ card.addEventListener("click", e=>{e.stopPropagation(); selected=selected===item.id?null:item.id; draw();});
+ card.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); selected=selected===item.id?null:item.id; draw(); } });
+ card.addEventListener("dragstart", e=>{ dragging=item.id; e.dataTransfer.setData("text/plain", item.id); e.dataTransfer.effectAllowed="move"; });
+ card.addEventListener("dragend", ()=> dragging=null);
  return card;
 }
 function setupDrop(target,place){
- target.addEventListener("dragover",function(e){e.preventDefault();target.classList.add("over");});
- target.addEventListener("dragleave",function(e){if(!target.contains(e.relatedTarget))target.classList.remove("over");});
- target.addEventListener("drop",function(e){e.preventDefault();target.classList.remove("over");var id=e.dataTransfer.getData("text/plain")||dragging;if(id)move(id,place);dragging=null;});
- target.addEventListener("click",function(){if(selected)move(selected,place);});
- target.addEventListener("keydown",function(e){if(selected&&(e.key==="Enter"||e.key===" ")){e.preventDefault();move(selected,place);}});
+ target.addEventListener("dragover", e=>{ e.preventDefault(); target.classList.add("over"); });
+ target.addEventListener("dragleave", e=>{ if(!target.contains(e.relatedTarget)) target.classList.remove("over"); });
+ target.addEventListener("drop", e=>{ e.preventDefault(); target.classList.remove("over"); const id=e.dataTransfer.getData("text/plain")||dragging; if(id) move(id,place); dragging=null; });
+ target.addEventListener("click", ()=>{ if(selected) move(selected,place); });
+ target.addEventListener("keydown", e=>{ if(selected&&(e.key==="Enter"||e.key===" ")){ e.preventDefault(); move(selected,place); } });
  target.tabIndex=0;
- target.setAttribute("role","button");
- target.setAttribute("aria-label",(place==="stack"?"Nicht einsortierte Blätter":place==="teile"?"Geräte und Bauteile":"EVA-Prinzip")+", Ablage");
 }
 function fill(container,place){
- var these=randomized.filter(function(item){return locations[item.id]===place;});
- if(these.length===0&&place!=="stack"){var hint=document.createElement("div");hint.className="empty";hint.textContent="Hier ablegen";container.appendChild(hint);}
- these.forEach(function(item){container.appendChild(paper(item));});
+ const items=randomized.filter(item=>locations[item.id]===place);
+ if(items.length===0 && place!=="stack"){
+   const hint=document.createElement("div"); hint.className="empty"; hint.textContent="Hier ablegen"; container.appendChild(hint);
+ }
+ items.forEach(item=>container.appendChild(paper(item)));
+}
+function move(id,place){ if(phase>1) return; locations[id]=place; selected=null; valid=false; message=""; draw(); }
+function renderLearningArea(){
+ const physical = phase===0;
+ screen.innerHTML = '<div class="board">'
+   + '<section class="panel"><h2 class="panel-title">'+(physical?'📄 Arbeitsblätter':'📄 Dateien')+'</h2><div class="papers" id="stack"></div></section>'
+   + '<section class="panel"><h2 class="panel-title">'+(physical?'📒 Schulordner':'💻 Am Computer')+'</h2>'
+   + (physical
+      ? '<div class="binder-shell"><div class="binder"><div class="rings"><span class="ring"></span><span class="ring"></span><span class="ring"></span><span class="ring"></span></div><div class="binder-title">Informatik</div><div class="binder-content"><div class="divider-grid"><div class="divider-section" data-drop="teile"><div class="tab-card rose">Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="divider-section" data-drop="eva"><div class="tab-card blue">EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div></div></div>'
+      : '<div class="explorer"><div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><div class="address">📁 Schule › Informatik</div><div class="tree-root">📁 Informatik</div><div class="digital-grid"><div class="digital-folder" data-drop="teile"><div class="folder-tab">Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="digital-folder" data-drop="eva"><div class="folder-tab">EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div>')
+   + '</section></div>';
+ const stack=document.getElementById('stack');
+ setupDrop(stack,'stack');
+ fill(stack,'stack');
+ ['teile','eva'].forEach(place=>{ const zone=screen.querySelector('[data-drop="'+place+'"]'); setupDrop(zone,place); fill(document.getElementById(place),place); });
+ actions.innerHTML='';
+ if(message){ const f=document.createElement('span'); f.className='feedback'+(valid?' good':''); f.textContent=message; actions.appendChild(f); }
+ const btn=document.createElement('button'); btn.type='button'; btn.className='primary';
+ if(valid){ btn.textContent='Weiter →'; btn.addEventListener('click', ()=>{ phase++; resetLocations(); draw(); }); }
+ else { btn.textContent='Prüfen'; btn.addEventListener('click', ()=>{ const sorted=data.every(item=>locations[item.id]===item.folder); valid=sorted; message=sorted?'✓ Alles richtig!':'Noch nicht ganz.'; draw(); }); }
+ actions.appendChild(btn);
 }
 function draw(){
- document.getElementById("step").textContent=(phase+1)+" von 3 · "+(["Auf Papier","Am Computer","Merksätze"][phase]);
+ document.getElementById('step').textContent=(phase+1)+' von 3 · '+(['Auf Papier','Am Computer','Merksätze'][phase]);
  if(phase===2){
    screen.innerHTML='<div class="notes"><h2 class="notes-title">📒 Für dein Informatikheft</h2><div class="note-card"><strong>Datei</strong><p>Eine Datei speichert Daten, zum Beispiel einen Text oder ein Bild.</p></div><div class="note-card"><strong>Ordner</strong><p>In einem Ordner können Dateien und weitere Ordner liegen. Diese heißen Unterordner.</p></div></div>';
-   actions.innerHTML="";
+   actions.innerHTML='';
    return;
  }
- var physical=phase===0;
- screen.innerHTML='<div class="board">'
- +'<section class="panel"><h2 class="panel-title">'+(physical?'📄 Arbeitsblätter':'📄 Dateien')+'</h2><div class="papers" id="stack"></div></section>'
- +'<section class="panel"><h2 class="panel-title">'+(physical?'📒 Schulordner':'💻 Am Computer')+'</h2>'
- +(physical
- ?'<div class="binder"><div class="binder-title">Informatik</div><div class="slots"><div class="slot" data-drop="teile"><div class="tab coral">▰ Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="slot" data-drop="eva"><div class="tab blue">▰ EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div>'
- :'<div class="explorer"><div class="address">📁 Schule › Informatik</div><div class="tree-root">📁 Informatik</div><div class="digital-slots"><div class="digital-folder" data-drop="teile"><div class="tab">📁 Geräte und Bauteile</div><div class="slot-contents" id="teile"></div></div><div class="digital-folder" data-drop="eva"><div class="tab">📁 EVA-Prinzip</div><div class="slot-contents" id="eva"></div></div></div></div>')
- +'</section></div>';
- var stack=document.getElementById("stack");
- setupDrop(stack,"stack");
- fill(stack,"stack");
- ["teile","eva"].forEach(function(place){var zone=screen.querySelector('[data-drop="'+place+'"]');setupDrop(zone,place);fill(document.getElementById(place),place);});
- actions.innerHTML="";
- if(message){var feedback=document.createElement("span");feedback.className="feedback"+(valid?" good":"");feedback.textContent=message;actions.appendChild(feedback);}
- var button=document.createElement("button");button.className="primary";button.type="button";
- if(valid){button.textContent="Weiter →";button.addEventListener("click",function(){phase++;resetLocations();draw();});}
- else{button.textContent="Prüfen";button.addEventListener("click",function(){
-    var sorted=data.every(function(item){return locations[item.id]===item.folder;});
-    valid=sorted;message=sorted?"✓ Alles richtig!":"Noch nicht ganz.";
-    draw();
- });}
- actions.appendChild(button);
+ renderLearningArea();
 }
 start();
 })();
