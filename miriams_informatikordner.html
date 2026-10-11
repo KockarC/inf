@@ -29,7 +29,7 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 .paper:active{cursor:grabbing}
 .icon-sheet{width:30px;height:38px;position:relative;flex:0 0 auto;border-radius:4px;background:#fff;border:1px solid #b9cfdf;box-shadow:2px 3px 0 #edf3f8}
 .icon-sheet:before{content:"";position:absolute;left:5px;right:5px;top:12px;height:2px;background:#a0bdd6;box-shadow:0 7px 0 #a0bdd6,0 14px 0 #d0dee9}
-.paper.digital .icon-sheet{background:#edf7ff;border-color:#9ec4e5}.paper.digital .icon-sheet:after{content:".pdf";position:absolute;left:4px;bottom:1px;font-size:8px;font-weight:800;color:#4a8fd3}
+.paper.digital .icon-sheet{background:#edf7ff;border-color:#9ec4e5}.paper.digital .icon-sheet:after{content:"";position:absolute;left:4px;bottom:1px;font-size:8px;font-weight:800;color:#4a8fd3}
 .label{font-size:.91rem;line-height:1.24;font-weight:680;overflow-wrap:anywhere}
 .empty{border:1px dashed #cddbe8;border-radius:12px;background:rgba(255,255,255,.72);color:#98a8ba;text-align:center;padding:22px 8px;font-size:.88rem}
 
@@ -118,6 +118,21 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 @media(max-width:520px){.papers{grid-template-columns:repeat(2,minmax(0,1fr))}.papers .paper:not(.digital){min-height:123px;padding:12px 9px 10px 15px}.papers .paper:not(.digital) .label{font-size:.78rem;margin-top:7px}.papers .paper:not(.digital) .paper-lines{height:20px;margin-top:9px}.real-binder{padding-left:23px;padding-right:65px}.ring{left:10px;width:32px;height:32px}.ring.top{top:145px}.ring.bottom{top:310px}.binder-page{padding-left:15px;padding-right:8px;min-height:505px}.binder-head{padding:0 4px}.section-badge{font-size:.74rem}.paper-deck{height:325px;width:min(100%,230px)}.sheet-zone#active-zone{min-height:408px;padding-left:3px;padding-right:3px}.sheet-zone .paper.binder-sheet{padding:38px 14px 17px 35px}.sheet-zone .paper.binder-sheet .label{font-size:1rem}.sheet-zone .paper.binder-sheet::before{top:62px;box-shadow:0 177px 0 #e3e9eb}}
 @media(prefers-reduced-motion:reduce){.paper,.paper-deck,.side-tab{transition:none!important;animation:none!important}}
 
+
+/* Digital files: familiar Word, text and image symbols. */
+.paper.digital{gap:10px}
+.paper.digital .icon-sheet{position:relative;width:35px;height:43px;flex:0 0 35px;min-width:35px;transform:none!important;border:1px solid #cfdce7;border-radius:5px;display:grid;place-items:center;background:#fff;box-shadow:0 2px 5px #526e8e1a;overflow:hidden}
+.paper.digital .icon-sheet:before,.paper.digital .icon-sheet:after{box-shadow:none}
+.paper.digital.file-word .icon-sheet{background:#e5f0ff;border-color:#a7c5e7}
+.paper.digital.file-word .icon-sheet:before{content:"W";position:static;width:auto;height:auto;background:none;color:#2168a9;font-size:21px;font-weight:900}
+.paper.digital.file-word .icon-sheet:after{content:"";display:none}
+.paper.digital.file-text .icon-sheet{background:#fffefa}
+.paper.digital.file-text .icon-sheet:before{content:"";position:static;width:20px;height:3px;border-radius:2px;background:#97abba;box-shadow:0 -7px #97abba,0 7px #97abba}
+.paper.digital.file-text .icon-sheet:after{content:"";display:none}
+.paper.digital.file-image .icon-sheet{border-color:#a4c4d7;background:radial-gradient(circle at 73% 27%,#f7ce5c 0 4px,transparent 4.5px),linear-gradient(140deg,transparent 52%,#78b68b 53% 73%,transparent 74%),linear-gradient(35deg,transparent 43%,#579a86 44% 77%,transparent 78%),linear-gradient(#c9ecfa 0 62%,#e1f0e0 62%)}
+.paper.digital.file-image .icon-sheet:before,.paper.digital.file-image .icon-sheet:after{content:"";display:none}
+.paper.digital .label{font-size:.89rem;overflow-wrap:anywhere}
+
 </style>
 </head>
 <body>
@@ -138,14 +153,14 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 <script>
 (function(){
 const data=[
- {id:"proz",name:"Der Prozessor",folder:"teile"},
- {id:"evaSmart",name:"EVA beim Smartphone",folder:"eva"},
- {id:"tast",name:"Die Tastatur",folder:"teile"},
- {id:"evaGrund",name:"Das EVA-Prinzip",folder:"eva"},
- {id:"speicher",name:"Der Arbeitsspeicher",folder:"teile"},
- {id:"evaComputer",name:"EVA am Computer",folder:"eva"},
- {id:"bildschirm",name:"Der Bildschirm",folder:"teile"},
- {id:"evaKonsole",name:"EVA bei der Konsole",folder:"eva"}
+ {id:"proz",name:"Der Prozessor",folder:"teile",fileName:"Prozessor.docx",type:"word"},
+ {id:"evaSmart",name:"EVA beim Smartphone",folder:"eva",fileName:"EVA-Smartphone.png",type:"image"},
+ {id:"tast",name:"Die Tastatur",folder:"teile",fileName:"Tastatur.jpg",type:"image"},
+ {id:"evaGrund",name:"Das EVA-Prinzip",folder:"eva",fileName:"EVA-Prinzip.docx",type:"word"},
+ {id:"speicher",name:"Der Arbeitsspeicher",folder:"teile",fileName:"Arbeitsspeicher.txt",type:"text"},
+ {id:"evaComputer",name:"EVA am Computer",folder:"eva",fileName:"EVA-Computer.txt",type:"text"},
+ {id:"bildschirm",name:"Der Bildschirm",folder:"teile",fileName:"Bildschirm.jpg",type:"image"},
+ {id:"evaKonsole",name:"EVA bei der Konsole",folder:"eva",fileName:"EVA-Konsole.docx",type:"word"}
 ];
 const sectionInfo={
  teile:{label:"Geräte und Bauteile", short:"Bauteile", color:"red"},
@@ -160,9 +175,11 @@ document.getElementById("restart").addEventListener("click", start);
 function itemsIn(place){ return randomized.filter(item=>locations[item.id]===place); }
 function paper(item){
   const card=document.createElement("div");
-  card.className="paper"+(phase===1?" digital":"")+(selected===item.id?" selected":"");
-  card.tabIndex=0; card.draggable=true; card.setAttribute("role","button");
-  card.innerHTML='<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><div class="label">'+item.name+'</div><div class="paper-lines" aria-hidden="true"></div></div>';
+  card.className="paper"+(phase===1?" digital file-"+item.type:"")+(selected===item.id?" selected":"");
+  card.tabIndex=0; card.draggable=true; card.setAttribute("role","button");card.setAttribute("aria-label",phase===1?"Datei "+item.fileName:"Arbeitsblatt "+item.name);
+  card.innerHTML=phase===1
+ ? '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><div class="label">'+item.fileName+'</div></div>'
+ : '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><div class="label">'+item.name+'</div><div class="paper-lines" aria-hidden="true"></div></div>';
   card.addEventListener("click", e=>{e.stopPropagation(); selected=selected===item.id?null:item.id; draw();});
   card.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); selected=selected===item.id?null:item.id; draw(); } });
   card.addEventListener("dragstart", e=>{ dragging=item.id; e.dataTransfer.setData("text/plain", item.id); e.dataTransfer.effectAllowed="move"; });
