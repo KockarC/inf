@@ -674,11 +674,18 @@ function drawActions(){
     btn.addEventListener("click",()=>{
       const correct=data.every(item=>locations[item.id]===item.folder);
       if(phase===1&&correct){
-        digitalMode="find";selected=null;found=false;message="";valid=false;openFolder="eva";
-      }else{
-        valid=correct;
-        message=correct?"✓ Alles richtig!":"Noch nicht ganz.";
+        // After a correct digital sorting, directly show the paper/computer comparison.
+        phase=2;
+        compareSection="teile";
+        notesVisible=false;
+        selected=null;
+        valid=false;
+        message="";
+        draw();
+        return;
       }
+      valid=correct;
+      message=correct?"✓ Alles richtig!":"Noch nicht ganz.";
       draw();
     });
   }
