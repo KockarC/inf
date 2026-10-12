@@ -221,7 +221,7 @@ function paper(item){
     e.stopPropagation();
     if(phase===1){
       selected=item.id;
-      if(digitalMode==="find"&&item.id==="tast")found=true;
+      if(digitalMode==="find")found=item.id==="tast";
     }else{
       selected=selected===item.id?null:item.id;
     }
