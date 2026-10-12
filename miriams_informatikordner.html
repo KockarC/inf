@@ -324,8 +324,8 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 (function(){
 const data=[
  {id:"proz",name:"Der Prozessor",folder:"teile",fileName:"Prozessor.docx",type:"word",preview:"Ein Text über den Prozessor und seine Aufgaben.",visual:"🧠"},
- {id:"evaSmart",name:"Ein Foto aufnehmen",folder:"eva",fileName:"Foto_01.png",type:"image",preview:"Eine Person berührt den Auslöser. Das Smartphone nimmt ein Foto auf und zeigt es an.",visual:"📸"},
- {id:"tast",name:"Die Tastatur",folder:"teile",fileName:"Bild_02.jpg",type:"image",preview:"Auf dem Bild ist eine Computertastatur mit ihren Tasten zu sehen.",visual:"⌨️"},
+ {id:"evaSmart",name:"Ein Foto aufnehmen",folder:"eva",fileName:"Fotoaufnahme.png",type:"image",preview:"Eine Person berührt den Auslöser. Das Smartphone nimmt ein Foto auf und zeigt es an.",visual:"📸"},
+ {id:"tast",name:"Die Tastatur",folder:"teile",fileName:"Tastatur.jpg",type:"image",preview:"Auf dem Bild ist eine Computertastatur mit ihren Tasten zu sehen.",visual:"⌨️"},
  {id:"evaGrund",name:"Einen Text ausdrucken",folder:"eva",fileName:"Druckauftrag.docx",type:"word",preview:"Ein Text wird zum Drucker geschickt. Bedrucktes Papier kommt heraus.",visual:"🖨️"},
  {id:"speicher",name:"Der Arbeitsspeicher",folder:"teile",fileName:"Text zum Arbeitsspeicher.txt",type:"text",preview:"Dieser Text erklärt, wozu der Arbeitsspeicher gebraucht wird.",visual:"🧩"},
  {id:"evaComputer",name:"Vom Tastendruck zum Buchstaben",folder:"eva",fileName:"Tastendruck.txt",type:"text",preview:"Eine Taste wird gedrückt. Ein Buchstabe erscheint auf dem Bildschirm.",visual:"⌨️"},
@@ -522,7 +522,7 @@ function previewContent(item){
 
 function renderDigitalStage(){
  const searching=digitalMode==="find";
- screen.innerHTML='<div class="mini-context"><span class="context-icon" aria-hidden="true">💻</span><span>Auch am Computer ordnet Miriam ihre Materialien. Dort gibt es statt Papierblättern zum Beispiel Texte, Bilder und Word-Dokumente.</span></div><section class="panel simple-explorer"><h2 class="panel-title">💻 Datei-Explorer</h2>'
+ screen.innerHTML='<div class="mini-context"><span class="context-icon" aria-hidden="true">💻</span><span>Miriam hat ihre Arbeitsblätter im Schulordner geordnet. Nun möchte sie die gleiche Ordnung auch am Computer nutzen. Dort kann sie Texte, Bilder und Word-Dokumente in Ordnern speichern. Einige Dateien liegen aber noch im falschen Ordner.</span></div><section class="panel simple-explorer"><h2 class="panel-title">💻 Datei-Explorer</h2>'
   +'<div class="se-window"><div class="se-bar">📁 Schule <span>›</span> 📁 Informatik <span>›</span> <strong id="se-path"></strong></div>'
   +'<div class="se-layout"><nav class="se-nav" aria-label="Ordner"><div class="se-label">ORDNER</div><div id="se-folders"></div></nav>'
   +'<div class="se-files"><div class="se-files-head"><strong id="se-title"></strong><small id="se-number"></small></div><div id="se-list"></div></div>'
@@ -556,7 +556,7 @@ function renderDigitalStage(){
  if(searching){
    if(item.id==="tast"&&openFolder==="teile"){
      const correct=document.createElement("div");correct.className="se-found";
-     correct.textContent="✓ Gefunden: Schule › Informatik › Geräte und Bauteile › Bild_02.jpg";
+     correct.textContent="✓ Gefunden: Schule › Informatik › Geräte und Bauteile › Tastatur.jpg";
      right.appendChild(correct);
    }
  }else{
