@@ -316,6 +316,45 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 .file-extension{color:#236ca2;font-weight:850;background:#e6f3ff;border-radius:3px;padding:0 2px;margin-left:1px}
 @media(max-width:780px){.file-concepts{grid-template-columns:1fr}}
 
+
+/* Merksatz presented as one copyable notebook entry, not four cards. */
+.merke-sheet{
+ position:relative;overflow:hidden;max-width:780px;margin:22px auto 0;
+ padding:24px 32px 30px 68px;background-color:#fffefa;
+ background-image:repeating-linear-gradient(to bottom,transparent 0 31px,#dfeaf2 31px 32px);
+ background-position:0 2px;border:1px solid #cbdce9;border-radius:5px;
+ box-shadow:0 5px 17px rgba(45,84,110,.11);
+}
+.merke-sheet::before{content:"";position:absolute;top:0;bottom:0;left:48px;width:1px;background:#e6aab1}
+.merke-kicker{position:relative;display:inline-block;background:#fffefa;
+ color:#718398;font-size:.79rem;font-weight:720;letter-spacing:.02em;padding-right:8px}
+.merke-sheet h3{
+ position:relative;display:block;width:fit-content;max-width:100%;
+ color:#236497;font-size:1.22rem;line-height:1.45;font-weight:830;
+ margin:4px 0 15px;padding:0 7px 4px 0;
+ background:#fffefa;border-bottom:2px solid #80b5db;
+}
+.merke-content{font-size:1.00rem;line-height:1.68;color:#293d51}
+.merke-content p{margin:0 0 12px;background:rgba(255,254,250,.88);padding:1px 5px 1px 0}
+.merke-content p strong{color:#1d5f8f;font-weight:800}
+.merke-content code{
+ font-family:ui-monospace,"Consolas",monospace;font-size:.92em;font-weight:760;
+ color:#255f86;background:#e8f3fb;border-radius:3px;padding:1px 3px
+}
+.merke-example{
+ margin:17px 0 0;max-width:380px;padding:9px 12px;
+ font-size:.9rem;line-height:1.65;background:rgba(239,247,253,.95);
+ border-left:3px solid #9ac1dc;border-radius:0 7px 7px 0;
+}
+.merke-example>span{font-size:.78rem;font-weight:800;color:#667f94;display:block;margin-bottom:3px}
+.merke-indent-one{padding-left:16px}.merke-indent-two{padding-left:39px}
+@media(max-width:600px){
+ .merke-sheet{padding:19px 17px 24px 43px}.merke-sheet::before{left:30px}
+ .merke-sheet h3{font-size:1.13rem}.merke-content{font-size:.94rem}
+ .merke-example{padding:8px}
+ .merke-indent-one{padding-left:9px}.merke-indent-two{padding-left:21px}
+}
+
 </style>
 </head>
 <body>
@@ -629,12 +668,16 @@ function renderComparisonStage(){
   +'<div><strong>Arbeitsblatt</strong><span>↔</span><strong>Datei</strong></div>'
   +'</div>'
   +(notesVisible?
-      '<section class="cmp-notes"><h3>📒 Für dein Informatikheft</h3>'
-     +'<div class="cmp-note"><strong>Datei</strong><span>Eine Datei speichert Daten, zum Beispiel einen Text oder ein Bild.</span></div>'
-     +'<div class="cmp-note"><strong>Dateiendung (Dateierweiterung)</strong><span>Sie steht hinter dem letzten Punkt im Dateinamen, zum Beispiel <code>.jpg</code> bei <code>Tastatur.jpg</code>, und zeigt meist die Dateiart.</span></div>'
-     +'<div class="cmp-note"><strong>Ordner</strong><span>Ein Ordner kann Dateien und weitere Ordner enthalten. Ordner in einem Ordner heißen <strong>Unterordner</strong>.</span></div>'
-     +'<div class="cmp-note"><strong>Ordnerstruktur</strong><span>Ordner und Unterordner bilden eine Ordnung. Auf dem Computer sieht sie anders aus als im Schulordner.</span></div>'
-     +'</section>'
+      '<section class="merke-sheet" aria-label="Merksatz fürs Informatikheft">'
+     +'<div class="merke-kicker">Für dein Informatikheft</div>'
+     +'<h3>Merke: Dateien und Ordner</h3>'
+     +'<div class="merke-content">'
+     +'<p><strong>Datei:</strong> Eine Datei speichert Daten, zum Beispiel einen Text oder ein Bild.</p>'
+     +'<p><strong>Ordner:</strong> Ein Ordner kann Dateien und weitere Ordner enthalten. Diese heißen <strong>Unterordner</strong>.</p>'
+     +'<p><strong>Dateiendung:</strong> Sie steht hinter dem letzten Punkt im Dateinamen. Bei <code>Tastatur.jpg</code> ist <code>.jpg</code> die Dateiendung. Sie zeigt meist die Dateiart.</p>'
+     +'<p><strong>Ordnerstruktur:</strong> Sie zeigt, wie Ordner, Unterordner und Dateien angeordnet sind.</p>'
+     +'<div class="merke-example"><span>Beispiel:</span><div>📁 Informatik</div><div class="merke-indent-one">└ 📁 Geräte und Bauteile</div><div class="merke-indent-two">└ 🖼️ Tastatur.jpg</div></div>'
+     +'</div></section>'
      :'')
   +'</div>';
  screen.querySelectorAll("[data-comparison]").forEach(button=>{
@@ -649,10 +692,10 @@ function renderComparisonStage(){
  show.className="primary";
  show.type="button";
  if(!notesVisible){
-   show.textContent="Merksätze fürs Heft →";
+   show.textContent="Merksatz fürs Heft →";
    show.addEventListener("click",()=>{notesVisible=true;draw();});
  }else{
-   show.textContent="✓ Merksätze angezeigt";
+   show.textContent="✓ Merksatz angezeigt";
    show.disabled=true;
  }
  actions.appendChild(show);
