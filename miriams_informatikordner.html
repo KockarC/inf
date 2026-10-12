@@ -133,6 +133,37 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 .paper.digital.file-image .icon-sheet:before,.paper.digital.file-image .icon-sheet:after{content:"";display:none}
 .paper.digital .label{font-size:.89rem;overflow-wrap:anywhere}
 
+
+/* Digital exercise: correcting an existing filing system, then finding a file. */
+.digital-workspace{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(235px,.82fr);gap:18px;align-items:start}
+.digital-workspace .explorer{min-height:443px}
+.digital-workspace .digital-grid{gap:12px}
+.digital-workspace .digital-folder{min-height:345px;padding:50px 10px 13px}
+.digital-workspace .folder-tab{right:8px;left:8px;font-size:.83rem;padding:0 9px;overflow-wrap:anywhere;min-height:43px;height:auto}
+.digital-workspace .sheet-zone{min-height:268px!important;display:flex;flex-direction:column;gap:8px;align-items:stretch;margin:0!important;padding:0!important;border:0;background:transparent;transform:none;cursor:default}
+.digital-workspace .sheet-zone.over{background:#eaf5ff!important;outline:2px dashed #9ccce9}
+.digital-workspace .paper.digital{min-height:55px;padding:7px 8px;gap:8px;border-radius:11px}
+.digital-workspace .paper.digital .icon-sheet{width:30px;min-width:30px;flex:0 0 30px;height:37px}
+.digital-workspace .paper.digital .label{font-size:.78rem;line-height:1.2;font-weight:720}
+.digital-workspace .paper.digital.selected{background:#ecf7ff;border-color:#5ca2d8;box-shadow:0 0 0 2px #d0eaff}
+.digital-workspace .paper.digital .paper-content{min-width:0;overflow-wrap:anywhere}
+.preview-panel{min-height:440px}
+.preview-empty{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#93a2b0;font-weight:650;font-size:.93rem}
+.preview-empty span:first-child{font-size:2.25rem;filter:grayscale(.15);opacity:.65}
+.preview-filename{font-size:1.02rem;font-weight:820;overflow-wrap:anywhere}
+.preview-kind{font-size:.77rem;color:#6e8193;margin-top:4px}
+.preview-visual{height:110px;display:grid;place-items:center;border-radius:13px;background:#f3f7fb;font-size:3.1rem;margin:18px 0 14px}
+.preview-visual.image-type{background:linear-gradient(145deg,#e7f5ff,#edf5ee)}
+.preview-description{line-height:1.52;font-size:.91rem;color:#43536a;margin:0 0 22px}
+.move-file{border:1px solid #c5dcec;background:#eff7fe;color:#37658d;border-radius:12px;padding:11px 12px;font-size:.83rem;font-weight:760;width:100%;text-align:center}
+.move-file:hover{background:#dfeffc}
+.search-target{border-radius:13px;background:#fff7df;border:1px solid #f0dfab;padding:13px 14px;margin:4px 0 19px}
+.search-target strong{font-size:.95rem;display:block;margin-top:5px}
+.small-heading{display:block;color:#8291a2;font-weight:850;font-size:.7rem;letter-spacing:.09em}
+.path-result{display:grid;gap:7px;background:#eaf8ee;border:1px solid #c7e6d0;border-radius:12px;padding:12px;font-size:.84rem;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:850px){.digital-workspace{grid-template-columns:1fr}.preview-panel{min-height:200px}.preview-empty{min-height:130px}}
+@media(max-width:500px){.digital-workspace .digital-grid{grid-template-columns:1fr}.digital-workspace .digital-folder{min-height:0;padding-bottom:10px}.digital-workspace .sheet-zone{min-height:0!important}.digital-workspace .paper.digital .label{font-size:.88rem}}
+
 </style>
 </head>
 <body>
@@ -153,40 +184,56 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 <script>
 (function(){
 const data=[
- {id:"proz",name:"Der Prozessor",folder:"teile",fileName:"Prozessor.docx",type:"word"},
- {id:"evaSmart",name:"Ein Foto aufnehmen",folder:"eva",fileName:"Foto_aufnehmen.png",type:"image"},
- {id:"tast",name:"Die Tastatur",folder:"teile",fileName:"Tastatur.jpg",type:"image"},
- {id:"evaGrund",name:"Einen Text ausdrucken",folder:"eva",fileName:"Text_ausdrucken.docx",type:"word"},
- {id:"speicher",name:"Der Arbeitsspeicher",folder:"teile",fileName:"Arbeitsspeicher.txt",type:"text"},
- {id:"evaComputer",name:"Einen Buchstaben tippen",folder:"eva",fileName:"Buchstaben_tippen.txt",type:"text"},
- {id:"bildschirm",name:"Der Bildschirm",folder:"teile",fileName:"Bildschirm.jpg",type:"image"},
- {id:"evaKonsole",name:"Eine Spielfigur steuern",folder:"eva",fileName:"Spielfigur_steuern.docx",type:"word"}
+ {id:"proz",name:"Der Prozessor",folder:"teile",fileName:"Prozessor.docx",type:"word",preview:"Ein Text über den Prozessor und seine Aufgaben.",visual:"🧠"},
+ {id:"evaSmart",name:"Ein Foto aufnehmen",folder:"eva",fileName:"Foto_01.png",type:"image",preview:"Eine Person berührt den Auslöser. Das Smartphone nimmt ein Foto auf und zeigt es an.",visual:"📸"},
+ {id:"tast",name:"Die Tastatur",folder:"teile",fileName:"Bild_02.jpg",type:"image",preview:"Auf dem Bild ist eine Computertastatur mit ihren Tasten zu sehen.",visual:"⌨️"},
+ {id:"evaGrund",name:"Einen Text ausdrucken",folder:"eva",fileName:"Druckauftrag.docx",type:"word",preview:"Ein Text wird zum Drucker geschickt. Bedrucktes Papier kommt heraus.",visual:"🖨️"},
+ {id:"speicher",name:"Der Arbeitsspeicher",folder:"teile",fileName:"Notizen.txt",type:"text",preview:"Diese Notizen erklären, wozu der Arbeitsspeicher gebraucht wird.",visual:"🧩"},
+ {id:"evaComputer",name:"Vom Tastendruck zum Buchstaben",folder:"eva",fileName:"Tastendruck.txt",type:"text",preview:"Eine Taste wird gedrückt. Ein Buchstabe erscheint auf dem Bildschirm.",visual:"⌨️"},
+ {id:"bildschirm",name:"Der Bildschirm",folder:"teile",fileName:"Bildschirm.jpg",type:"image",preview:"Das Bild zeigt einen Computerbildschirm.",visual:"🖥️"},
+ {id:"evaKonsole",name:"Eine Spielfigur steuern",folder:"eva",fileName:"Spielsteuerung.docx",type:"word",preview:"Mit dem Controller wird eine Spielfigur auf dem Bildschirm bewegt.",visual:"🎮"}
 ];
 const sectionInfo={
  teile:{label:"Geräte und Bauteile", short:"Bauteile", color:"red"},
  eva:{label:"EVA-Prinzip", short:"EVA-Prinzip", color:"blue"}
 };
-let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[], activeSection="teile", pageIndex=0;
+let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[], activeSection="teile", pageIndex=0, digitalMode="repair", found=false;
 const screen=document.getElementById("screen"); const actions=document.getElementById("actions");
 function shuffle(){ randomized=data.slice(); for(let i=randomized.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [randomized[i],randomized[j]]=[randomized[j],randomized[i]];} }
-function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; activeSection="teile"; pageIndex=0; shuffle(); }
+function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; activeSection="teile"; pageIndex=0; digitalMode="repair"; found=false; shuffle(); }
+function beginDigitalStage(){
+ locations={};data.forEach(item=>locations[item.id]=item.folder);
+ locations.tast="eva"; locations.evaComputer="teile";
+ selected=null;valid=false;message="";digitalMode="repair";found=false;
+}
 function start(){ phase=0; resetLocations(); draw(); }
 document.getElementById("restart").addEventListener("click", start);
 function itemsIn(place){ return randomized.filter(item=>locations[item.id]===place); }
 function paper(item){
   const card=document.createElement("div");
   card.className="paper"+(phase===1?" digital file-"+item.type:"")+(selected===item.id?" selected":"");
-  card.tabIndex=0; card.draggable=true; card.setAttribute("role","button");card.setAttribute("aria-label",phase===1?"Datei "+item.fileName:"Arbeitsblatt "+item.name);
+  card.tabIndex=0;card.draggable=phase===0||digitalMode==="repair";card.setAttribute("role","button");
+  card.setAttribute("aria-label",phase===1?"Datei "+item.fileName:"Arbeitsblatt "+item.name);
   card.innerHTML=phase===1
- ? '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><div class="label">'+item.fileName+'</div></div>'
- : '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><div class="label">'+item.name+'</div><div class="paper-lines" aria-hidden="true"></div></div>';
-  card.addEventListener("click", e=>{e.stopPropagation(); selected=selected===item.id?null:item.id; draw();});
-  card.addEventListener("keydown", e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); selected=selected===item.id?null:item.id; draw(); } });
-  card.addEventListener("dragstart", e=>{ dragging=item.id; e.dataTransfer.setData("text/plain", item.id); e.dataTransfer.effectAllowed="move"; });
-  card.addEventListener("dragend", ()=> dragging=null);
+    ? '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><div class="label">'+item.fileName+'</div></div>'
+    : '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><div class="label">'+item.name+'</div><div class="paper-lines" aria-hidden="true"></div></div>';
+  function selectCard(e){
+    e.stopPropagation();
+    if(phase===1){
+      selected=item.id;
+      if(digitalMode==="find"&&item.id==="tast")found=true;
+    }else{
+      selected=selected===item.id?null:item.id;
+    }
+    draw();
+  }
+  card.addEventListener("click",selectCard);
+  card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectCard(e);}});
+  card.addEventListener("dragstart",e=>{if(phase===1&&digitalMode==="find"){e.preventDefault();return;} dragging=item.id;e.dataTransfer.setData("text/plain",item.id);e.dataTransfer.effectAllowed="move";});
+  card.addEventListener("dragend",()=>dragging=null);
   return card;
 }
-function move(id,place){ if(phase>1) return; locations[id]=place; selected=null; valid=false; message=""; pageIndex=0; draw(); }
+function move(id,place){ if(phase>1||(phase===1&&digitalMode==="find")||place==="stack"&&phase===1) return; locations[id]=place; selected=null; valid=false; message=""; pageIndex=0; draw(); }
 function setupDrop(target,place){
   target.addEventListener("dragover", e=>{ e.preventDefault(); target.classList.add("over"); });
   target.addEventListener("dragleave", e=>{ if(!target.contains(e.relatedTarget)) target.classList.remove("over"); });
@@ -252,20 +299,81 @@ function renderPaperStage(){
   });
 }
 function renderDigitalStage(){
-  screen.innerHTML='<div class="board">'
-   + '<section class="panel"><h2 class="panel-title">📄 Dateien zu denselben Themen</h2><div class="papers" id="stack"></div></section>'
-   + '<section class="panel"><h2 class="panel-title">💻 Am Computer</h2>'
-   +   '<div class="explorer"><div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div><div class="address">📁 Schule › Informatik</div><div class="tree-root">📁 Informatik</div><div class="digital-grid"><div class="digital-folder" data-drop="teile"><div class="folder-tab">Geräte und Bauteile</div><div class="sheet-zone" id="teile-zone" style="margin-top:0;min-height:235px"></div></div><div class="digital-folder" data-drop="eva"><div class="folder-tab">EVA-Prinzip</div><div class="sheet-zone" id="eva-zone" style="margin-top:0;min-height:235px"></div></div></div></div>'
-   + '</section></div>';
-  renderStack();
-  ["teile","eva"].forEach(key=>{ const zone=document.getElementById(key+'-zone'); setupDrop(zone,key); const items=itemsIn(key); if(items.length===0){ const h=document.createElement('div'); h.className='empty'; h.textContent='Hier ablegen'; zone.appendChild(h);} items.forEach(item=>zone.appendChild(paper(item))); });
+  const searching=digitalMode==="find";
+  screen.innerHTML='<div class="digital-workspace">'
+    +'<section class="panel"><h2 class="panel-title">💻 Informatik</h2>'
+    +'<div class="explorer"><div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>'
+    +'<div class="address">📁 Schule › Informatik</div>'
+    +'<div class="digital-grid">'
+    +'<div class="digital-folder" data-drop="teile"><div class="folder-tab">Geräte und Bauteile</div><div class="sheet-zone" id="teile-zone"></div></div>'
+    +'<div class="digital-folder" data-drop="eva"><div class="folder-tab">EVA-Prinzip</div><div class="sheet-zone" id="eva-zone"></div></div>'
+    +'</div></div></section>'
+    +'<aside class="panel preview-panel"><h2 class="panel-title">'+(searching?'🔎 Datei finden':'🔍 Vorschau')+'</h2>'
+    +'<div id="preview-container"></div></aside></div>';
+  ["teile","eva"].forEach(key=>{
+    const zone=document.getElementById(key+"-zone");
+    if(!searching)setupDrop(zone,key);
+    itemsIn(key).forEach(item=>zone.appendChild(paper(item)));
+  });
+  const preview=document.getElementById("preview-container");
+  const item=selected?data.find(x=>x.id===selected):null;
+  if(searching){
+    const target=document.createElement("div");target.className="search-target";
+    target.innerHTML='<span class="small-heading">GESUCHT</span><strong>Das Foto der Tastatur</strong>';
+    preview.appendChild(target);
+  }
+  if(!item){
+    const blank=document.createElement("div");blank.className="preview-empty";
+    blank.innerHTML='<span aria-hidden="true">📄</span><span>Datei auswählen</span>';
+    preview.appendChild(blank);return;
+  }
+  const details=document.createElement("div");details.className="preview-details";
+  const title=document.createElement("div");title.className="preview-filename";title.textContent=item.fileName;
+  const type=document.createElement("div");type.className="preview-kind";type.textContent=item.type==="image"?"Bilddatei":item.type==="word"?"Word-Datei":"Textdatei";
+  const visual=document.createElement("div");visual.className="preview-visual"+(item.type==="image"?" image-type":"");
+  visual.textContent=item.visual;
+  const desc=document.createElement("p");desc.className="preview-description";desc.textContent=item.preview;
+  details.appendChild(title);details.appendChild(type);details.appendChild(visual);details.appendChild(desc);
+  preview.appendChild(details);
+  if(searching){
+    if(item.id==="tast"){
+      const success=document.createElement("div");success.className="path-result";
+      success.innerHTML='<span class="small-heading">SPEICHERORT</span><span>Schule › Informatik › Geräte und Bauteile › <strong>Bild_02.jpg</strong></span>';
+      preview.appendChild(success);
+    }
+  } else {
+    const other=locations[item.id]==="teile"?"eva":"teile";
+    const btn=document.createElement("button");btn.type="button";btn.className="move-file";
+    btn.textContent="Verschieben → "+sectionInfo[other].label;
+    btn.addEventListener("click",()=>move(item.id,other));
+    preview.appendChild(btn);
+  }
 }
 function drawActions(){
-  actions.innerHTML='';
-  if(message){ const f=document.createElement('span'); f.className='feedback'+(valid?' good':''); f.textContent=message; actions.appendChild(f); }
-  const btn=document.createElement('button'); btn.type='button'; btn.className='primary';
-  if(valid){ btn.textContent='Weiter →'; btn.addEventListener('click', ()=>{ phase++; resetLocations(); draw(); }); }
-  else { btn.textContent='Prüfen'; btn.addEventListener('click', ()=>{ const sorted=data.every(item=>locations[item.id]===item.folder); valid=sorted; message=sorted?'✓ Alles richtig!':'Noch nicht ganz.'; draw(); }); }
+  actions.innerHTML="";
+  if(message){const f=document.createElement("span");f.className="feedback"+(valid?" good":"");f.textContent=message;actions.appendChild(f);}
+  if(phase===1&&digitalMode==="find"){
+    if(!found)return;
+    const next=document.createElement("button");next.type="button";next.className="primary";next.textContent="Weiter →";
+    next.addEventListener("click",()=>{phase=2;message="";draw();});actions.appendChild(next);return;
+  }
+  const btn=document.createElement("button");btn.type="button";btn.className="primary";
+  if(phase===0&&valid){
+    btn.textContent="Weiter →";
+    btn.addEventListener("click",()=>{phase=1;beginDigitalStage();draw();});
+  }else{
+    btn.textContent="Prüfen";
+    btn.addEventListener("click",()=>{
+      const correct=data.every(item=>locations[item.id]===item.folder);
+      if(phase===1&&correct){
+        digitalMode="find";selected=null;found=false;message="";valid=false;
+      }else{
+        valid=correct;
+        message=correct?"✓ Alles richtig!":"Noch nicht ganz.";
+      }
+      draw();
+    });
+  }
   actions.appendChild(btn);
 }
 function draw(){
