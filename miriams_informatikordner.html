@@ -247,6 +247,16 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 .cmp-relations{grid-template-columns:1fr}.cmp-card{padding:14px}
 }
 
+
+/* Short context texts, without competing with the sorting activities. */
+.mini-context{
+  display:flex;align-items:center;gap:11px;margin:0 0 16px;padding:13px 16px;
+  background:#fff;border:1px solid #dce8f0;border-radius:15px;
+  color:#344b61;font-size:.96rem;line-height:1.5
+}
+.context-icon{font-size:1.3rem;flex:0 0 auto}
+@media(max-width:550px){.mini-context{font-size:.88rem;padding:11px 12px;align-items:flex-start}}
+
 </style>
 </head>
 <body>
@@ -334,7 +344,7 @@ function renderStack(){
 }
 function renderPaperStage(){
   const info=sectionInfo[activeSection];
-  screen.innerHTML='<div class="board">'
+  screen.innerHTML='<div class="mini-context"><span class="context-icon" aria-hidden="true">📄</span><span>Miriams Informatikordner ist heruntergefallen. Jetzt liegen ihre Arbeitsblätter durcheinander.</span></div><div class="board">'
    + '<section class="panel"><h2 class="panel-title">📄 Arbeitsblätter</h2><div class="papers" id="stack"></div></section>'
    + '<section class="panel"><h2 class="panel-title">📒 Schulordner</h2>'
    +   '<div class="real-binder">'
@@ -406,7 +416,7 @@ function previewContent(item){
 }
 function renderDigitalStage(){
  const searching=digitalMode==="find";
- screen.innerHTML='<section class="panel simple-explorer"><h2 class="panel-title">💻 Datei-Explorer</h2>'
+ screen.innerHTML='<div class="mini-context"><span class="context-icon" aria-hidden="true">💻</span><span>Auch am Computer ordnet Miriam ihre Materialien. Dort gibt es statt Papierblättern zum Beispiel Texte, Bilder und Word-Dokumente.</span></div><section class="panel simple-explorer"><h2 class="panel-title">💻 Datei-Explorer</h2>'
   +'<div class="se-window"><div class="se-bar">📁 Schule <span>›</span> 📁 Informatik <span>›</span> <strong id="se-path"></strong></div>'
   +'<div class="se-layout"><nav class="se-nav" aria-label="Ordner"><div class="se-label">ORDNER</div><div id="se-folders"></div></nav>'
   +'<div class="se-files"><div class="se-files-head"><strong id="se-title"></strong><small id="se-number"></small></div><div id="se-list"></div></div>'
