@@ -278,6 +278,31 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 .actual-document.plain-text p{font-size:.81rem}
 @media(max-width:580px){.actual-document{padding:14px 12px}.real-preview-art{max-height:225px}}
 
+
+/* Small supportive details only on the PAPER worksheets. */
+.paper:not(.digital) .paper-mini-icon{
+ display:block;align-self:flex-start;margin-top:8px;font-size:1.1rem;
+ line-height:1;max-height:23px
+}
+.paper:not(.digital) .paper-mini-text{
+ display:block;margin-top:5px;font-size:.7rem;line-height:1.35;
+ font-weight:570;color:#6d8093
+}
+.papers .paper:not(.digital) .label{margin-top:7px}
+.papers .paper:not(.digital) .paper-lines{height:20px;margin-top:10px}
+.sheet-zone .paper.binder-sheet .paper-mini-icon{font-size:1.45rem;margin-top:16px}
+.sheet-zone .paper.binder-sheet .paper-mini-text{
+ font-size:.86rem;margin-top:10px;color:#63788a;line-height:1.36
+}
+.sheet-zone .paper.binder-sheet .label{margin-top:13px}
+.sheet-zone .paper.binder-sheet .paper-lines{margin-top:15px}
+@media(max-width:520px){
+ .papers .paper:not(.digital) .paper-mini-icon{font-size:1rem;margin-top:6px}
+ .papers .paper:not(.digital) .paper-mini-text{font-size:.65rem}
+ .papers .paper:not(.digital) .label{margin-top:5px}
+ .papers .paper:not(.digital) .paper-lines{height:14px;margin-top:7px}
+}
+
 </style>
 </head>
 <body>
@@ -323,14 +348,25 @@ function beginDigitalStage(){
 function start(){ phase=0; resetLocations(); draw(); }
 document.getElementById("restart").addEventListener("click", start);
 function itemsIn(place){ return randomized.filter(item=>locations[item.id]===place); }
+const paperLabels={
+ proz:{icon:"⚙️",info:"führt Befehle aus"},
+ evaSmart:{icon:"📷",info:"auf den Auslöser tippen"},
+ tast:{icon:"⌨️",info:"Tasten mit Buchstaben"},
+ evaGrund:{icon:"🖨️",info:"Text auf Papier"},
+ speicher:{icon:"🧩",info:"hält Daten bereit"},
+ evaComputer:{icon:"🔤",info:"Taste drücken – Zeichen sehen"},
+ bildschirm:{icon:"🖥️",info:"zeigt Bilder und Texte"},
+ evaKonsole:{icon:"🎮",info:"Controller bewegen"}
+};
 function paper(item){
   const card=document.createElement("div");
   card.className="paper"+(phase===1?" digital file-"+item.type:"")+(selected===item.id?" selected":"");
   card.tabIndex=0;card.draggable=phase===0||digitalMode==="repair";card.setAttribute("role","button");
   card.setAttribute("aria-label",phase===1?"Datei "+item.fileName:"Arbeitsblatt "+item.name);
+  const hint=paperLabels[item.id];
   card.innerHTML=phase===1
     ? '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><div class="label">'+item.fileName+'</div></div>'
-    : '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><div class="label">'+item.name+'</div><div class="paper-lines" aria-hidden="true"></div></div>';
+    : '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><span class="paper-mini-icon" aria-hidden="true">'+hint.icon+'</span><div class="label">'+item.name+'</div><span class="paper-mini-text">'+hint.info+'</span><div class="paper-lines" aria-hidden="true"></div></div>';
   function selectCard(e){
     e.stopPropagation();
     if(phase===1){
