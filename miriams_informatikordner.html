@@ -164,6 +164,42 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
 @media(max-width:850px){.digital-workspace{grid-template-columns:1fr}.preview-panel{min-height:200px}.preview-empty{min-height:130px}}
 @media(max-width:500px){.digital-workspace .digital-grid{grid-template-columns:1fr}.digital-workspace .digital-folder{min-height:0;padding-bottom:10px}.digital-workspace .sheet-zone{min-height:0!important}.digital-workspace .paper.digital .label{font-size:.88rem}}
 
+
+/* Digital phase: show ONE opened folder and a real preview, not both abstract columns. */
+.simple-explorer .panel-title{margin-bottom:16px}
+.se-window{border:1px solid #dbe6ef;border-radius:17px;background:white;overflow:hidden}
+.se-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:15px 18px;background:#f2f7fb;border-bottom:1px solid #dce6ee;color:#5c7186;font-size:.95rem}
+.se-bar span{color:#a3b1bf}.se-bar strong{color:#254763}
+.se-layout{display:grid;grid-template-columns:210px minmax(180px,1fr) minmax(220px,.92fr);min-height:405px}
+.se-nav{background:#f8fbfe;border-right:1px solid #e0e8ef;padding:17px 12px}
+.se-label{font-size:.73rem;letter-spacing:.08em;font-weight:850;color:#8492a1;margin-bottom:15px}
+.se-folder{display:flex;align-items:center;gap:9px;text-align:left;width:100%;border:1px solid transparent;border-radius:12px;padding:13px 10px;background:transparent;font-weight:780;color:#475b71;margin-bottom:7px;line-height:1.27;font-size:.89rem}
+.se-folder span:first-child{font-size:1.26rem;flex:0 0 auto}.se-folder:hover{background:#eef7ff}.se-folder.active{background:#e6f3ff;border-color:#bddcf6;color:#28699d}
+.se-files{padding:17px 13px;border-right:1px solid #e0e8ef}
+.se-files-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:13px}
+.se-files-head strong{font-size:.91rem}.se-files-head small{color:#92a1af;white-space:nowrap}
+#se-list{display:flex;flex-direction:column;gap:5px}
+#se-list .paper.digital{min-height:54px;padding:9px 7px;border-radius:10px;border:1px solid transparent;background:transparent;box-shadow:none;gap:9px}
+#se-list .paper.digital:hover{background:#f0f8ff;border-color:#d6e9f7}
+#se-list .paper.digital.selected{background:#e4f2ff;border-color:#9dcaf1;box-shadow:none}
+#se-list .paper.digital .icon-sheet{width:29px;min-width:29px;flex:0 0 29px;height:34px}
+#se-list .paper.digital .label{font-size:.84rem;font-weight:670}
+.se-preview{padding:18px 16px}
+.se-empty{height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#92a3b2;font-size:.87rem;font-weight:680}
+.se-empty span{font-size:2.5rem}
+.visible-filename{font-weight:850;font-size:.96rem;overflow-wrap:anywhere}
+.visible-filetype{font-size:.81rem;color:#7c8da0;margin:4px 0 14px}
+.visible-sheet{min-height:224px;border:1px solid #dce7ed;background:#fffefb;border-radius:12px;box-shadow:0 5px 14px #3e6c9014;padding:18px 13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+.visible-sheet.image-preview{background:#f0f9fb}
+.visible-picture{font-size:3.3rem;font-weight:850;letter-spacing:-.05em;color:#387294;line-height:1.23}
+.visible-sheet strong{font-size:.99rem;color:#304961}
+.visible-sheet p{font-size:.85rem;line-height:1.48;color:#566778;margin:0}
+.se-move{border:1px solid #bdd9f1;background:#eaf6ff;color:#336b9a;font-weight:760;border-radius:11px;padding:12px;margin-top:14px;width:100%;font-size:.86rem;text-align:center}
+.se-move:hover{background:#dbecfd}
+.se-found{margin-top:13px;border-radius:10px;background:#e8f8ef;border:1px solid #bde6cf;color:#327b50;padding:12px;font-size:.83rem;line-height:1.5;overflow-wrap:anywhere;font-weight:740}
+@media(max-width:930px){.se-layout{grid-template-columns:180px minmax(195px,1fr)}.se-preview{grid-column:1/-1;border-top:1px solid #e0e8ef}.se-files{border-right:none}.visible-sheet{min-height:180px}.se-empty{height:95px}}
+@media(max-width:620px){.se-layout{grid-template-columns:1fr}.se-nav{border-right:0;border-bottom:1px solid #e0e8ef;padding:12px}.se-nav #se-folders{display:grid;grid-template-columns:1fr 1fr;gap:8px}.se-folder{margin:0;font-size:.81rem;padding:10px}.se-files{padding:13px}.se-preview{grid-column:auto}.se-bar{font-size:.81rem}}
+
 </style>
 </head>
 <body>
@@ -197,14 +233,14 @@ const sectionInfo={
  teile:{label:"Geräte und Bauteile", short:"Bauteile", color:"red"},
  eva:{label:"EVA-Prinzip", short:"EVA-Prinzip", color:"blue"}
 };
-let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[], activeSection="teile", pageIndex=0, digitalMode="repair", found=false;
+let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[], activeSection="teile", pageIndex=0, digitalMode="repair", found=false, openFolder="teile";
 const screen=document.getElementById("screen"); const actions=document.getElementById("actions");
 function shuffle(){ randomized=data.slice(); for(let i=randomized.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [randomized[i],randomized[j]]=[randomized[j],randomized[i]];} }
 function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; activeSection="teile"; pageIndex=0; digitalMode="repair"; found=false; shuffle(); }
 function beginDigitalStage(){
  locations={};data.forEach(item=>locations[item.id]=item.folder);
  locations.tast="eva"; locations.evaComputer="teile";
- selected=null;valid=false;message="";digitalMode="repair";found=false;
+ selected=null;valid=false;message="";digitalMode="repair";found=false;openFolder="teile";
 }
 function start(){ phase=0; resetLocations(); draw(); }
 document.getElementById("restart").addEventListener("click", start);
@@ -221,7 +257,7 @@ function paper(item){
     e.stopPropagation();
     if(phase===1){
       selected=item.id;
-      if(digitalMode==="find")found=item.id==="tast";
+      if(digitalMode==="find")found=item.id==="tast"&&openFolder==="teile";
     }else{
       selected=selected===item.id?null:item.id;
     }
@@ -298,56 +334,75 @@ function renderPaperStage(){
     tabBox.appendChild(tab);
   });
 }
+function previewContent(item){
+ const content={
+  proz:['▣','Der Prozessor','Er verarbeitet Daten und führt Befehle aus.'],
+  evaSmart:['📱  →  🖼️','Ein Foto aufnehmen','Auf den Auslöser tippen. Ein Foto erscheint.'],
+  tast:['⌨️','Die Tastatur','Auf dem Bild ist eine Tastatur zu sehen.'],
+  evaGrund:['🖥️  →  🖨️','Einen Text ausdrucken','„Drucken“ auswählen. Ein bedrucktes Blatt kommt heraus.'],
+  speicher:['▦','Der Arbeitsspeicher','Er hält Daten bereit, solange Programme laufen.'],
+  evaComputer:['Ⓐ  →  🖥️','Vom Tastendruck zum Buchstaben','Die Taste A wird gedrückt. Auf dem Bildschirm erscheint A.'],
+  bildschirm:['🖥️','Der Bildschirm','Auf dem Bild ist ein Computerbildschirm zu sehen.'],
+  evaKonsole:['🎮  →  🕹️','Eine Spielfigur steuern','Mit dem Controller wird eine Figur auf dem Bildschirm bewegt.']
+ };
+ const [visual,title,explanation]=content[item.id];
+ const outer=document.createElement("div");outer.className="visible-preview";
+ const fileName=document.createElement("div");fileName.className="visible-filename";fileName.textContent=item.fileName;
+ const type=document.createElement("div");type.className="visible-filetype";type.textContent=item.type==="image"?"Bilddatei":item.type==="word"?"Word-Datei":"Textdatei";
+ const sheet=document.createElement("div");sheet.className="visible-sheet"+(item.type==="image"?" image-preview":"");
+ const symbol=document.createElement("div");symbol.className="visible-picture";symbol.textContent=visual;
+ const head=document.createElement("strong");head.textContent=title;
+ const info=document.createElement("p");info.textContent=explanation;
+ sheet.appendChild(symbol);sheet.appendChild(head);sheet.appendChild(info);
+ outer.appendChild(fileName);outer.appendChild(type);outer.appendChild(sheet);
+ return outer;
+}
 function renderDigitalStage(){
-  const searching=digitalMode==="find";
-  screen.innerHTML='<div class="digital-workspace">'
-    +'<section class="panel"><h2 class="panel-title">💻 Informatik</h2>'
-    +'<div class="explorer"><div class="windowbar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span></div>'
-    +'<div class="address">📁 Schule › Informatik</div>'
-    +'<div class="digital-grid">'
-    +'<div class="digital-folder" data-drop="teile"><div class="folder-tab">Geräte und Bauteile</div><div class="sheet-zone" id="teile-zone"></div></div>'
-    +'<div class="digital-folder" data-drop="eva"><div class="folder-tab">EVA-Prinzip</div><div class="sheet-zone" id="eva-zone"></div></div>'
-    +'</div></div></section>'
-    +'<aside class="panel preview-panel"><h2 class="panel-title">'+(searching?'🔎 Datei finden':'🔍 Vorschau')+'</h2>'
-    +'<div id="preview-container"></div></aside></div>';
-  ["teile","eva"].forEach(key=>{
-    const zone=document.getElementById(key+"-zone");
-    if(!searching)setupDrop(zone,key);
-    itemsIn(key).forEach(item=>zone.appendChild(paper(item)));
-  });
-  const preview=document.getElementById("preview-container");
-  const item=selected?data.find(x=>x.id===selected):null;
-  if(searching){
-    const target=document.createElement("div");target.className="search-target";
-    target.innerHTML='<span class="small-heading">GESUCHT</span><strong>Das Foto der Tastatur</strong>';
-    preview.appendChild(target);
-  }
-  if(!item){
-    const blank=document.createElement("div");blank.className="preview-empty";
-    blank.innerHTML='<span aria-hidden="true">📄</span><span>Datei auswählen</span>';
-    preview.appendChild(blank);return;
-  }
-  const details=document.createElement("div");details.className="preview-details";
-  const title=document.createElement("div");title.className="preview-filename";title.textContent=item.fileName;
-  const type=document.createElement("div");type.className="preview-kind";type.textContent=item.type==="image"?"Bilddatei":item.type==="word"?"Word-Datei":"Textdatei";
-  const visual=document.createElement("div");visual.className="preview-visual"+(item.type==="image"?" image-type":"");
-  visual.textContent=item.visual;
-  const desc=document.createElement("p");desc.className="preview-description";desc.textContent=item.preview;
-  details.appendChild(title);details.appendChild(type);details.appendChild(visual);details.appendChild(desc);
-  preview.appendChild(details);
-  if(searching){
-    if(item.id==="tast"){
-      const success=document.createElement("div");success.className="path-result";
-      success.innerHTML='<span class="small-heading">SPEICHERORT</span><span>Schule › Informatik › Geräte und Bauteile › <strong>Bild_02.jpg</strong></span>';
-      preview.appendChild(success);
-    }
-  } else {
-    const other=locations[item.id]==="teile"?"eva":"teile";
-    const btn=document.createElement("button");btn.type="button";btn.className="move-file";
-    btn.textContent="Verschieben → "+sectionInfo[other].label;
-    btn.addEventListener("click",()=>move(item.id,other));
-    preview.appendChild(btn);
-  }
+ const searching=digitalMode==="find";
+ screen.innerHTML='<section class="panel simple-explorer"><h2 class="panel-title">💻 Datei-Explorer</h2>'
+  +'<div class="se-window"><div class="se-bar">📁 Schule <span>›</span> 📁 Informatik <span>›</span> <strong id="se-path"></strong></div>'
+  +'<div class="se-layout"><nav class="se-nav" aria-label="Ordner"><div class="se-label">ORDNER</div><div id="se-folders"></div></nav>'
+  +'<div class="se-files"><div class="se-files-head"><strong id="se-title"></strong><small id="se-number"></small></div><div id="se-list"></div></div>'
+  +'<aside class="se-preview"><div class="se-label">'+(searching?'🔎 GESUCHT: TASTATURFOTO':'VORSCHAU')+'</div><div id="se-content"></div></aside></div></div></section>';
+ const nav=document.getElementById("se-folders");
+ ["teile","eva"].forEach(key=>{
+   const button=document.createElement("button");button.type="button";
+   button.className="se-folder"+(key===openFolder?" active":"");
+   button.innerHTML='<span aria-hidden="true">📁</span><span>'+sectionInfo[key].label+'</span>';
+   button.setAttribute("aria-pressed",String(key===openFolder));
+   button.addEventListener("click",()=>{openFolder=key;selected=null;found=false;message="";draw();});
+   if(!searching){
+     button.addEventListener("dragover",e=>e.preventDefault());
+     button.addEventListener("drop",e=>{e.preventDefault();const id=e.dataTransfer.getData("text/plain")||dragging;if(id)move(id,key);});
+   }
+   nav.appendChild(button);
+ });
+ document.getElementById("se-path").textContent=sectionInfo[openFolder].label;
+ document.getElementById("se-title").textContent=sectionInfo[openFolder].label;
+ const shown=itemsIn(openFolder);
+ document.getElementById("se-number").textContent=shown.length+" Dateien";
+ const list=document.getElementById("se-list");
+ shown.forEach(item=>list.appendChild(paper(item)));
+ const right=document.getElementById("se-content");
+ const item=selected?data.find(x=>x.id===selected):null;
+ if(!item){
+  const empty=document.createElement("div");empty.className="se-empty";empty.innerHTML='<span>👆</span>Datei anklicken';
+  right.appendChild(empty);return;
+ }
+ right.appendChild(previewContent(item));
+ if(searching){
+   if(item.id==="tast"&&openFolder==="teile"){
+     const correct=document.createElement("div");correct.className="se-found";
+     correct.textContent="✓ Gefunden: Schule › Informatik › Geräte und Bauteile › Bild_02.jpg";
+     right.appendChild(correct);
+   }
+ }else{
+   const target=locations[item.id]==="teile"?"eva":"teile";
+   const button=document.createElement("button");button.type="button";button.className="se-move";
+   button.textContent="→ In „"+sectionInfo[target].label+"“ verschieben";
+   button.addEventListener("click",()=>move(item.id,target));
+   right.appendChild(button);
+ }
 }
 function drawActions(){
   actions.innerHTML="";
@@ -366,7 +421,7 @@ function drawActions(){
     btn.addEventListener("click",()=>{
       const correct=data.every(item=>locations[item.id]===item.folder);
       if(phase===1&&correct){
-        digitalMode="find";selected=null;found=false;message="";valid=false;
+        digitalMode="find";selected=null;found=false;message="";valid=false;openFolder="eva";
       }else{
         valid=correct;
         message=correct?"✓ Alles richtig!":"Noch nicht ganz.";
