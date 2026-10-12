@@ -303,6 +303,19 @@ h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{marg
  .papers .paper:not(.digital) .paper-lines{height:14px;margin-top:7px}
 }
 
+
+/* Define file and filename ending just before the digital workspace. */
+.file-concepts{display:grid;grid-template-columns:1fr 1.45fr;gap:9px;margin:-4px 0 16px}
+.file-concepts>div{
+ display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;padding:11px 14px;
+ background:#f5f9fd;border:1px solid #dbe8f3;border-radius:12px;
+ font-size:.86rem;line-height:1.47;color:#465c70;
+}
+.file-concepts strong{font-weight:820;color:#294d6e}
+.file-concepts code,.cmp-note code{background:#e7f2fc;border-radius:4px;padding:1px 4px;color:#286d9f;font-family:inherit;font-weight:820}
+.file-extension{color:#236ca2;font-weight:850;background:#e6f3ff;border-radius:3px;padding:0 2px;margin-left:1px}
+@media(max-width:780px){.file-concepts{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -364,8 +377,11 @@ function paper(item){
   card.tabIndex=0;card.draggable=phase===0||digitalMode==="repair";card.setAttribute("role","button");
   card.setAttribute("aria-label",phase===1?"Datei "+item.fileName:"Arbeitsblatt "+item.name);
   const hint=paperLabels[item.id];
+  const splitAt=item.fileName.lastIndexOf(".");
+  const shortName=item.fileName.slice(0,splitAt);
+  const ending=item.fileName.slice(splitAt);
   card.innerHTML=phase===1
-    ? '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><div class="label">'+item.fileName+'</div></div>'
+    ? '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><div class="label">'+shortName+'<span class="file-extension">'+ending+'</span></div></div>'
     : '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><span class="paper-mini-icon" aria-hidden="true">'+hint.icon+'</span><div class="label">'+item.name+'</div><span class="paper-mini-text">'+hint.info+'</span><div class="paper-lines" aria-hidden="true"></div></div>';
   function selectCard(e){
     e.stopPropagation();
@@ -522,7 +538,9 @@ function previewContent(item){
 
 function renderDigitalStage(){
  const searching=digitalMode==="find";
- screen.innerHTML='<div class="mini-context"><span class="context-icon" aria-hidden="true">💻</span><span>Miriam hat ihre Arbeitsblätter im Schulordner geordnet. Nun möchte sie die gleiche Ordnung auch am Computer nutzen. Dort kann sie Texte, Bilder und Word-Dokumente in Ordnern speichern. Einige Dateien liegen aber noch im falschen Ordner.</span></div><section class="panel simple-explorer"><h2 class="panel-title">💻 Datei-Explorer</h2>'
+ screen.innerHTML='<div class="mini-context"><span class="context-icon" aria-hidden="true">💻</span><span>Miriam hat ihre Arbeitsblätter geordnet. Nun möchte sie die gleiche Ordnung am Computer nutzen. Einige Dateien liegen noch im falschen Ordner.</span></div>'
+  +'<div class="file-concepts"><div><strong>📄 Datei</strong><span>Speichert Daten, zum Beispiel einen Text oder ein Bild.</span></div><div><strong>🔤 Dateiendung (Dateierweiterung)</strong><span>Steht hinter dem letzten Punkt im Dateinamen, z. B. <code>.jpg</code> oder <code>.txt</code>. Sie zeigt meist die Dateiart.</span></div></div>'
+  +'<section class="panel simple-explorer"><h2 class="panel-title">💻 Datei-Explorer</h2>'
   +'<div class="se-window"><div class="se-bar">📁 Schule <span>›</span> 📁 Informatik <span>›</span> <strong id="se-path"></strong></div>'
   +'<div class="se-layout"><nav class="se-nav" aria-label="Ordner"><div class="se-label">ORDNER</div><div id="se-folders"></div></nav>'
   +'<div class="se-files"><div class="se-files-head"><strong id="se-title"></strong><small id="se-number"></small></div><div id="se-list"></div></div>'
@@ -613,6 +631,7 @@ function renderComparisonStage(){
   +(notesVisible?
       '<section class="cmp-notes"><h3>📒 Für dein Informatikheft</h3>'
      +'<div class="cmp-note"><strong>Datei</strong><span>Eine Datei speichert Daten, zum Beispiel einen Text oder ein Bild.</span></div>'
+     +'<div class="cmp-note"><strong>Dateiendung (Dateierweiterung)</strong><span>Sie steht hinter dem letzten Punkt im Dateinamen, zum Beispiel <code>.jpg</code> bei <code>Tastatur.jpg</code>, und zeigt meist die Dateiart.</span></div>'
      +'<div class="cmp-note"><strong>Ordner</strong><span>Ein Ordner kann Dateien und weitere Ordner enthalten. Ordner in einem Ordner heißen <strong>Unterordner</strong>.</span></div>'
      +'<div class="cmp-note"><strong>Ordnerstruktur</strong><span>Ordner und Unterordner bilden eine Ordnung. Auf dem Computer sieht sie anders aus als im Schulordner.</span></div>'
      +'</section>'
