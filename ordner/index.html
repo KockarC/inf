@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Miriams Informatikordner</title>
+<style>
+:root{
+  --bg:#eef5fb; --card:#ffffff; --line:#dbe7f1; --ink:#26364b; --muted:#6d8096;
+  --blue:#4278b3; --blue-soft:#d7e7fb; --red:#b65a57; --red-soft:#efd3d1;
+  --paper:#fbfdff; --paper-line:#e8eff6; --binder:#efdba0; --binder-deep:#e0c16c;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:linear-gradient(180deg,#f7fbff,#eef5fb);color:var(--ink)}
+button{font:inherit;cursor:pointer}
+button:focus-visible,[tabindex]:focus-visible{outline:3px solid #6cb0e7;outline-offset:3px}
+.app{max-width:1120px;margin:auto;padding:22px 18px 34px}
+header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+.ident{display:flex;align-items:center;gap:12px}
+.logo{width:54px;height:54px;border-radius:18px;background:#fff0b9;display:grid;place-items:center;font-size:30px;box-shadow:0 8px 18px rgba(170,140,58,.18)}
+h1{margin:0;font-size:clamp(1.35rem,3vw,1.9rem);letter-spacing:-.03em}.step{margin-top:3px;color:var(--muted);font-size:.93rem}
+.restart{background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;font-weight:650;color:#617286}.restart:hover{background:#f8fbff}
+.board{display:grid;grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr);gap:18px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(53,90,124,.10);padding:18px}
+.panel-title{margin:0 0 14px;display:flex;align-items:center;gap:8px;font-size:1.03rem;font-weight:800}
+.papers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;min-height:390px;align-content:start}
+.paper{background:#fff;border:1px solid #d8e5ef;border-radius:13px;min-height:70px;padding:10px;display:flex;align-items:center;gap:10px;box-shadow:0 4px 10px rgba(58,95,126,.08);cursor:grab;user-select:none;transition:.14s ease}
+.paper:hover{transform:translateY(-1px);border-color:#9fc5e6}.paper.selected{background:#edf7ff;border-color:#5da4df;box-shadow:0 0 0 2px #c6e4fb}
+.paper:active{cursor:grabbing}
+.icon-sheet{width:30px;height:38px;position:relative;flex:0 0 auto;border-radius:4px;background:#fff;border:1px solid #b9cfdf;box-shadow:2px 3px 0 #edf3f8}
+.icon-sheet:before{content:"";position:absolute;left:5px;right:5px;top:12px;height:2px;background:#a0bdd6;box-shadow:0 7px 0 #a0bdd6,0 14px 0 #d0dee9}
+.paper.digital .icon-sheet{background:#edf7ff;border-color:#9ec4e5}.paper.digital .icon-sheet:after{content:"";position:absolute;left:4px;bottom:1px;font-size:8px;font-weight:800;color:#4a8fd3}
+.label{font-size:.91rem;line-height:1.24;font-weight:680;overflow-wrap:anywhere}
+.empty{border:1px dashed #cddbe8;border-radius:12px;background:rgba(255,255,255,.72);color:#98a8ba;text-align:center;padding:22px 8px;font-size:.88rem}
+
+/* Real binder */
+.real-binder{position:relative;background:linear-gradient(180deg,var(--binder) 0%,#ecd495 100%);border:1px solid #dfc070;border-radius:34px;padding:22px 70px 22px 26px;min-height:465px;box-shadow:inset 0 2px 0 rgba(255,255,255,.5),0 14px 30px rgba(171,136,51,.14)}
+.real-binder:before{content:"";position:absolute;top:26px;bottom:26px;left:18px;width:10px;border-radius:10px;background:linear-gradient(180deg,#ddc06e,#f4e0a6);box-shadow:inset -2px 0 0 rgba(255,255,255,.45)}
+.ring{position:absolute;left:29px;width:34px;height:34px;border:6px solid #8d9baa;border-radius:50%;background:#f7ebc4;box-shadow:0 2px 0 rgba(255,255,255,.34) inset}.ring.top{top:136px}.ring.bottom{top:286px}
+.binder-page{position:relative;background:
+  repeating-linear-gradient(180deg, transparent 0 31px, var(--paper-line) 31px 32px),
+  linear-gradient(90deg,#f1f6fa 0 92px, var(--paper) 92px 100%);
+  border:1px solid #d3dde6;border-radius:24px;padding:26px 22px 20px;min-height:420px;box-shadow:inset 0 0 0 2px rgba(255,255,255,.42)}
+.binder-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:18px}
+.binder-head h3{margin:0;font-size:1.18rem;font-weight:850}.section-note{color:var(--muted);font-size:.9rem}
+.sheet-zone{margin-top:8px;border:2px dashed #d6e3ee;border-radius:18px;background:rgba(255,255,255,.58);padding:16px;min-height:295px;display:grid;gap:8px;align-content:start;transition:.14s ease;cursor:pointer}
+.sheet-zone.over{border-color:#79b1df;background:#fbfdff;transform:translateY(-1px)}
+.sheet-zone .paper{min-height:58px;padding:8px}.sheet-zone .label{font-size:.8rem}.sheet-zone .icon-sheet{transform:scale(.86);transform-origin:center}
+.side-tabs{position:absolute;top:78px;right:8px;display:flex;flex-direction:column;gap:12px;width:72px}
+.side-tab{position:relative;border-radius:0 14px 14px 0;padding:12px 8px 12px 12px;min-height:110px;display:flex;align-items:center;justify-content:center;writing-mode:vertical-rl;text-orientation:mixed;font-weight:800;letter-spacing:.02em;border:1px solid rgba(0,0,0,.05);box-shadow:-3px 5px 10px rgba(53,90,124,.12);cursor:pointer;transition:.15s ease;color:#fff}
+.side-tab.red{background:linear-gradient(180deg,#cf7268,#b75a57)}
+.side-tab.blue{background:linear-gradient(180deg,#4f85c1,#4173ab)}
+.side-tab.active{transform:translateX(-12px);box-shadow:-4px 8px 15px rgba(53,90,124,.18)}
+.side-tab .count{position:absolute;top:8px;left:-10px;min-width:24px;height:24px;border-radius:999px;background:#fff;color:#486177;font-size:.78rem;display:grid;place-items:center;font-weight:800;border:1px solid #d8e3eb;writing-mode:horizontal-tb}
+.side-tab.has-items:not(.active) .count{animation:pulse 1.6s ease-in-out infinite}
+.peek-stack{position:absolute;left:-7px;bottom:14px;width:18px;height:22px;display:none}
+.peek-stack span{position:absolute;inset:0;background:#fff;border:1px solid #cfdae3;border-radius:3px;box-shadow:1px 2px 0 #e9f0f5}
+.peek-stack span:nth-child(2){transform:translate(-3px,3px)}
+.peek-stack span:nth-child(3){transform:translate(-6px,6px)}
+.side-tab.has-items:not(.active) .peek-stack{display:block;animation:wobble 1.8s ease-in-out infinite}
+.section-badge{display:inline-flex;align-items:center;gap:8px;padding:9px 14px;border-radius:14px;font-weight:850;margin-bottom:8px}
+.section-badge.blue{background:var(--blue-soft);color:#376da5}.section-badge.blue:before{content:"";width:18px;height:12px;transform:skewX(-18deg);background:#4677b0;border-radius:2px}
+.section-badge.red{background:var(--red-soft);color:#9a5950}.section-badge.red:before{content:"";width:18px;height:12px;transform:skewX(-18deg);background:#af615b;border-radius:2px}
+
+/* Digital stage */
+.explorer{background:linear-gradient(180deg,#f8fbfe,#eff5fb);border:1px solid #d7e4ef;border-radius:22px;padding:12px;min-height:430px}
+.windowbar{height:14px;display:flex;gap:6px;align-items:center;padding-left:4px;margin-bottom:10px}.dot{width:10px;height:10px;border-radius:50%}.r{background:#ff7f7f}.y{background:#ffd065}.g{background:#7ad992}
+.address{background:#fff;border:1px solid #dce6ef;border-radius:11px;padding:10px 12px;font-size:.9rem;color:#6b7c8f;margin-bottom:14px}.tree-root{margin:0 0 12px 4px;font-weight:820}
+.digital-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.digital-folder{position:relative;background:#fff;border:2px dashed #c7d9e7;border-radius:20px;padding:48px 12px 12px;min-height:305px;cursor:pointer;transition:.14s ease}.digital-folder:hover,.digital-folder.over{background:#fbfdff;border-color:#79b1df;transform:translateY(-1px)}
+.folder-tab{position:absolute;top:-2px;left:14px;right:40px;height:46px;border-radius:14px 14px 10px 10px;background:#e9f3fd;border:1px solid #c9def0;display:flex;align-items:center;padding:0 14px;font-weight:820;color:#3b6f9c;box-shadow:0 5px 10px rgba(72,117,162,.08)}.folder-tab:before{content:"📁";margin-right:8px}
+.digital-folder .paper{min-height:55px;padding:8px}.digital-folder .label{font-size:.79rem}.digital-folder .icon-sheet{transform:scale(.84);transform-origin:center}
+
+.actions{display:flex;justify-content:center;align-items:center;gap:14px;min-height:72px;margin-top:14px;flex-wrap:wrap}.feedback{font-weight:760;color:#a46f34}.feedback.good{color:#2e8655}
+.primary{border:0;border-radius:14px;background:#338ddd;color:#fff;padding:12px 28px;font-weight:820;font-size:1rem;box-shadow:0 8px 16px rgba(51,141,221,.25);cursor:pointer}.primary:hover{background:#247ecc}
+.notes{max-width:700px;margin:28px auto 0;background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:0 14px 34px rgba(49,89,121,.10);padding:26px 24px}.notes-title{margin:0 0 22px;font-size:1.4rem;font-weight:850;display:flex;align-items:center;gap:10px}.note-card{border-left:4px solid #7ab2e0;padding:6px 0 6px 15px;margin-bottom:20px;line-height:1.6;font-size:1.07rem}.note-card:last-child{margin-bottom:0;border-left-color:#e1b55f}.note-card strong{display:block;font-size:1.15rem}.note-card p{margin:6px 0 0}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes wobble{0%,100%{transform:translateX(0)}50%{transform:translateX(-2px)}}
+@media (max-width:830px){.board{grid-template-columns:1fr}.real-binder{padding-right:78px;min-height:430px}.papers{min-height:0}}
+@media (max-width:520px){.app{padding:14px 10px 24px}.panel{padding:14px}.papers{grid-template-columns:1fr}.real-binder{padding:18px 66px 18px 18px}.ring{left:20px;width:28px;height:28px}.ring.top{top:130px}.ring.bottom{top:270px}.binder-page{padding:18px 14px 14px}.side-tabs{width:58px;right:6px}.side-tab{min-height:94px;font-size:.82rem;padding-left:10px}.side-tab .count{left:-8px}}
+/* Printed sheets: flat A4-style paper, not rounded UI pills. */
+.papers .paper:not(.digital){position:relative;display:block;overflow:hidden;min-height:151px;padding:18px 14px 15px 21px;border:1px solid #d1d9df;border-radius:2px;background:#fffefa;box-shadow:2px 4px 0 rgba(202,213,222,.32),0 7px 12px rgba(65,81,102,.09);transform:none;isolation:isolate}
+.papers .paper:not(.digital)::before{content:"";position:absolute;inset:0 auto 0 10px;width:1px;background:#ecd6cd}
+.papers .paper:not(.digital)::after{content:"";position:absolute;right:0;top:0;border-style:solid;border-width:0 15px 15px 0;border-color:transparent #f0f3f5 transparent transparent}
+.papers .paper:not(.digital):hover{transform:translateY(-3px) rotate(-.6deg);box-shadow:2px 7px 0 #e6ebef,0 12px 21px rgba(65,81,102,.15);z-index:2}
+.papers .paper:not(.digital).selected{background:#f5faff;border-color:#6099d0;box-shadow:0 0 0 3px #c9e4fc,0 8px 18px rgba(60,95,135,.15)}
+.paper:not(.digital) .icon-sheet{display:none}
+.paper:not(.digital) .paper-content{position:relative;display:flex;flex-direction:column;width:100%;min-width:0}
+.paper:not(.digital) .paper-kicker{color:#8291a0;font-size:.59rem;line-height:1.4;font-weight:800;letter-spacing:.10em}
+.paper:not(.digital) .label{margin-top:10px;color:#2a3c52;font-size:.92rem;line-height:1.28;font-weight:780}
+.paper-lines{display:none}
+.papers .paper:not(.digital) .paper-lines{display:block;height:31px;margin-top:14px;background:repeating-linear-gradient(to bottom,transparent 0 11px,#e3eaf0 11px 12px)}
+.paper.digital .paper-kicker,.paper.digital .paper-lines{display:none}
+.paper.digital .paper-content{flex:1;min-width:0}.paper.digital .label{font-weight:680}
+.real-binder{padding-left:34px;padding-right:76px}.real-binder:before{left:20px;width:9px}
+.ring{z-index:3;left:19px;width:39px;height:39px;background:#e5d4a3;border:7px solid #9aa8b5;box-shadow:inset 1px 2px 2px #b9c7ce,1px 2px 3px rgba(80,78,61,.16)}.ring.top{top:137px}.ring.bottom{top:335px}
+.binder-page{min-height:544px;padding:25px 15px 18px 24px;border-radius:15px;background:#fbfbf7;border:1px solid #dedcd2;box-shadow:0 6px 14px rgba(123,100,59,.12)}
+.binder-head{align-items:center;flex-wrap:wrap;padding:0 8px 0 4px;margin-bottom:7px}.binder-head h3{font-size:1.08rem;letter-spacing:-.01em}.section-note{font-size:.78rem}
+.section-badge{font-size:.83rem;margin:0;padding:6px 9px;border-radius:8px}.section-badge:before{width:11px!important;height:9px!important}
+.sheet-zone#active-zone{min-height:450px;margin:0;border:0;border-radius:10px;padding:12px 7px 5px;display:flex;align-items:center;justify-content:center;flex-direction:column;background:transparent;cursor:default;transition:background .15s ease}
+.sheet-zone#active-zone.over{background:#eaf5ff;outline:2px dashed #8bbce8;outline-offset:-3px;transform:none}
+.paper-deck{position:relative;width:min(100%,280px);height:364px;isolation:isolate}
+.paper-deck::before,.paper-deck::after{content:"";position:absolute;inset:6px 2px 8px;background:white;border:1px solid #cbd5dc;border-radius:2px;box-shadow:0 9px 18px rgba(54,71,85,.11);pointer-events:none}
+.paper-deck::before{transform:translate(8px,-7px) rotate(2.2deg)}.paper-deck::after{transform:translate(3px,-3px) rotate(1deg)}
+.sheet-zone .paper.binder-sheet{z-index:1;position:absolute;inset:0 4px 7px 0;display:block;width:auto;min-height:0;height:auto;margin:0;padding:48px 24px 28px 46px;background:#fff;border:1px solid #c8d2d8;border-radius:2px;box-shadow:0 12px 25px rgba(43,64,81,.18);overflow:hidden;transform:rotate(-.3deg);cursor:grab}
+.sheet-zone .paper.binder-sheet:hover{z-index:2;transform:translateY(-3px) rotate(0deg)}
+.sheet-zone .paper.binder-sheet.selected{background:#f6fbff;border-color:#5e99cc;box-shadow:0 0 0 3px #bde0fb,0 14px 24px rgba(43,64,81,.18)}
+.sheet-zone .paper.binder-sheet::before{content:"";position:absolute;left:11px;top:76px;width:16px;height:16px;border-radius:50%;background:#e3e9eb;box-shadow:0 194px 0 #e3e9eb;border:1px solid #d2dbdf}
+.sheet-zone .paper.binder-sheet::after{content:"";position:absolute;left:36px;top:25px;bottom:23px;width:1px;background:#f1d9d6}
+.sheet-zone .paper.binder-sheet .paper-content{height:100%;display:flex;flex-direction:column}.sheet-zone .paper.binder-sheet .paper-kicker{font-size:.65rem;letter-spacing:.13em}
+.sheet-zone .paper.binder-sheet .label{color:#25384a;font-size:1.24rem;margin-top:23px;line-height:1.24;font-weight:800;border-bottom:1px solid #dfe7ec;padding-bottom:19px}
+.sheet-zone .paper.binder-sheet .paper-lines{display:block;flex:1;min-height:114px;margin-top:17px;background:repeating-linear-gradient(to bottom,transparent 0 24px,#e6edf2 24px 25px)}
+.deck-controls{margin-top:12px;display:flex;align-items:center;justify-content:center;gap:13px}
+.deck-arrow{padding:5px;min-width:34px;min-height:32px;border:1px solid #d2dfe9;background:white;border-radius:10px;font-weight:800;color:#4c779b;box-shadow:0 2px 5px rgba(42,72,98,.06)}.deck-arrow:hover{background:#eaf4fd}
+.deck-counter{font-size:.83rem;font-weight:700;color:#667c8e;min-width:35px;text-align:center}
+.sheet-zone#active-zone .empty{padding:24px 30px;border-radius:8px;cursor:pointer}
+.side-tab.has-items:not(.active) .count{animation:subtleBreathe 2.2s ease-in-out infinite}@keyframes subtleBreathe{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@media(max-width:830px){.binder-page{min-height:540px}}
+@media(max-width:520px){.papers{grid-template-columns:repeat(2,minmax(0,1fr))}.papers .paper:not(.digital){min-height:123px;padding:12px 9px 10px 15px}.papers .paper:not(.digital) .label{font-size:.78rem;margin-top:7px}.papers .paper:not(.digital) .paper-lines{height:20px;margin-top:9px}.real-binder{padding-left:23px;padding-right:65px}.ring{left:10px;width:32px;height:32px}.ring.top{top:145px}.ring.bottom{top:310px}.binder-page{padding-left:15px;padding-right:8px;min-height:505px}.binder-head{padding:0 4px}.section-badge{font-size:.74rem}.paper-deck{height:325px;width:min(100%,230px)}.sheet-zone#active-zone{min-height:408px;padding-left:3px;padding-right:3px}.sheet-zone .paper.binder-sheet{padding:38px 14px 17px 35px}.sheet-zone .paper.binder-sheet .label{font-size:1rem}.sheet-zone .paper.binder-sheet::before{top:62px;box-shadow:0 177px 0 #e3e9eb}}
+@media(prefers-reduced-motion:reduce){.paper,.paper-deck,.side-tab{transition:none!important;animation:none!important}}
+
+
+/* Digital files: familiar Word, text and image symbols. */
+.paper.digital{gap:10px}
+.paper.digital .icon-sheet{position:relative;width:35px;height:43px;flex:0 0 35px;min-width:35px;transform:none!important;border:1px solid #cfdce7;border-radius:5px;display:grid;place-items:center;background:#fff;box-shadow:0 2px 5px #526e8e1a;overflow:hidden}
+.paper.digital .icon-sheet:before,.paper.digital .icon-sheet:after{box-shadow:none}
+.paper.digital.file-word .icon-sheet{background:#e5f0ff;border-color:#a7c5e7}
+.paper.digital.file-word .icon-sheet:before{content:"W";position:static;width:auto;height:auto;background:none;color:#2168a9;font-size:21px;font-weight:900}
+.paper.digital.file-word .icon-sheet:after{content:"";display:none}
+.paper.digital.file-text .icon-sheet{background:#fffefa}
+.paper.digital.file-text .icon-sheet:before{content:"";position:static;width:20px;height:3px;border-radius:2px;background:#97abba;box-shadow:0 -7px #97abba,0 7px #97abba}
+.paper.digital.file-text .icon-sheet:after{content:"";display:none}
+.paper.digital.file-image .icon-sheet{border-color:#a4c4d7;background:radial-gradient(circle at 73% 27%,#f7ce5c 0 4px,transparent 4.5px),linear-gradient(140deg,transparent 52%,#78b68b 53% 73%,transparent 74%),linear-gradient(35deg,transparent 43%,#579a86 44% 77%,transparent 78%),linear-gradient(#c9ecfa 0 62%,#e1f0e0 62%)}
+.paper.digital.file-image .icon-sheet:before,.paper.digital.file-image .icon-sheet:after{content:"";display:none}
+.paper.digital .label{font-size:.89rem;overflow-wrap:anywhere}
+
+
+/* Digital exercise: correcting an existing filing system, then finding a file. */
+.digital-workspace{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(235px,.82fr);gap:18px;align-items:start}
+.digital-workspace .explorer{min-height:443px}
+.digital-workspace .digital-grid{gap:12px}
+.digital-workspace .digital-folder{min-height:345px;padding:50px 10px 13px}
+.digital-workspace .folder-tab{right:8px;left:8px;font-size:.83rem;padding:0 9px;overflow-wrap:anywhere;min-height:43px;height:auto}
+.digital-workspace .sheet-zone{min-height:268px!important;display:flex;flex-direction:column;gap:8px;align-items:stretch;margin:0!important;padding:0!important;border:0;background:transparent;transform:none;cursor:default}
+.digital-workspace .sheet-zone.over{background:#eaf5ff!important;outline:2px dashed #9ccce9}
+.digital-workspace .paper.digital{min-height:55px;padding:7px 8px;gap:8px;border-radius:11px}
+.digital-workspace .paper.digital .icon-sheet{width:30px;min-width:30px;flex:0 0 30px;height:37px}
+.digital-workspace .paper.digital .label{font-size:.78rem;line-height:1.2;font-weight:720}
+.digital-workspace .paper.digital.selected{background:#ecf7ff;border-color:#5ca2d8;box-shadow:0 0 0 2px #d0eaff}
+.digital-workspace .paper.digital .paper-content{min-width:0;overflow-wrap:anywhere}
+.preview-panel{min-height:440px}
+.preview-empty{min-height:300px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#93a2b0;font-weight:650;font-size:.93rem}
+.preview-empty span:first-child{font-size:2.25rem;filter:grayscale(.15);opacity:.65}
+.preview-filename{font-size:1.02rem;font-weight:820;overflow-wrap:anywhere}
+.preview-kind{font-size:.77rem;color:#6e8193;margin-top:4px}
+.preview-visual{height:110px;display:grid;place-items:center;border-radius:13px;background:#f3f7fb;font-size:3.1rem;margin:18px 0 14px}
+.preview-visual.image-type{background:linear-gradient(145deg,#e7f5ff,#edf5ee)}
+.preview-description{line-height:1.52;font-size:.91rem;color:#43536a;margin:0 0 22px}
+.move-file{border:1px solid #c5dcec;background:#eff7fe;color:#37658d;border-radius:12px;padding:11px 12px;font-size:.83rem;font-weight:760;width:100%;text-align:center}
+.move-file:hover{background:#dfeffc}
+.search-target{border-radius:13px;background:#fff7df;border:1px solid #f0dfab;padding:13px 14px;margin:4px 0 19px}
+.search-target strong{font-size:.95rem;display:block;margin-top:5px}
+.small-heading{display:block;color:#8291a2;font-weight:850;font-size:.7rem;letter-spacing:.09em}
+.path-result{display:grid;gap:7px;background:#eaf8ee;border:1px solid #c7e6d0;border-radius:12px;padding:12px;font-size:.84rem;line-height:1.5;overflow-wrap:anywhere}
+@media(max-width:850px){.digital-workspace{grid-template-columns:1fr}.preview-panel{min-height:200px}.preview-empty{min-height:130px}}
+@media(max-width:500px){.digital-workspace .digital-grid{grid-template-columns:1fr}.digital-workspace .digital-folder{min-height:0;padding-bottom:10px}.digital-workspace .sheet-zone{min-height:0!important}.digital-workspace .paper.digital .label{font-size:.88rem}}
+
+
+/* Digital phase: show ONE opened folder and a real preview, not both abstract columns. */
+.simple-explorer .panel-title{margin-bottom:16px}
+.se-window{border:1px solid #dbe6ef;border-radius:17px;background:white;overflow:hidden}
+.se-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:15px 18px;background:#f2f7fb;border-bottom:1px solid #dce6ee;color:#5c7186;font-size:.95rem}
+.se-bar span{color:#a3b1bf}.se-bar strong{color:#254763}
+.se-layout{display:grid;grid-template-columns:210px minmax(180px,1fr) minmax(220px,.92fr);min-height:405px}
+.se-nav{background:#f8fbfe;border-right:1px solid #e0e8ef;padding:17px 12px}
+.se-label{font-size:.73rem;letter-spacing:.08em;font-weight:850;color:#8492a1;margin-bottom:15px}
+.se-folder{display:flex;align-items:center;gap:9px;text-align:left;width:100%;border:1px solid transparent;border-radius:12px;padding:13px 10px;background:transparent;font-weight:780;color:#475b71;margin-bottom:7px;line-height:1.27;font-size:.89rem}
+.se-folder span:first-child{font-size:1.26rem;flex:0 0 auto}.se-folder:hover{background:#eef7ff}.se-folder.active{background:#e6f3ff;border-color:#bddcf6;color:#28699d}
+.se-files{padding:17px 13px;border-right:1px solid #e0e8ef}
+.se-files-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:13px}
+.se-files-head strong{font-size:.91rem}.se-files-head small{color:#92a1af;white-space:nowrap}
+#se-list{display:flex;flex-direction:column;gap:5px}
+#se-list .paper.digital{min-height:54px;padding:9px 7px;border-radius:10px;border:1px solid transparent;background:transparent;box-shadow:none;gap:9px}
+#se-list .paper.digital:hover{background:#f0f8ff;border-color:#d6e9f7}
+#se-list .paper.digital.selected{background:#e4f2ff;border-color:#9dcaf1;box-shadow:none}
+#se-list .paper.digital .icon-sheet{width:29px;min-width:29px;flex:0 0 29px;height:34px}
+#se-list .paper.digital .label{font-size:.84rem;font-weight:670}
+.se-preview{padding:18px 16px}
+.se-empty{height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;color:#92a3b2;font-size:.87rem;font-weight:680}
+.se-empty span{font-size:2.5rem}
+.visible-filename{font-weight:850;font-size:.96rem;overflow-wrap:anywhere}
+.visible-filetype{font-size:.81rem;color:#7c8da0;margin:4px 0 14px}
+.visible-sheet{min-height:224px;border:1px solid #dce7ed;background:#fffefb;border-radius:12px;box-shadow:0 5px 14px #3e6c9014;padding:18px 13px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center}
+.visible-sheet.image-preview{background:#f0f9fb}
+.visible-picture{font-size:3.3rem;font-weight:850;letter-spacing:-.05em;color:#387294;line-height:1.23}
+.visible-sheet strong{font-size:.99rem;color:#304961}
+.visible-sheet p{font-size:.85rem;line-height:1.48;color:#566778;margin:0}
+.se-move{border:1px solid #bdd9f1;background:#eaf6ff;color:#336b9a;font-weight:760;border-radius:11px;padding:12px;margin-top:14px;width:100%;font-size:.86rem;text-align:center}
+.se-move:hover{background:#dbecfd}
+.se-found{margin-top:13px;border-radius:10px;background:#e8f8ef;border:1px solid #bde6cf;color:#327b50;padding:12px;font-size:.83rem;line-height:1.5;overflow-wrap:anywhere;font-weight:740}
+@media(max-width:930px){.se-layout{grid-template-columns:180px minmax(195px,1fr)}.se-preview{grid-column:1/-1;border-top:1px solid #e0e8ef}.se-files{border-right:none}.visible-sheet{min-height:180px}.se-empty{height:95px}}
+@media(max-width:620px){.se-layout{grid-template-columns:1fr}.se-nav{border-right:0;border-bottom:1px solid #e0e8ef;padding:12px}.se-nav #se-folders{display:grid;grid-template-columns:1fr 1fr;gap:8px}.se-folder{margin:0;font-size:.81rem;padding:10px}.se-files{padding:13px}.se-preview{grid-column:auto}.se-bar{font-size:.81rem}}
+
+
+/* Last phase: visualize one matching hierarchy in the paper binder and on the computer. */
+.cmp{max-width:1010px;margin:0 auto}
+.cmp-head{text-align:center;margin:6px 0 18px}
+.cmp-head h2{font-size:clamp(1.23rem,3vw,1.65rem);margin:0;font-weight:850;letter-spacing:-.025em;color:#273e55}
+.cmp-switch{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.cmp-switch button{border:1px solid #d5e4ee;border-radius:999px;background:#fff;color:#51667b;padding:10px 16px;font-size:.89rem;font-weight:780}
+.cmp-switch button.active{background:#e8f3fe;color:#246b9f;border-color:#91c1e5;box-shadow:0 0 0 2px #eaf5ff}
+.cmp-grid{display:grid;grid-template-columns:minmax(0,1fr) 33px minmax(0,1fr);align-items:stretch;gap:8px}
+.cmp-card{border:1px solid #dbe7f0;background:#fff;border-radius:21px;box-shadow:0 12px 25px rgba(47,88,117,.08);padding:17px 17px 21px;min-width:0}
+.cmp-card-title{font-weight:850;font-size:1.02rem;margin-bottom:17px;text-align:center}
+.cmp-equal{display:flex;align-items:center;justify-content:center;font-size:1.7rem;font-weight:800;color:#79a6ce}
+.cmp-binder{position:relative;background:#f1deaa;border:1px solid #dfc37e;border-radius:20px;padding:17px 15px 17px 34px;min-height:290px}
+.cmp-ring{position:absolute;left:13px;width:24px;height:24px;border:5px solid #99a8b5;border-radius:50%;background:#fff1ca;z-index:2}
+.cmp-ring.r1{top:72px}.cmp-ring.r2{bottom:68px}
+.cmp-paper-page{background:#fffefa;border:1px solid #d8dfdf;border-radius:10px;padding:15px 12px 17px 20px;min-height:255px;box-shadow:0 5px 9px #b28f4423}
+.cmp-upper,.cmp-digital-title{display:flex;flex-direction:column;gap:3px;margin-bottom:14px}
+.cmp-upper strong,.cmp-digital-title strong{font-size:1.04rem;color:#2b4660}
+.cmp-caption{font-size:.72rem;color:#8291a1;font-weight:730}
+.cmp-paper-divider,.cmp-digital-inner{border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;font-size:.83rem}
+.cmp-paper-divider span,.cmp-digital-inner .cmp-caption{font-size:.68rem;font-weight:770;color:#6b7c8d}
+.cmp-paper-divider strong,.cmp-digital-inner strong{font-size:.93rem}
+.cmp-paper-divider.rose,.cmp-digital-inner.rose{background:#f4e4e0;color:#a45852}
+.cmp-paper-divider.blue,.cmp-digital-inner.blue{background:#e1eefc;color:#3679b0}
+.cmp-paper-items{padding:13px 1px 1px 8px;display:grid;gap:7px}
+.cmp-sheet{display:flex;align-items:center;gap:10px;min-height:46px;font-size:.82rem;font-weight:690;color:#344b5d;background:#fff;border:1px solid #dce4e7;border-radius:4px;box-shadow:2px 3px 0 #edf0f2;padding:8px 9px;line-height:1.28}
+.cmp-mini-lines{width:22px;height:27px;background:repeating-linear-gradient(to bottom,#bfcfdd 0 2px,transparent 2px 8px);flex:0 0 22px}
+.cmp-digital{border:1px solid #d8e7f1;background:#f8fbfe;border-radius:13px;min-height:290px;padding:15px}
+.cmp-digital-title{padding:1px 4px 9px;border-bottom:1px solid #e1e9f0}
+.cmp-digital-inner{margin:12px 0 14px}
+.cmp-file-items{display:grid;gap:9px}
+.cmp-digital-file{display:flex;align-items:center;gap:10px;padding:9px 11px;background:#fff;border:1px solid #dde7f0;border-radius:9px;min-height:45px;font-size:.83rem;color:#2a445b;font-weight:720;overflow-wrap:anywhere}
+.cmp-file-icon{font-size:1.24rem}
+.cmp-relations{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:16px}
+.cmp-relations div{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:7px;text-align:center;background:#eff6fb;border:1px solid #d7e7f1;border-radius:12px;padding:11px 8px;font-size:.82rem}
+.cmp-relations strong{font-weight:770}.cmp-relations span{color:#6fa2c8;font-weight:900;font-size:1.13rem}
+.cmp-notes{background:white;border:1px solid #dbe7f0;border-radius:20px;padding:22px;margin:19px auto 0;max-width:790px;box-shadow:0 7px 22px #3c789514}
+.cmp-notes h3{margin:0 0 14px;font-size:1.22rem}
+.cmp-note{display:grid;gap:4px;padding:10px 0;border-bottom:1px solid #ecf0f3;font-size:.96rem;line-height:1.47}
+.cmp-note:last-child{border-bottom:0}
+.cmp-note>strong{color:#286fa4}
+.actions .primary:disabled{opacity:.7;cursor:default}
+@media(max-width:760px){
+.cmp-grid{grid-template-columns:1fr;gap:8px}.cmp-equal{height:35px;transform:rotate(90deg)}
+.cmp-relations{grid-template-columns:1fr}.cmp-card{padding:14px}
+}
+
+
+/* Short context texts, without competing with the sorting activities. */
+.mini-context{
+  display:flex;align-items:center;gap:11px;margin:0 0 16px;padding:13px 16px;
+  background:#fff;border:1px solid #dce8f0;border-radius:15px;
+  color:#344b61;font-size:.96rem;line-height:1.5
+}
+.context-icon{font-size:1.3rem;flex:0 0 auto}
+@media(max-width:550px){.mini-context{font-size:.88rem;padding:11px 12px;align-items:flex-start}}
+
+
+/* The preview depicts file CONTENT, rather than a repeated symbol or a verbal description. */
+.actual-file-preview{
+ border-radius:10px;background:#edf3f7;border:1px solid #dbe5ed;
+ overflow:hidden;min-height:190px;
+}
+.actual-file-preview.image{background:#eaf1f4;display:grid;place-items:center;padding:6px}
+.real-preview-art{width:100%;height:auto;max-height:255px;display:block;border-radius:7px}
+.actual-document{background:#fff;margin:12px;padding:17px 15px 23px;min-height:220px;
+ box-shadow:0 3px 12px #60768c16;border:1px solid #e1e7ed;text-align:left}
+.actual-document-header{font-size:.68rem;font-weight:750;color:#4e83b2;
+ border-bottom:1px solid #dbe6ee;padding-bottom:7px;margin-bottom:16px}
+.actual-document h3{font-size:.95rem;line-height:1.22;margin:0 0 13px;
+ color:#263d54;font-weight:800}
+.actual-document p{font-size:.83rem;line-height:1.52;margin:0 0 12px;
+ color:#3e4e60}
+.actual-document.plain-text{font-family:Consolas,"Courier New",monospace;background:#fffef9}
+.actual-document.plain-text h3{font-size:.87rem}
+.actual-document.plain-text p{font-size:.81rem}
+@media(max-width:580px){.actual-document{padding:14px 12px}.real-preview-art{max-height:225px}}
+
+
+/* Small supportive details only on the PAPER worksheets. */
+.paper:not(.digital) .paper-mini-icon{
+ display:block;align-self:flex-start;margin-top:8px;font-size:1.1rem;
+ line-height:1;max-height:23px
+}
+.paper:not(.digital) .paper-mini-text{
+ display:block;margin-top:5px;font-size:.7rem;line-height:1.35;
+ font-weight:570;color:#6d8093
+}
+.papers .paper:not(.digital) .label{margin-top:7px}
+.papers .paper:not(.digital) .paper-lines{height:20px;margin-top:10px}
+.sheet-zone .paper.binder-sheet .paper-mini-icon{font-size:1.45rem;margin-top:16px}
+.sheet-zone .paper.binder-sheet .paper-mini-text{
+ font-size:.86rem;margin-top:10px;color:#63788a;line-height:1.36
+}
+.sheet-zone .paper.binder-sheet .label{margin-top:13px}
+.sheet-zone .paper.binder-sheet .paper-lines{margin-top:15px}
+@media(max-width:520px){
+ .papers .paper:not(.digital) .paper-mini-icon{font-size:1rem;margin-top:6px}
+ .papers .paper:not(.digital) .paper-mini-text{font-size:.65rem}
+ .papers .paper:not(.digital) .label{margin-top:5px}
+ .papers .paper:not(.digital) .paper-lines{height:14px;margin-top:7px}
+}
+
+
+/* Define file and filename ending just before the digital workspace. */
+.file-concepts{display:grid;grid-template-columns:1fr 1.45fr;gap:9px;margin:-4px 0 16px}
+.file-concepts>div{
+ display:flex;align-items:baseline;gap:9px;flex-wrap:wrap;padding:11px 14px;
+ background:#f5f9fd;border:1px solid #dbe8f3;border-radius:12px;
+ font-size:.86rem;line-height:1.47;color:#465c70;
+}
+.file-concepts strong{font-weight:820;color:#294d6e}
+.file-concepts code,.cmp-note code{background:#e7f2fc;border-radius:4px;padding:1px 4px;color:#286d9f;font-family:inherit;font-weight:820}
+.file-extension{color:#236ca2;font-weight:850;background:#e6f3ff;border-radius:3px;padding:0 2px;margin-left:1px}
+@media(max-width:780px){.file-concepts{grid-template-columns:1fr}}
+
+
+/* Merksatz presented as one copyable notebook entry, not four cards. */
+.merke-sheet{
+ position:relative;overflow:hidden;max-width:780px;margin:22px auto 0;
+ padding:24px 32px 30px 68px;background-color:#fffefa;
+ background-image:repeating-linear-gradient(to bottom,transparent 0 31px,#dfeaf2 31px 32px);
+ background-position:0 2px;border:1px solid #cbdce9;border-radius:5px;
+ box-shadow:0 5px 17px rgba(45,84,110,.11);
+}
+.merke-sheet::before{content:"";position:absolute;top:0;bottom:0;left:48px;width:1px;background:#e6aab1}
+.merke-kicker{position:relative;display:inline-block;background:#fffefa;
+ color:#718398;font-size:.79rem;font-weight:720;letter-spacing:.02em;padding-right:8px}
+.merke-sheet h3{
+ position:relative;display:block;width:fit-content;max-width:100%;
+ color:#236497;font-size:1.22rem;line-height:1.45;font-weight:830;
+ margin:4px 0 15px;padding:0 7px 4px 0;
+ background:#fffefa;border-bottom:2px solid #80b5db;
+}
+.merke-content{font-size:1.00rem;line-height:1.68;color:#293d51}
+.merke-content p{margin:0 0 12px;background:rgba(255,254,250,.88);padding:1px 5px 1px 0}
+.merke-content p strong{color:#1d5f8f;font-weight:800}
+.merke-content code{
+ font-family:ui-monospace,"Consolas",monospace;font-size:.92em;font-weight:760;
+ color:#255f86;background:#e8f3fb;border-radius:3px;padding:1px 3px
+}
+.merke-example{
+ margin:17px 0 0;max-width:380px;padding:9px 12px;
+ font-size:.9rem;line-height:1.65;background:rgba(239,247,253,.95);
+ border-left:3px solid #9ac1dc;border-radius:0 7px 7px 0;
+}
+.merke-example>span{font-size:.78rem;font-weight:800;color:#667f94;display:block;margin-bottom:3px}
+.merke-indent-one{padding-left:16px}.merke-indent-two{padding-left:39px}
+@media(max-width:600px){
+ .merke-sheet{padding:19px 17px 24px 43px}.merke-sheet::before{left:30px}
+ .merke-sheet h3{font-size:1.13rem}.merke-content{font-size:.94rem}
+ .merke-example{padding:8px}
+ .merke-indent-one{padding-left:9px}.merke-indent-two{padding-left:21px}
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <div class="ident">
+      <div class="logo" aria-hidden="true">📒</div>
+      <div>
+        <h1>Miriams Informatikordner</h1>
+        <div class="step" id="step">1 von 3 · Auf Papier</div>
+      </div>
+    </div>
+    <button class="restart" id="restart" type="button">↻ Neu beginnen</button>
+  </header>
+  <main id="screen"></main>
+  <div class="actions" id="actions" aria-live="polite"></div>
+</div>
+<script>
+(function(){
+const data=[
+ {id:"proz",name:"Der Prozessor",folder:"teile",fileName:"Prozessor.docx",type:"word",preview:"Ein Text über den Prozessor und seine Aufgaben.",visual:"🧠"},
+ {id:"evaSmart",name:"Ein Foto aufnehmen",folder:"eva",fileName:"Fotoaufnahme.png",type:"image",preview:"Eine Person berührt den Auslöser. Das Smartphone nimmt ein Foto auf und zeigt es an.",visual:"📸"},
+ {id:"tast",name:"Die Tastatur",folder:"teile",fileName:"Tastatur.jpg",type:"image",preview:"Auf dem Bild ist eine Computertastatur mit ihren Tasten zu sehen.",visual:"⌨️"},
+ {id:"evaGrund",name:"Einen Text ausdrucken",folder:"eva",fileName:"Druckauftrag.docx",type:"word",preview:"Ein Text wird zum Drucker geschickt. Bedrucktes Papier kommt heraus.",visual:"🖨️"},
+ {id:"speicher",name:"Der Arbeitsspeicher",folder:"teile",fileName:"Text zum Arbeitsspeicher.txt",type:"text",preview:"Dieser Text erklärt, wozu der Arbeitsspeicher gebraucht wird.",visual:"🧩"},
+ {id:"evaComputer",name:"Vom Tastendruck zum Buchstaben",folder:"eva",fileName:"Tastendruck.txt",type:"text",preview:"Eine Taste wird gedrückt. Ein Buchstabe erscheint auf dem Bildschirm.",visual:"⌨️"},
+ {id:"bildschirm",name:"Der Bildschirm",folder:"teile",fileName:"Bildschirm.jpg",type:"image",preview:"Das Bild zeigt einen Computerbildschirm.",visual:"🖥️"},
+ {id:"evaKonsole",name:"Eine Spielfigur steuern",folder:"eva",fileName:"Spielsteuerung.docx",type:"word",preview:"Mit dem Controller wird eine Spielfigur auf dem Bildschirm bewegt.",visual:"🎮"}
+];
+const sectionInfo={
+ teile:{label:"Geräte und Bauteile", short:"Bauteile", color:"red"},
+ eva:{label:"EVA-Prinzip", short:"EVA-Prinzip", color:"blue"}
+};
+let phase=0, locations={}, selected=null, dragging=null, valid=false, message="", randomized=[], activeSection="teile", pageIndex=0, digitalMode="repair", found=false, openFolder="teile", compareSection="teile", notesVisible=false;
+const screen=document.getElementById("screen"); const actions=document.getElementById("actions");
+function shuffle(){ randomized=data.slice(); for(let i=randomized.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1)); [randomized[i],randomized[j]]=[randomized[j],randomized[i]];} }
+function resetLocations(){ locations={}; data.forEach(item=>locations[item.id]="stack"); selected=null; valid=false; message=""; activeSection="teile"; pageIndex=0; digitalMode="repair"; found=false; compareSection="teile"; notesVisible=false; shuffle(); }
+function beginDigitalStage(){
+ locations={};data.forEach(item=>locations[item.id]=item.folder);
+ locations.tast="eva"; locations.evaComputer="teile";
+ selected=null;valid=false;message="";digitalMode="repair";found=false;openFolder="teile";
+}
+function start(){ phase=0; resetLocations(); draw(); }
+document.getElementById("restart").addEventListener("click", start);
+function itemsIn(place){ return randomized.filter(item=>locations[item.id]===place); }
+const paperLabels={
+ proz:{icon:"⚙️",info:"führt Befehle aus"},
+ evaSmart:{icon:"📷",info:"auf den Auslöser tippen"},
+ tast:{icon:"⌨️",info:"Tasten mit Buchstaben"},
+ evaGrund:{icon:"🖨️",info:"Text auf Papier"},
+ speicher:{icon:"🧩",info:"hält Daten bereit"},
+ evaComputer:{icon:"🔤",info:"Taste drücken – Zeichen sehen"},
+ bildschirm:{icon:"🖥️",info:"zeigt Bilder und Texte"},
+ evaKonsole:{icon:"🎮",info:"Controller bewegen"}
+};
+function paper(item){
+  const card=document.createElement("div");
+  card.className="paper"+(phase===1?" digital file-"+item.type:"")+(selected===item.id?" selected":"");
+  card.tabIndex=0;card.draggable=phase===0||digitalMode==="repair";card.setAttribute("role","button");
+  card.setAttribute("aria-label",phase===1?"Datei "+item.fileName:"Arbeitsblatt "+item.name);
+  const hint=paperLabels[item.id];
+  const splitAt=item.fileName.lastIndexOf(".");
+  const shortName=item.fileName.slice(0,splitAt);
+  const ending=item.fileName.slice(splitAt);
+  card.innerHTML=phase===1
+    ? '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><div class="label">'+shortName+'<span class="file-extension">'+ending+'</span></div></div>'
+    : '<div class="icon-sheet" aria-hidden="true"></div><div class="paper-content"><span class="paper-kicker">INFORMATIK · ARBEITSBLATT</span><span class="paper-mini-icon" aria-hidden="true">'+hint.icon+'</span><div class="label">'+item.name+'</div><span class="paper-mini-text">'+hint.info+'</span><div class="paper-lines" aria-hidden="true"></div></div>';
+  function selectCard(e){
+    e.stopPropagation();
+    if(phase===1){
+      selected=item.id;
+      if(digitalMode==="find")found=item.id==="tast"&&openFolder==="teile";
+    }else{
+      selected=selected===item.id?null:item.id;
+    }
+    draw();
+  }
+  card.addEventListener("click",selectCard);
+  card.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();selectCard(e);}});
+  card.addEventListener("dragstart",e=>{if(phase===1&&digitalMode==="find"){e.preventDefault();return;} dragging=item.id;e.dataTransfer.setData("text/plain",item.id);e.dataTransfer.effectAllowed="move";});
+  card.addEventListener("dragend",()=>dragging=null);
+  return card;
+}
+function move(id,place){ if(phase>1||(phase===1&&digitalMode==="find")||place==="stack"&&phase===1) return; locations[id]=place; selected=null; valid=false; message=""; pageIndex=0; draw(); }
+function setupDrop(target,place){
+  target.addEventListener("dragover", e=>{ e.preventDefault(); target.classList.add("over"); });
+  target.addEventListener("dragleave", e=>{ if(!target.contains(e.relatedTarget)) target.classList.remove("over"); });
+  target.addEventListener("drop", e=>{ e.preventDefault(); target.classList.remove("over"); const id=e.dataTransfer.getData("text/plain")||dragging; if(id) move(id,place); dragging=null; });
+  target.addEventListener("click", ()=>{ if(selected) move(selected,place); });
+  target.addEventListener("keydown", e=>{ if(selected&&(e.key==="Enter"||e.key===" ")){ e.preventDefault(); move(selected,place); } });
+  target.tabIndex=0;
+}
+function renderStack(){
+  const stack=document.getElementById("stack");
+  stack.innerHTML=""; setupDrop(stack,"stack");
+  const items=itemsIn("stack");
+  if(items.length===0){ const h=document.createElement("div"); h.className="empty"; h.textContent="Alle Blätter sind einsortiert"; stack.appendChild(h); return; }
+  items.forEach(item=>stack.appendChild(paper(item)));
+}
+function renderPaperStage(){
+  const info=sectionInfo[activeSection];
+  screen.innerHTML='<div class="mini-context"><span class="context-icon" aria-hidden="true">📄</span><span>Miriams Informatikordner ist heruntergefallen. Jetzt liegen ihre Arbeitsblätter durcheinander.</span></div><div class="board">'
+   + '<section class="panel"><h2 class="panel-title">📄 Arbeitsblätter</h2><div class="papers" id="stack"></div></section>'
+   + '<section class="panel"><h2 class="panel-title">📒 Schulordner</h2>'
+   +   '<div class="real-binder">'
+   +      '<span class="ring top"></span><span class="ring bottom"></span>'
+   +      '<div class="binder-page">'
+   +         '<div class="binder-head"><div><h3>Informatik</h3><div class="section-note">Register</div></div><div class="section-badge '+info.color+'">'+info.label+'</div></div>'
+   +         '<div class="sheet-zone" id="active-zone"></div>'
+   +      '</div>'
+   +      '<div class="side-tabs" id="side-tabs"></div>'
+   +   '</div>'
+   + '</section></div>';
+  renderStack();
+  const zone=document.getElementById("active-zone"); setupDrop(zone, activeSection);
+  const activeItems=itemsIn(activeSection);
+  if(activeItems.length===0){
+    const hint=document.createElement("div"); hint.className="empty"; hint.textContent="Hier ablegen"; zone.appendChild(hint);
+  } else {
+    pageIndex=((pageIndex%activeItems.length)+activeItems.length)%activeItems.length;
+    const deck=document.createElement("div"); deck.className="paper-deck";
+    const sheet=paper(activeItems[pageIndex]); sheet.classList.add("binder-sheet");
+    deck.appendChild(sheet); zone.appendChild(deck);
+    if(activeItems.length>1){
+      const nav=document.createElement("div"); nav.className="deck-controls";
+      const prev=document.createElement("button"); prev.type="button"; prev.className="deck-arrow"; prev.textContent="‹"; prev.setAttribute("aria-label","Vorheriges Arbeitsblatt");
+      const counter=document.createElement("span"); counter.className="deck-counter"; counter.textContent=(pageIndex+1)+" / "+activeItems.length;
+      const next=document.createElement("button"); next.type="button"; next.className="deck-arrow"; next.textContent="›"; next.setAttribute("aria-label","Nächstes Arbeitsblatt");
+      prev.addEventListener("click",e=>{e.stopPropagation();pageIndex=(pageIndex-1+activeItems.length)%activeItems.length; selected=null;draw();});
+      next.addEventListener("click",e=>{e.stopPropagation();pageIndex=(pageIndex+1)%activeItems.length; selected=null;draw();});
+      nav.appendChild(prev);nav.appendChild(counter);nav.appendChild(next);zone.appendChild(nav);
+    }
+  }
+  const tabBox=document.getElementById("side-tabs");
+  ["teile","eva"].forEach(key=>{
+    const sec=sectionInfo[key], count=itemsIn(key).length;
+    const tab=document.createElement("div");
+    tab.className='side-tab '+sec.color+(activeSection===key?' active':'')+(count>0?' has-items':'');
+    tab.tabIndex=0;
+    tab.innerHTML='<span>'+sec.short+'</span><span class="count">'+count+'</span><div class="peek-stack"><span></span><span></span><span></span></div>';
+    tab.addEventListener('click', e=>{ e.stopPropagation(); if(selected){ move(selected,key); } else { activeSection=key; pageIndex=0; draw(); } });
+    tab.addEventListener('keydown', e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); if(selected){ move(selected,key); } else { activeSection=key; pageIndex=0; draw(); } } });
+    tab.addEventListener("dragover",e=>{e.preventDefault();tab.classList.add("over");});
+    tab.addEventListener("dragleave",()=>tab.classList.remove("over"));
+    tab.addEventListener("drop",e=>{e.preventDefault();e.stopPropagation();tab.classList.remove("over");const id=e.dataTransfer.getData("text/plain")||dragging;if(id)move(id,key);});
+    tabBox.appendChild(tab);
+  });
+}
+function keyboardIllustration(){
+  let keys="";
+  const rows=[["Q","W","E","R","T","Z","U","I","O","P"],["A","S","D","F","G","H","J","K","L"],["Y","X","C","V","B","N","M"]];
+  rows.forEach((row,r)=>{
+    const offset=r===1?18:r===2?40:0;
+    row.forEach((letter,i)=>{
+      const x=40+offset+i*35, y=88+r*35;
+      keys+='<rect x="'+x+'" y="'+y+'" width="30" height="29" rx="4" fill="#fdfefe" stroke="#aab7bf"/>';
+      keys+='<text x="'+(x+15)+'" y="'+(y+19)+'" text-anchor="middle" font-size="12" fill="#4a5c6b" font-family="Arial">'+letter+'</text>';
+    });
+  });
+  return '<svg class="real-preview-art" viewBox="0 0 440 265" role="img" aria-label="Bild einer Tastatur">'
+  +'<defs><linearGradient id="keyboardBase" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#e4eaf0"/><stop offset="1" stop-color="#aebecb"/></linearGradient></defs>'
+  +'<rect width="440" height="265" rx="10" fill="#e8eff4"/>'
+  +'<rect x="22" y="64" width="396" height="140" rx="14" fill="url(#keyboardBase)" stroke="#8599a8" stroke-width="2"/>'
+  +keys
+  +'<rect x="115" y="191" width="210" height="9" rx="4" fill="#fff" stroke="#acbac5"/>'
+  +'<path d="M120 204 L320 204" stroke="#91a2af" stroke-width="3"/>'
+  +'</svg>';
+}
+function monitorIllustration(){
+ return '<svg class="real-preview-art" viewBox="0 0 440 265" role="img" aria-label="Bild eines Computerbildschirms">'
+  +'<rect width="440" height="265" rx="10" fill="#f1f5f7"/>'
+  +'<rect x="58" y="28" width="325" height="195" rx="13" fill="#263b4c"/>'
+  +'<svg x="69" y="38" width="303" height="173" viewBox="0 0 303 173"><rect width="303" height="173" rx="4" fill="#91d5f5"/><circle cx="229" cy="42" r="23" fill="#ffe18c"/><path d="M0 123 L73 53 L153 135 L234 66 L303 139 V173 H0Z" fill="#6fada1"/><path d="M0 137 L111 89 L188 157 L249 102 L303 137 V173 H0Z" fill="#39887c"/><path d="M0 155 Q151 135 303 152 V173 H0Z" fill="#73b4d0"/></svg>'
+  +'<rect x="194" y="221" width="52" height="22" fill="#9ba9b2"/><rect x="151" y="240" width="138" height="9" rx="4" fill="#aab5bc"/>'
+  +'</svg>';
+}
+function photoIllustration(){
+ return '<svg class="real-preview-art" viewBox="0 0 440 265" role="img" aria-label="Bildschirm eines Smartphones beim Fotografieren">'
+  +'<rect width="440" height="265" rx="10" fill="#eff2f2"/>'
+  +'<rect x="142" y="12" width="157" height="241" rx="25" fill="#263844"/>'
+  +'<rect x="151" y="29" width="139" height="204" rx="14" fill="#a0d8f5"/>'
+  +'<circle cx="242" cy="70" r="22" fill="#fff0ae"/>'
+  +'<path d="M151 158 L187 101 L226 162 L252 122 L290 167 V209 H151Z" fill="#69a795"/>'
+  +'<path d="M151 174 L203 132 L250 188 L290 151 V209 H151Z" fill="#3f8277"/>'
+  +'<rect x="151" y="209" width="139" height="24" rx="9" fill="#213b46"/>'
+  +'<circle cx="220" cy="222" r="9" fill="#fff" stroke="#b8d3dc" stroke-width="3"/>'
+  +'<circle cx="220" cy="21" r="3" fill="#9fadb8"/>'
+  +'</svg>';
+}
+function documentPreview(item){
+  const contents={
+    proz:{heading:"Der Prozessor",paragraphs:["Der Prozessor ist ein Bauteil im Computer.","Er verarbeitet Daten und führt Befehle aus."]},
+    evaGrund:{heading:"Einen Text ausdrucken",paragraphs:["Am Computer wird auf „Drucken“ geklickt.","Der Drucker gibt den Text auf einem Blatt Papier aus."]},
+    speicher:{heading:"Der Arbeitsspeicher",paragraphs:["Der Arbeitsspeicher ist ein Bauteil des Computers.","Er hält Daten bereit, während Programme laufen."]},
+    evaComputer:{heading:"Vom Tastendruck zum Buchstaben",paragraphs:["Du drückst die Taste A.","Auf dem Bildschirm erscheint der Buchstabe A."]},
+    evaKonsole:{heading:"Eine Spielfigur steuern",paragraphs:["Du bewegst den Steuerknüppel am Controller.","Die Spielfigur bewegt sich auf dem Bildschirm."]}
+  };
+  const d=contents[item.id];
+  return '<div class="actual-document '+(item.type==="text"?'plain-text':'word-text')+'">'
+   +'<div class="actual-document-header">'+(item.type==="word"?'W  Textdokument':'Textdatei')+'</div>'
+   +'<h3>'+d.heading+'</h3>'
+   +d.paragraphs.map(p=>'<p>'+p+'</p>').join("")
+   +'</div>';
+}
+function previewContent(item){
+ const outer=document.createElement("div");outer.className="visible-preview";
+ const fileName=document.createElement("div");fileName.className="visible-filename";fileName.textContent=item.fileName;
+ const type=document.createElement("div");type.className="visible-filetype";
+ type.textContent=item.type==="image"?"Bilddatei":item.type==="word"?"Word-Datei":"Textdatei";
+ const sheet=document.createElement("div");
+ sheet.className="actual-file-preview"+(item.type==="image"?" image":"");
+ if(item.type==="image"){
+  sheet.innerHTML=item.id==="tast"?keyboardIllustration():item.id==="bildschirm"?monitorIllustration():photoIllustration();
+ }else{
+  sheet.innerHTML=documentPreview(item);
+ }
+ outer.appendChild(fileName);outer.appendChild(type);outer.appendChild(sheet);
+ return outer;
+}
+
+function renderDigitalStage(){
+ const searching=digitalMode==="find";
+ screen.innerHTML='<div class="mini-context"><span class="context-icon" aria-hidden="true">💻</span><span>Miriam hat ihre Arbeitsblätter geordnet. Nun möchte sie die gleiche Ordnung am Computer nutzen. Einige Dateien liegen noch im falschen Ordner.</span></div>'
+  +'<div class="file-concepts"><div><strong>📄 Datei</strong><span>Speichert Daten, zum Beispiel einen Text oder ein Bild.</span></div><div><strong>🔤 Dateiendung (Dateierweiterung)</strong><span>Steht hinter dem letzten Punkt im Dateinamen, z. B. <code>.jpg</code> oder <code>.txt</code>. Sie zeigt meist die Dateiart.</span></div></div>'
+  +'<section class="panel simple-explorer"><h2 class="panel-title">💻 Datei-Explorer</h2>'
+  +'<div class="se-window"><div class="se-bar">📁 Schule <span>›</span> 📁 Informatik <span>›</span> <strong id="se-path"></strong></div>'
+  +'<div class="se-layout"><nav class="se-nav" aria-label="Ordner"><div class="se-label">ORDNER</div><div id="se-folders"></div></nav>'
+  +'<div class="se-files"><div class="se-files-head"><strong id="se-title"></strong><small id="se-number"></small></div><div id="se-list"></div></div>'
+  +'<aside class="se-preview"><div class="se-label">'+(searching?'🔎 GESUCHT: TASTATURFOTO':'VORSCHAU')+'</div><div id="se-content"></div></aside></div></div></section>';
+ const nav=document.getElementById("se-folders");
+ ["teile","eva"].forEach(key=>{
+   const button=document.createElement("button");button.type="button";
+   button.className="se-folder"+(key===openFolder?" active":"");
+   button.innerHTML='<span aria-hidden="true">📁</span><span>'+sectionInfo[key].label+'</span>';
+   button.setAttribute("aria-pressed",String(key===openFolder));
+   button.addEventListener("click",()=>{openFolder=key;selected=null;found=false;message="";draw();});
+   if(!searching){
+     button.addEventListener("dragover",e=>e.preventDefault());
+     button.addEventListener("drop",e=>{e.preventDefault();const id=e.dataTransfer.getData("text/plain")||dragging;if(id)move(id,key);});
+   }
+   nav.appendChild(button);
+ });
+ document.getElementById("se-path").textContent=sectionInfo[openFolder].label;
+ document.getElementById("se-title").textContent=sectionInfo[openFolder].label;
+ const shown=itemsIn(openFolder);
+ document.getElementById("se-number").textContent=shown.length+" Dateien";
+ const list=document.getElementById("se-list");
+ shown.forEach(item=>list.appendChild(paper(item)));
+ const right=document.getElementById("se-content");
+ const item=selected?data.find(x=>x.id===selected):null;
+ if(!item){
+  const empty=document.createElement("div");empty.className="se-empty";empty.innerHTML='<span>👆</span>Datei anklicken';
+  right.appendChild(empty);return;
+ }
+ right.appendChild(previewContent(item));
+ if(searching){
+   if(item.id==="tast"&&openFolder==="teile"){
+     const correct=document.createElement("div");correct.className="se-found";
+     correct.textContent="✓ Gefunden: Schule › Informatik › Geräte und Bauteile › Tastatur.jpg";
+     right.appendChild(correct);
+   }
+ }else{
+   const target=locations[item.id]==="teile"?"eva":"teile";
+   const button=document.createElement("button");button.type="button";button.className="se-move";
+   button.textContent="→ In „"+sectionInfo[target].label+"“ verschieben";
+   button.addEventListener("click",()=>move(item.id,target));
+   right.appendChild(button);
+ }
+}
+
+function renderComparisonStage(){
+ const topic=sectionInfo[compareSection];
+ const bySection={
+  teile:["tast","proz"],
+  eva:["evaComputer","evaSmart"]
+ };
+ const selectedItems=bySection[compareSection].map(id=>data.find(item=>item.id===id));
+ const paperItems=selectedItems.map(item=>'<div class="cmp-sheet"><span class="cmp-mini-lines" aria-hidden="true"></span><span>'+item.name+'</span></div>').join("");
+ const digitalItems=selectedItems.map(item=>{
+   const icon=item.type==="image"?"🖼️":item.type==="word"?"📝":"📄";
+   return '<div class="cmp-digital-file"><span class="cmp-file-icon" aria-hidden="true">'+icon+'</span><span>'+item.fileName+'</span></div>';
+ }).join("");
+ const color=compareSection==="teile"?"rose":"blue";
+ screen.innerHTML='<div class="cmp">'
+  +'<div class="cmp-head"><h2>Gleiche Ordnung – andere Darstellung</h2></div>'
+  +'<div class="cmp-switch" role="group" aria-label="Thema wählen">'
+  +'<button type="button" data-comparison="teile" class="'+(compareSection==="teile"?"active":"")+'">Geräte und Bauteile</button>'
+  +'<button type="button" data-comparison="eva" class="'+(compareSection==="eva"?"active":"")+'">EVA-Prinzip</button></div>'
+  +'<div class="cmp-grid">'
+  +'<section class="cmp-card">'
+  +'<div class="cmp-card-title">📒 Im Schulordner</div>'
+  +'<div class="cmp-binder">'
+  +'<span class="cmp-ring r1"></span><span class="cmp-ring r2"></span>'
+  +'<div class="cmp-paper-page">'
+  +'<div class="cmp-upper"><span class="cmp-caption">Schulordner</span><strong>Informatik</strong></div>'
+  +'<div class="cmp-paper-divider '+color+'"><span>Trennblatt</span><strong>'+topic.label+'</strong></div>'
+  +'<div class="cmp-paper-items">'+paperItems+'</div>'
+  +'</div></div></section>'
+  +'<div class="cmp-equal" aria-hidden="true">⇄</div>'
+  +'<section class="cmp-card">'
+  +'<div class="cmp-card-title">💻 Am Computer</div>'
+  +'<div class="cmp-digital">'
+  +'<div class="cmp-digital-title"><span class="cmp-caption">Ordner</span><strong>📁 Informatik</strong></div>'
+  +'<div class="cmp-digital-inner '+color+'"><span class="cmp-caption">Unterordner</span><strong>📁 '+topic.label+'</strong></div>'
+  +'<div class="cmp-file-items">'+digitalItems+'</div>'
+  +'</div></section>'
+  +'</div>'
+  +'<div class="cmp-relations">'
+  +'<div><strong>Schulordner</strong><span>↔</span><strong>Ordner</strong></div>'
+  +'<div><strong>Trennblatt</strong><span>↔</span><strong>Unterordner</strong></div>'
+  +'<div><strong>Arbeitsblatt</strong><span>↔</span><strong>Datei</strong></div>'
+  +'</div>'
+  +(notesVisible?
+      '<section class="merke-sheet" aria-label="Merksatz fürs Informatikheft">'
+     +'<div class="merke-kicker">Für dein Informatikheft</div>'
+     +'<h3>Merke: Dateien und Ordner</h3>'
+     +'<div class="merke-content">'
+     +'<p><strong>Datei:</strong> Eine Datei speichert Daten, zum Beispiel einen Text oder ein Bild.</p>'
+     +'<p><strong>Ordner:</strong> Ein Ordner kann Dateien und weitere Ordner enthalten. Diese heißen <strong>Unterordner</strong>.</p>'
+     +'<p><strong>Dateiendung:</strong> Sie steht hinter dem letzten Punkt im Dateinamen. Bei <code>Tastatur.jpg</code> ist <code>.jpg</code> die Dateiendung. Sie zeigt meist die Dateiart.</p>'
+     +'<p><strong>Ordnerstruktur:</strong> Sie zeigt, wie Ordner, Unterordner und Dateien angeordnet sind.</p>'
+     +'<div class="merke-example"><span>Beispiel:</span><div>📁 Informatik</div><div class="merke-indent-one">└ 📁 Geräte und Bauteile</div><div class="merke-indent-two">└ 🖼️ Tastatur.jpg</div></div>'
+     +'</div></section>'
+     :'')
+  +'</div>';
+ screen.querySelectorAll("[data-comparison]").forEach(button=>{
+   button.addEventListener("click",()=>{
+     compareSection=button.getAttribute("data-comparison");
+     notesVisible=false;
+     draw();
+   });
+ });
+ actions.innerHTML="";
+ const show=document.createElement("button");
+ show.className="primary";
+ show.type="button";
+ if(!notesVisible){
+   show.textContent="Merksatz fürs Heft →";
+   show.addEventListener("click",()=>{notesVisible=true;draw();});
+ }else{
+   show.textContent="✓ Merksatz angezeigt";
+   show.disabled=true;
+ }
+ actions.appendChild(show);
+}
+function drawActions(){
+  actions.innerHTML="";
+  if(message){const f=document.createElement("span");f.className="feedback"+(valid?" good":"");f.textContent=message;actions.appendChild(f);}
+  if(phase===1&&digitalMode==="find"){
+    if(!found)return;
+    const next=document.createElement("button");next.type="button";next.className="primary";next.textContent="Weiter →";
+    next.addEventListener("click",()=>{phase=2;compareSection="teile";notesVisible=false;message="";draw();});actions.appendChild(next);return;
+  }
+  const btn=document.createElement("button");btn.type="button";btn.className="primary";
+  if(phase===0&&valid){
+    btn.textContent="Weiter →";
+    btn.addEventListener("click",()=>{phase=1;beginDigitalStage();draw();});
+  }else{
+    btn.textContent="Prüfen";
+    btn.addEventListener("click",()=>{
+      const correct=data.every(item=>locations[item.id]===item.folder);
+      if(phase===1&&correct){
+        // After a correct digital sorting, directly show the paper/computer comparison.
+        phase=2;
+        compareSection="teile";
+        notesVisible=false;
+        selected=null;
+        valid=false;
+        message="";
+        draw();
+        return;
+      }
+      valid=correct;
+      message=correct?"✓ Alles richtig!":"Noch nicht ganz.";
+      draw();
+    });
+  }
+  actions.appendChild(btn);
+}
+function draw(){
+  document.getElementById('step').textContent=(phase+1)+' von 3 · '+(['Auf Papier','Am Computer','Vergleichen'][phase]);
+  if(phase===2){
+    renderComparisonStage();
+    return;
+  }
+  if(phase===0) renderPaperStage(); else renderDigitalStage();
+  drawActions();
+}
+start();
+})();
+</script>
+</body>
+</html>
